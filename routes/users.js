@@ -1,10 +1,10 @@
-var express = require("express");
-var router = express.Router();
-var jwt = require("jsonwebtoken");
-var userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
+const express = require("express");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
+const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const models = require("../models");
 require("dotenv").config();
-var bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const supersecret = process.env.SUPER_SECRET;
@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
   try {
     const hash = await bcrypt.hash(password, saltRounds);
 
-    await models.User.create({ username, password: hash });
+    await models.Users.create({ username, password: hash });
 
     res.send({ message: "Register successful" });
   } catch (err) {
@@ -27,7 +27,7 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await models.User.findOne({ where: { username } });
+    const user = await models.Users.findOne({ where: { username } });
 
     if (user) {
       const user_id = user.id;
@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/dashboard", userShouldBeLoggedIn, (req, res) => {
+router.get("/profile", userShouldBeLoggedIn, (req, res) => {
   res.send({
     message: "Here is the PROTECTED data for user " + req.user_id,
   });
