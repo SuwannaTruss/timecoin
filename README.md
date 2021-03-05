@@ -12,5 +12,4 @@
   SUPER_SECRET=xxxx
 
 - create a database timecoin in your mysql
-- run: npm run migrate
--
+- run: npm run migrate;
