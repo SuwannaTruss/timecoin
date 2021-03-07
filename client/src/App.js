@@ -7,24 +7,28 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import ProvideAuth from "./components/ProvideAuth";
 import PrivateRoute from "./components/PrivateRoute";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
-    <Router>
-      <div className="App container p-5">
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          {/* <Route path="/register">
+    <ProvideAuth>
+      <Router>
+        <NavBar />
+        <div className="App container p-5">
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
               <Register />
             </Route>
             <PrivateRoute path="/profile">
               <Profile />
-            </PrivateRoute> */}
-        </Switch>
-      </div>
-    </Router>
+            </PrivateRoute>
+          </Switch>
+        </div>
+      </Router>
+    </ProvideAuth>
   );
 }
 

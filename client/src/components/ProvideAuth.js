@@ -1,5 +1,11 @@
 import React from "react";
 
-export default function ProvideAuth() {
-  return <div></div>;
+import useProvideAuth from "../hooks/useProvideAuth";
+import authContext from "../contexts/auth";
+
+function ProvideAuth({ children }) {
+  const auth = useProvideAuth();
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
+
+export default ProvideAuth;

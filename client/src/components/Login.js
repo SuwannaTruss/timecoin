@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import useAuth from "../hooks/useAuth";
+// import axios from "axios";
+// import { useHistory } from "react-router-dom";
+// import authContext from "../contexts/auth";
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -10,6 +14,42 @@ export default function Login() {
     e.persist();
     setUser((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
+
+  const auth = useAuth();
+
+  const login = () => {
+    auth.signin(user);
+  };
+  // const login = () => {
+  //   fetch("/users/login", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(user),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data.message);
+  //       localStorage.setItem("token", data.token);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  // const history = useHistory();
+
+  // const login = async (req, res) => {
+  //   try {
+  //     let result = await axios.post("/users/login", user);
+  //     console.log(result.data.message);
+  //     localStorage.setItem("token", result.data.token);
+  //     //change the url to redirect to the right page after login
+  //     if (result) history.push("/");
+  //   } catch (err) {
+  //     res.status(400).send({ message: err.message });
+  //   }
+  // };
 
   return (
     <div>
@@ -29,8 +69,9 @@ export default function Login() {
           type="password"
           className="form-control mb-2"
         />
-        {/* <button className=" btn btn-primary" onClick={login}> */}
-        <button className=" btn btn-primary">Log in</button>
+        <button className=" btn btn-primary" onClick={login}>
+          Log in
+        </button>
       </div>
     </div>
   );

@@ -10,12 +10,19 @@ const saltRounds = 10;
 const supersecret = process.env.SUPER_SECRET;
 
 router.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email, firstname, lastname, location } = req.body;
 
   try {
     const hash = await bcrypt.hash(password, saltRounds);
 
-    await models.Users.create({ username, password: hash });
+    await models.Users.create({
+      username,
+      password: hash,
+      email,
+      firstname,
+      lastname,
+      location,
+    });
 
     res.send({ message: "Register successful" });
   } catch (err) {
