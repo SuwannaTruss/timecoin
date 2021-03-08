@@ -11,3 +11,11 @@ export default function Profile() {
     </div>
   );
 }
+
+/* 
+Profile component
+Routes: /profile | /profile/edit
+Link to: wallet, services offered, services received
+
+create a logout button
+*/
