@@ -2,6 +2,7 @@ import React from "react";
 // import authContext from "../contexts/auth";
 // import { useHistory } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import {Route, NavLink } from "react-router-dom";
 
 export default function Profile() {
   const auth = useAuth();

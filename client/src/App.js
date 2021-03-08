@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import ProvideAuth from "./components/ProvideAuth";
 import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/NavBar";
+import Services from "./components/Services";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
             <PrivateRoute path="/profile">
               <Profile />
             </PrivateRoute>
+            <Route path="/services">
+              <Services />
+            </Route>
           </Switch>
         </div>
       </Router>
