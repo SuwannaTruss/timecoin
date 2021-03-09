@@ -29,12 +29,44 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
+    const { servicename, description } = req.body;
     try {
-        const services = await models.Services.findAll({
-            attributes: [ 'description', 'servicename'],
-            where: { UserId }
+        await models.Services.create({
+            servicename: servicename,
+            description: description,
+            UserId: UserId
         });
-        res.send(services);
+        console.log("auto-generated Service ID:", services.id)
+        res.send({ message: "your new service has been added"});
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+    }
+})
+
+router.put("/:id", userShouldBeLoggedIn, async (req, res) => {
+    // const UserId = req.user_id;
+    const { id } = req.params;
+    const { servicename, description } = req.body;
+    try {
+        await models.Services.update({
+            servicename: {servicename},
+            description: {description},
+            where: { id }
+        });
+        res.send({ message: "your service has been updated"});
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+    }
+})
+
+router.delete("/:id", userShouldBeLoggedIn, async (req, res) => {
+    // const UserId = req.user_id;
+    const { id } = req.params;
+    try {
+        await models.Services.destroy({
+            where: {id}
+        });
+        res.send({ message: "your offered service has been deleted."});
     } catch (err) {
         res.status(400).send({ message: err.message });
     }
