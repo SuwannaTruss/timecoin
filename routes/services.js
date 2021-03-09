@@ -14,19 +14,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-    const UserId = req.user_id;
-    try {
-    const service = await models.Services.findOne({
-        attributes: ['description', 'servicename'],
-        where: { UserId }
-    });
-    res.send(service);
-    } catch (err) {
-        res.status(400).send({ message: err.message });
-});
-
-
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
     const { servicename, description } = req.body;
@@ -36,23 +23,24 @@ router.post("/", userShouldBeLoggedIn, async (req, res) => {
             description: description,
             UserId: UserId
         });
-        console.log("auto-generated Service ID:", services.id)
         res.send({ message: "your new service has been added"});
     } catch (err) {
         res.status(400).send({ message: err.message });
     }
 })
 
-router.put("/:id", userShouldBeLoggedIn, async (req, res) => {
+router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
     // const UserId = req.user_id;
     const { id } = req.params;
     const { servicename, description } = req.body;
     try {
         await models.Services.update({
-            servicename: {servicename},
-            description: {description},
+            servicename: servicename,
+            description: description
+        },
+        {
             where: { id }
-        });
+        }); 
         res.send({ message: "your service has been updated"});
     } catch (err) {
         res.status(400).send({ message: err.message });
@@ -73,3 +61,4 @@ router.delete("/:id", userShouldBeLoggedIn, async (req, res) => {
 })
 
 module.exports = router;
+
