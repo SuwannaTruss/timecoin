@@ -10,24 +10,29 @@ export default function Services() {
 },[]);
 
 
+
 const [services, setServices] = useState([])
 
 
 return <div>
     <NavLink to="/NewService">NewService</NavLink>
-    <h1>{services.map ((e) => (
-      <p>{e.description}</p>
-    ))}</h1>
-    
     <NavLink to="/Service">Service</NavLink>
     
-  </div>;
-
-}
-
+   
+    <h1>{services.map ((e) => (
+      <p>{e.servicename}</p>
+    ))}</h1>       
+    <h4>{services.map ((e) => (
+      <h4>{e.description}</h4>
+    ))}</h4>
+   <p>{services.map ((e) => (
+      <p>{e.UserId}</p>
+    ))}</p>
+  
+</div>
+/*
 // Services component
 // Routes: /services
 // list of all services offered
-// Link to: individual service
-
-
+// Link to: individual services.*/
+}
