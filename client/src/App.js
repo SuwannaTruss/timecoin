@@ -31,9 +31,9 @@ function App() {
             <Route path="/services">
               <Services />
             </Route>
-            <Route path="/new-service">
+            <PrivateRoute path="/new-service">
               <NewService />
-            </Route>
+            </PrivateRoute>
             <Route path="/wallet">
               <Wallet />
             </Route>

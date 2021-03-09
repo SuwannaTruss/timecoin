@@ -19,3 +19,37 @@
   width: 100%;
   /* background-color: rgb(212, 212, 211); */
 }
+
+/* NEW SERVICE COMPONENT */
+.service-container {
+  margin-top: 5%;
+  border: 1px solid #ccd1d1;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  max-width: 50%;
+}
+#fl {
+  font-weight: 600;
+}
+
+#sl {
+  font-weight: 100 !important;
+}
+
+.login-img {
+  text-align: center;
+}
+.login-form h3 {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.form-control {
+  font-size: 14px;
+}
+
+.back-container {
+  background-color: #ffa41b;
+  opacity: 0.9;
+}

@@ -15,13 +15,18 @@ export default {
       },
     ];
   },
+  // addService(data) {
+  //   return axios.post(data);
+  // },
   addService(data) {
-    return axios.post(data);
+    let service = data;
+    return service;
   },
 
   getProfile() {
     return [
       {
+        id: 1,
         username: "sofiamoura",
         email: "sofia@sofia.com",
         firstname: "Sofia",

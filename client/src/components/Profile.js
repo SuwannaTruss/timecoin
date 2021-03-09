@@ -17,8 +17,7 @@ export default function Profile() {
   return (
     <div className="container">
       <div className="row">
-        {/* <NavLink to="/profile/:id/service">My services</NavLink>
-      <NavLink to="/wallet">Wallet</NavLink> */}
+        {/* <NavLink to="/wallet">Wallet</NavLink> */}
         <div className="col mx-auto">
           <div className="bg-white shadow rounded overflow-hidden">
             <div className="px-4 pt-0 pb-4 cover">
@@ -30,9 +29,9 @@ export default function Profile() {
                     width="130"
                     className="rounded mb-2 img-thumbnail"
                   />
-                  <a href="#" className="btn btn-outline-dark btn-sm btn-block">
+                  <button className="btn btn-outline-dark btn-sm btn-block">
                     Edit profile
-                  </a>
+                  </button>
                 </div>
                 {profile.map((e) => (
                   <div className="media-body mb-5 text-white">
@@ -62,7 +61,7 @@ export default function Profile() {
               <h3 className="mb-1 text-center">SERVICES</h3>
               <div className="row">
                 {profile.map((e) => (
-                  <div className="col-6 mb-2" key={e.username}>
+                  <div className="col-6 mb-2" key={e.id}>
                     <div className="row justify-content">
                       {e.services.map((s) => (
                         <div className="card shadow border-0 service-card col-lg-4 m-2 ">
@@ -84,6 +83,11 @@ export default function Profile() {
                   </div>
                 ))}
               </div>
+              <NavLink to="/new-service">
+                <button className="btn btn-outline-dark btn-sm">
+                  Add service
+                </button>
+              </NavLink>
             </div>
           </div>
         </div>
