@@ -9,6 +9,7 @@ import ProvideAuth from "./components/ProvideAuth";
 import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/NavBar";
 import Services from "./components/Services";
+import Service from "./components/Service";
 import Wallet from "./components/Wallet";
 import NewService from "./components/NewService";
 
@@ -30,6 +31,9 @@ function App() {
             </PrivateRoute>
             <Route path="/services">
               <Services />
+            </Route>
+            <Route path="/service">
+              <Service />
             </Route>
             <PrivateRoute path="/new-service">
               <NewService />

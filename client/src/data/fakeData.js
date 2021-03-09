@@ -49,4 +49,9 @@ export default {
       },
     ];
   },
+
+  getService () {
+    return [{id:1, servicename:"learn polish", description:"polish is being taught"}]
+  }
 };
+
