@@ -14,6 +14,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+    const UserId = req.user_id;
+    try {
+    const service = await models.Services.findOne({
+        attributes: ['description', 'servicename'],
+        where: { UserId }
+    });
+    res.send(service);
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+});
+
+
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
     try {
