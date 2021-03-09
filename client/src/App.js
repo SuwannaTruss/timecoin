@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./App.css";
 import Login from "./components/Login";
@@ -10,6 +10,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/NavBar";
 import Services from "./components/Services";
 import Service from "./components/Service";
+import Wallet from "./components/Wallet";
+import NewService from "./components/NewService";
 
 function App() {
   return (
@@ -32,6 +34,12 @@ function App() {
             </Route>
             <Route path="/service">
               <Service />
+              </Route>
+            <Route path="/new-service">
+              <NewService />
+            </Route>
+            <Route path="/wallet">
+              <Wallet />
             </Route>
           </Switch>
         </div>
