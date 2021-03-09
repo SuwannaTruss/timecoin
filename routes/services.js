@@ -4,11 +4,27 @@ const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const models = require("../models");
 // require("dotenv").config();
 
-// router.post("/", function (req, res) {
-//     const { name } = req.body;
-//     models.Movie.create({ name })
-//       .then((data) => res.send(data))
-//       .catch((error) => {
-//         res.status(500).send(error);
-//       });
-//   });
+router.get("/", async (req, res) => {
+    try {
+    const services = await models.Services.findAll();
+    res.send(services);
+    } 
+    catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
+
+router.post("/", userShouldBeLoggedIn, async (req, res) => {
+    const UserId = req.user_id;
+    try {
+        const services = await models.Services.findAll({
+            attributes: [ 'description', 'servicename'],
+            where: { UserId }
+        });
+        res.send(services);
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+    }
+})
+
+module.exports = router;

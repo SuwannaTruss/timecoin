@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
 router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
   const id = req.user_id;
   const user = await models.Users.findOne({ 
-    attributes: ['username', 'email', 'firstname', 'lastname', 'location'],
+    attributes: ['id', 'username', 'email', 'firstname', 'lastname', 'location'],
     where: { id },
     include: models.Services });
   res.send(user);
