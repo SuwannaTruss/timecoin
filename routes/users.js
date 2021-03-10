@@ -62,4 +62,11 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
   res.send(user);
 });
 
+router.get("/", userShouldBeLoggedIn, async (req, res) => {
+  const user = await models.Users.findAll({ 
+    attributes: ['id', 'username', 'firstname', 'lastname', 'location'],
+    include: models.Services });
+  res.send(user);
+});
+
 module.exports = router;
