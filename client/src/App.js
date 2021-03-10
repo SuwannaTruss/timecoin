@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./App.css";
 import Login from "./components/Login";
@@ -8,6 +8,11 @@ import Profile from "./components/Profile";
 import ProvideAuth from "./components/ProvideAuth";
 import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/NavBar";
+import Services from "./components/Services";
+import Service from "./components/Service";
+import Wallet from "./components/Wallet";
+import NewService from "./components/NewService";
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -24,6 +29,21 @@ function App() {
             </Route>
             <PrivateRoute path="/profile">
               <Profile />
+            </PrivateRoute>
+            <Route path="/services">
+              <Services />
+            </Route>
+            <Route path="/service/:id">
+              <Service />
+            </Route>
+            <PrivateRoute path="/new-service">
+              <NewService />
+            </PrivateRoute>
+            <Route path="/wallet">
+              <Wallet />
+            </Route>
+            <PrivateRoute path="/home">
+              <Home />
             </PrivateRoute>
           </Switch>
         </div>
