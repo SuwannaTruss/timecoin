@@ -42,9 +42,9 @@ function App() {
             <Route path="/wallet">
               <Wallet />
             </Route>
-            <Route path="/">
+            <PrivateRoute path="/home">
               <Home />
-            </Route>
+            </PrivateRoute>
           </Switch>
         </div>
       </Router>
