@@ -12,6 +12,7 @@ import Services from "./components/Services";
 import Service from "./components/Service";
 import Wallet from "./components/Wallet";
 import NewService from "./components/NewService";
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
             <Route path="/services">
               <Services />
             </Route>
-            <Route path="/service">
+            <Route path="/service/:id">
               <Service />
             </Route>
             <PrivateRoute path="/new-service">
@@ -40,6 +41,9 @@ function App() {
             </PrivateRoute>
             <Route path="/wallet">
               <Wallet />
+            </Route>
+            <Route path="/">
+              <Home />
             </Route>
           </Switch>
         </div>

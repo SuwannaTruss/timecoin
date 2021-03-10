@@ -4,8 +4,12 @@ export default {
   async getService() {
    return await axios("/services");
   },
-  addService(data) {
-    return axios.post(data);
+  async addService(data) {
+    return await axios.post(data);
   },
+
+  async getProfile() {
+    return await axios("/profile");
+   },
 };
 ​

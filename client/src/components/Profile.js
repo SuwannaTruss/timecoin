@@ -65,7 +65,7 @@ export default function Profile() {
                     <div className="row justify-content">
                       {e.services.map((s) => (
                         <div className="card shadow border-0 service-card col-lg-4 m-2 ">
-                          <NavLink to="profile/:id/service/:id">
+                          <NavLink to="/service/:id">
                             <img
                               src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
                               className="card-img-top"
