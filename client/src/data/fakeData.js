@@ -54,7 +54,6 @@ export default {
       {
         id: 1,
         username: "sofiamoura",
-        email: "sofia@sofia.com",
         firstname: "Sofia",
         lastname: "Moura",
         location: "Porto, Portugal",
@@ -76,7 +75,6 @@ export default {
       {
         id: 2,
         username: "sename",
-        email: "sename@sename.com",
         firstname: "Sénamé",
         lastname: "Agblevon",
         location: "Berlin, Germany",
