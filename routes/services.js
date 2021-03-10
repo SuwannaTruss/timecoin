@@ -40,52 +40,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// router.get("/:id", async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//     const services = await models.Services.findAll({ attributes: ['id', 'description', 'servicename'],
-//         where: { id },
-//         include: models.Users });
-//     res.send(services); 
-//     }
-//     catch (err) {
-//         res.status(400).send({ message: err.message });
-//     }
-// })
-
-// router.get("/:id", async (res, req) => {
-    
-//     try {
-//         const services = await models.Services.findAll({
-//             where: { id },
-//             include: [{
-//                 model: Users,
-//                 through: {
-//                     attributes: ['username', 'email', 'firstname', 'lastname', 'location']
-//                 }
-//             }]
-//         });
-//         res.send(services);
-//     }
-//     catch (err) {
-//         res.status(400).send({ message: err.message });
-//     }
-// })
-// router.get("/:id", (res, req) => {
-//     models.Services.findAll({
-//         attributes: ['id', 'description', 'servicename'],
-//         where: { id },
-//         include: [{
-//             model: Users,
-//             attributes: ['username', 'email', 'firstname', 'lastname', 'location']
-//         }]
-//     }).then(results => {
-//         res.send(results.services)
-//       }) 
-//     .catch (error => {
-//       res.status(500).send({ message: err.message });
-// }) 
-
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
     const { servicename, description } = req.body;
