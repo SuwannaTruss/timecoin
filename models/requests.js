@@ -3,14 +3,15 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
+  
   class Requests extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  //   /**
+  //    * Helper method for defining associations.
+  //    * This method is not a part of Sequelize lifecycle.
+  //    * The `models/index` file will call this method automatically.
+  //    */
     static associate(models) {
-      // define association here
+      Requests.belongsTo
     }
   };
   Requests.init({
@@ -20,5 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Requests',
   });
+  
+  // Requests.associate = function(models) {
+  //   // One-to-Many, one artist can have many albums
+  //     Artist.hasMany(models.Album);
+  // };
+
   return Requests;
 };

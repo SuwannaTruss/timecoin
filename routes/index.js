@@ -7,3 +7,10 @@ router.get("/", function (req, res, next) {
 });
 
 module.exports = router;
+
+
+//require express
+//router 
+//imported db => const models
+//create routes
+//exports
