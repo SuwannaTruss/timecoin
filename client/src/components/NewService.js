@@ -33,7 +33,7 @@ export default function NewService() {
                     </h1>
                   </div>
                   <div className="col-md-9 service-form">
-                    <div className="new-service-img mb-3">
+                    <div className="new-service-img">
                       <img
                         src="https://themighty.com/wp-content/uploads/2020/03/GettyImages-1152840785-2-640x213.jpg?v=1585671432"
                         alt="new_service_img"

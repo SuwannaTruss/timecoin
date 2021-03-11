@@ -10,27 +10,50 @@ export default function Services() {
     setServices(result.data);
     // console.log(result);
   }, []);
+  //description, category, servicename
 
   return (
     <div>
-      <NavLink to="/NewService">NewService</NavLink>
-      <NavLink to="/Service">Service</NavLink>
+      <div className="container">
+        <div className="row">
+          <div className="col mx-auto">
+            <div className="bg-white shadow rounded overflow-hidden">
+              <h3 className="p-3 text-center"> PUBLIC HOME</h3>
+              <div className="row">
+                {services.map((s) => (
+                  <div key={s.id} className="col-lg-4 col-md-6">
+                    <div className="row">
+                      <div className="card shadow service-card col m-2">
+                        <img
+                          src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
+                          className="card-img-top"
+                          alt="..."
+                        />
 
-      {/* <h1> */}
-      {services.map((e) => (
-        <p>{`${e.servicename} ${e.description}`}</p>
-      ))}
-      {/* </h1>
-      <h4>
-        {services.map((e) => (
-          // <h4>{e.description}</h4>
-        ))}
-      </h4>
-      <p>
-        {services.map((e) => (
-          // <p>{e.UserId}</p>
-        ))}
-      </p> */}
+                        <div className="card-body ">
+                          <h4 className="card-title">{s.servicename}</h4>
+                          <h5 className="card-text">{s.description}</h5>
+                          <p className="card-text">Category: {s.CategoryId}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    // <div>
+    //   <NavLink to="/NewService">NewService</NavLink>
+    //   <NavLink to="/Service">Service</NavLink>
+
+    //   {/* <h1> */}
+    //   {services.map((e) => (
+    //     <p>{`${e.servicename} ${e.description}`}</p>
+    //   ))}
+
+    // </div>
   );
 }

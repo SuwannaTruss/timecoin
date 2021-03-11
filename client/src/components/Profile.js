@@ -12,7 +12,7 @@ export default function Profile() {
 
   useEffect(async () => {
     const result = await api.getProfile();
-
+    console.log(result);
     setProfile(result.data);
   }, []);
 
@@ -47,7 +47,7 @@ export default function Profile() {
             <div className="bg-light p-4 d-flex justify-content-end text-center">
               <li className="list-inline-item">
                 <h5 className="font-weight-bold mb-0 d-block text-muted">
-                  <i class="fas fa-wallet"></i> My Wallet
+                  <i className="fas fa-wallet"></i> My Wallet
                 </h5>
               </li>
             </div>
@@ -64,7 +64,7 @@ export default function Profile() {
                   <div className="row justify-content">
                     {profile.Services.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
-                        <NavLink to="/service/:id">
+                        <NavLink to={`/service/${s.id}`}>
                           <img
                             src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
                             className="card-img-top"

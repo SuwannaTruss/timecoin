@@ -1,7 +1,8 @@
 /* Profile component */
 
 .service-card {
-  width: 12rem;
+  max-width: 12rem;
+  max-height: 30rem;
 }
 
 .profile-head {

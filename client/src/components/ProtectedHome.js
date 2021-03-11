@@ -1,22 +1,20 @@
 import { React, useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import { NavLink, Route } from "react-router-dom";
+// import useAuth from "../hooks/useAuth";
+import { NavLink } from "react-router-dom";
 import api from "../data/index.js";
 
 export default function Home() {
-  const auth = useAuth();
+  // const auth = useAuth();
   const [users, setUsers] = useState([]);
 
-  useEffect(async () => {
-    const result = await api.getUsers();
-    // console.log(result.data);
-    setUsers(result.data);
-  }, []);
+  //   useEffect(async () => {
+  //     const result = await api.getUsers();
+  //     // console.log(result.data);
+  //     setUsers(result.data);
+  //   }, []);
   return (
     <div>
-      {/* <Route path="/home">{auth.isLoggedIn && <ProtectedHome />}</Route> */}
-      {/* <ProtectedHome /> */}
-      <div className="container">
+      {/* <div className="container">
         <div className="row">
           <div className="col mx-auto">
             <div className="bg-white shadow rounded overflow-hidden">
@@ -55,7 +53,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
