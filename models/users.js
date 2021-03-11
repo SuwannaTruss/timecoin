@@ -12,9 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Users.hasMany(models.Services)
-      
       Users.hasMany(models.Requests)
-    
     }
   };
   Users.init({
