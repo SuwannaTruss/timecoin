@@ -14,31 +14,49 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", userShouldBeLoggedIn, (req, res) => {
     const { id } = req.params;
-    try {
-    const services = await models.Services.findOne({
-        where: {id},
-        include: models.Users,
-    });
-    const result = Object.assign(
-        {}, {
-            user_id: services.User.id,
-            firstname: services.User.firstname,
-            lastname: services.User.lastname,
-            location: services.User.location,
-            service_id: services.id,
-            servicename: services.servicename,
-            description: services.description
+    models.Services.findOne({
+        attributes: [ "id", "servicename", "description"],
+        where: { id },
+        include: {
+           model: models.Users,
+           attributes: ["id", "username", "firstname", "lastname", "location"]
         }
-    )
-    console.log(result)
-    res.send(result);
-    } 
-    catch (err) {
-    res.status(400).send({ message: err.message });
-  }
+    })
+    .then((data) => {
+        if (data) res.send(data)
+        else res.status(404).send({message: "Service not found."})
+        })
+    .catch((error) => {res.status(500).send(error);
+    });
 });
+
+// router.get("/:id", async (req, res) => {
+//     const { id } = req.params;
+//     try {
+//     const services = await models.Services.findOne({
+//         where: {id},
+//         include: models.Users,
+//     });
+//     const result = Object.assign(
+//         {}, {
+//             user_id: services.User.id,
+//             firstname: services.User.firstname,
+//             lastname: services.User.lastname,
+//             location: services.User.location,
+//             service_id: services.id,
+//             servicename: services.servicename,
+//             description: services.description
+//         }
+//     )
+//     console.log(result)
+//     res.send(result);
+//     } 
+//     catch (err) {
+//     res.status(400).send({ message: err.message });
+//   }
+// });
 
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
@@ -89,4 +107,3 @@ router.delete("/:id", userShouldBeLoggedIn, async (req, res) => {
 })
 
 module.exports = router;
-

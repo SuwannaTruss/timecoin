@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Services.belongsTo(models.Users)
-      Services.belongsTo(models.Categories)
+      Services.hasOne(models.Categories)
       Services.hasMany(models.Requests)
     }
   };
