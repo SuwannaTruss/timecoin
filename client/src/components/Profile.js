@@ -8,12 +8,14 @@ import api from "../data/index.js";
 export default function Profile() {
   const auth = useAuth();
 
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState({ Services: [] });
 
   useEffect(async () => {
     const result = await api.getProfile();
-    setProfile(result);
+
+    setProfile(result.data);
   }, []);
+
   return (
     <div className="container">
       <div className="row">
@@ -33,15 +35,13 @@ export default function Profile() {
                     Edit profile
                   </button>
                 </div>
-                {profile.map((e) => (
-                  <div className="media-body mb-5 text-white">
-                    <h2 className="mt-0 mb-0">{`${e.firstname} ${e.lastname}`}</h2>
-                    <p className="small mb-4">
-                      <i className="fas fa-map-marker-alt mr-2"></i>
-                      {e.location}
-                    </p>
-                  </div>
-                ))}
+                <div className="media-body mb-5 text-white">
+                  <h2 className="mt-0 mb-0">{`${profile.firstname} ${profile.lastname}`}</h2>
+                  <p className="small mb-4">
+                    <i className="fas fa-map-marker-alt mr-2"></i>
+                    {profile.location}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="bg-light p-4 d-flex justify-content-end text-center">
@@ -60,28 +60,26 @@ export default function Profile() {
             <div className="py-4 px-5">
               <h3 className="mb-1 text-center">SERVICES</h3>
               <div className="row">
-                {profile.map((e) => (
-                  <div className="col-6 mb-2" key={e.id}>
-                    <div className="row justify-content">
-                      {e.services.map((s) => (
-                        <div className="card shadow border-0 service-card col-lg-4 m-2 ">
-                          <NavLink to="/service/:id">
-                            <img
-                              src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
-                              className="card-img-top"
-                              alt="..."
-                            />
-                          </NavLink>
-                          <div className="card-body ">
-                            <h5 className="card-title">{s.servicename}</h5>
+                <div className="col-6 mb-2" key={profile.id}>
+                  <div className="row justify-content">
+                    {profile.Services.map((s) => (
+                      <div className="card shadow border-0 service-card col-lg-4 m-2 ">
+                        <NavLink to="/service/:id">
+                          <img
+                            src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
+                            className="card-img-top"
+                            alt="..."
+                          />
+                        </NavLink>
+                        <div className="card-body ">
+                          <h5 className="card-title">{s.servicename}</h5>
 
-                            <p className="card-text">{s.description}</p>
-                          </div>
+                          <p className="card-text">{s.description}</p>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
               <NavLink to="/new-service">
                 <button className="btn btn-outline-dark btn-sm">
