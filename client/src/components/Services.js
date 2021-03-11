@@ -7,7 +7,7 @@ export default function Services() {
 
   useEffect(async () => {
     const results = await api.getServices();
-    setServices(results);
+    setServices(results.data);
   }, []);
 
   return (
@@ -15,21 +15,21 @@ export default function Services() {
       <NavLink to="/NewService">NewService</NavLink>
       <NavLink to="/Service">Service</NavLink>
 
-      <h1>
-        {services.map((e) => (
-          <p>{e.servicename}</p>
-        ))}
-      </h1>
+      {/* <h1> */}
+      {services.map((e) => (
+        <p>{e.servicename}</p>
+      ))}
+      {/* </h1>
       <h4>
         {services.map((e) => (
-          <h4>{e.description}</h4>
+          // <h4>{e.description}</h4>
         ))}
       </h4>
       <p>
         {services.map((e) => (
-          <p>{e.UserId}</p>
+          // <p>{e.UserId}</p>
         ))}
-      </p>
+      </p> */}
     </div>
   );
 }

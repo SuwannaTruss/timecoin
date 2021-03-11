@@ -2,7 +2,6 @@ import { React, useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { NavLink } from "react-router-dom";
 import api from "../data/index.js";
-import { disable } from "debug";
 
 export default function Home() {
   const auth = useAuth();
@@ -10,7 +9,8 @@ export default function Home() {
 
   useEffect(async () => {
     const result = await api.getUsers();
-    setUsers(result);
+    // console.log(result.data);
+    setUsers(result.data);
   }, []);
   return (
     <div>
@@ -26,7 +26,7 @@ export default function Home() {
                     className="opencall-display col-lg-4 col-md-6"
                   >
                     <div className="row">
-                      {user.services.map((s) => (
+                      {user.Services.map((s) => (
                         <div className="card shadow border-0 service-card col m-2">
                           <NavLink to="/service/:id">
                             <img
