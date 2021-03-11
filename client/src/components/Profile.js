@@ -12,14 +12,20 @@ export default function Profile() {
 
   useEffect(async () => {
     const result = await api.getProfile();
-    setProfile(result);
+    console.log(result.data);
+    // setProfile(result.data);
   }, []);
+
+  // const handleChange = (e) => {
+  //   setUser(state => ({...state, [e.target.name]: e.target.value}));
+  // };
   return (
     <div className="container">
       <div className="row">
         {/* <NavLink to="/wallet">Wallet</NavLink> */}
         <div className="col mx-auto">
           <div className="bg-white shadow rounded overflow-hidden">
+            {/* <p>{profile.firstname}</p> */}
             <div className="px-4 pt-0 pb-4 cover">
               <div className="media align-items-end profile-head">
                 <div className="profile mr-3">

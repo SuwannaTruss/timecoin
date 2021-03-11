@@ -55,17 +55,26 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
   const id = req.user_id;
-  const user = await models.Users.findOne({ 
-    attributes: ['id', 'username', 'email', 'firstname', 'lastname', 'location'],
+  const user = await models.Users.findOne({
+    attributes: [
+      "id",
+      "username",
+      "email",
+      "firstname",
+      "lastname",
+      "location",
+    ],
     where: { id },
-    include: models.Services });
+    include: models.Services,
+  });
   res.send(user);
 });
 
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
-  const user = await models.Users.findAll({ 
-    attributes: ['id', 'username', 'firstname', 'lastname', 'location'],
-    include: models.Services });
+  const user = await models.Users.findAll({
+    attributes: ["id", "username", "firstname", "lastname", "location"],
+    include: models.Services,
+  });
   res.send(user);
 });
 

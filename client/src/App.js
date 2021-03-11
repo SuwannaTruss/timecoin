@@ -33,7 +33,7 @@ function App() {
             <Route path="/services">
               <Services />
             </Route>
-            <Route path="/service/:id">
+            <Route path="/service">
               <Service />
             </Route>
             <PrivateRoute path="/new-service">

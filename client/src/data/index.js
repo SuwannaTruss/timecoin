@@ -1,2 +1,2 @@
-import data from "./fakeData";
+import data from "./api";
 export default data;
