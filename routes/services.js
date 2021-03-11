@@ -42,12 +42,13 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
-    const { servicename, description } = req.body;
+    const { servicename, description, categoryId } = req.body;
     try {
         await models.Services.create({
             servicename: servicename,
             description: description,
-            UserId: UserId
+            categoryId: categoryId,
+            UserId: UserId,
         });
         res.send({ message: "your new service has been added"});
     } catch (err) {
@@ -58,11 +59,12 @@ router.post("/", userShouldBeLoggedIn, async (req, res) => {
 router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
     // const UserId = req.user_id;
     const { id } = req.params;
-    const { servicename, description } = req.body;
+    const { servicename, description, categoryId } = req.body;
     try {
         await models.Services.update({
             servicename: servicename,
-            description: description
+            description: description,
+            categoryId: categoryId,
         },
         {
             where: { id }
