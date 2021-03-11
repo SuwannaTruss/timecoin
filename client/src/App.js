@@ -30,12 +30,13 @@ function App() {
             <PrivateRoute path="/profile">
               <Profile />
             </PrivateRoute>
+            <Route path="/service/:id">
+              <Service />
+            </Route>
             <Route path="/services">
               <Services />
             </Route>
-            <Route path="/service">
-              <Service />
-            </Route>
+
             <PrivateRoute path="/new-service">
               <NewService />
             </PrivateRoute>

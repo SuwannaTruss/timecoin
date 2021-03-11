@@ -6,8 +6,9 @@ export default function Services() {
   const [services, setServices] = useState([]);
 
   useEffect(async () => {
-    const results = await api.getServices();
-    setServices(results.data);
+    const result = await api.getServices();
+    setServices(result.data);
+    // console.log(result);
   }, []);
 
   return (
@@ -17,7 +18,7 @@ export default function Services() {
 
       {/* <h1> */}
       {services.map((e) => (
-        <p>{e.servicename}</p>
+        <p>{`${e.servicename} ${e.description}`}</p>
       ))}
       {/* </h1>
       <h4>

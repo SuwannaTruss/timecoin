@@ -1,8 +1,9 @@
 import axios from "axios";
+
 export default {
-  async getService() {
+  async getService(id) {
     try {
-      const response = await axios.get("/services");
+      const response = await axios.get(`/services/${id}`);
       return response;
     } catch (err) {
       console.log(err);
@@ -21,9 +22,7 @@ export default {
   async addService(data) {
     return await axios.post(data);
   },
-  // async getProfile() {
-  //   return await axios("/profile");
-  // },
+
   async getProfile() {
     try {
       const response = await axios.get("/users/profile", {
