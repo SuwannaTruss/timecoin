@@ -17,6 +17,7 @@ export default function NewService() {
   const postService = async () => {
     await api.addService(newService);
   };
+  //fetch get services for the categories
 
   return (
     <div>
@@ -75,9 +76,9 @@ export default function NewService() {
                           id="inputGroupSelect01"
                         >
                           <option>Choose...</option>
-                          <option value="teach">Teach</option>
-                          <option value="pets">Pets</option>
-                          <option value="house">House</option>
+                          <option value="1">Teach</option>
+                          <option value="2">Pets</option>
+                          <option value="3">House</option>
                         </select>
                       </div>
 

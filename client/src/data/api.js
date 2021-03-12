@@ -20,7 +20,13 @@ export default {
   },
 
   async addService(data) {
-    return await axios.post(data);
+    return await axios.post("/services", {
+      headers: {
+        // to send the token back when make a req to Backend
+        "x-access-token": localStorage.getItem("token"),
+        data,
+      },
+    });
   },
 
   async getProfile() {
