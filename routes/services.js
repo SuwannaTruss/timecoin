@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const models = require("../models");
+const services = require("../models/services");
+
 // require("dotenv").config();
 
 router.get("/", async (req, res) => {
@@ -56,6 +58,35 @@ router.get("/:id", userShouldBeLoggedIn, (req, res) => {
 //     catch (err) {
 //     res.status(400).send({ message: err.message });
 //   }
+// });
+
+// router.post("/", userShouldBeLoggedIn, async (req, res) => {
+//     const UserId = req.user_id;
+//     const { servicename, description, categoryId } = req.body;
+//     // console.log(categoryId)
+//     // const categoryExists = await models.Categories.findOne({
+//     //     attributes: ["id"],
+//     //     where: categoryId});
+//     // console.log(categoryExists.id);
+//     models.Services.create({
+//             servicename: servicename,
+//             description: description,
+//             UserId: UserId
+//             // categoryId: categoryId
+//         // }).then((myService) => {
+//         //     myService.setCategory(categoryId)
+//         //     console.log(myService)
+//         }, {
+//             include: [{
+//                 association: models.Services.Categories,
+//                 include: [models.Categories.id]
+//             }]
+//         }
+//         )
+//     .then((data) => {
+//         console.log(data);
+//         res.send({ message: "your new service has been added"})})
+//     .catch((err) => {res.status(400).send({ message: err.message })});
 // });
 
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
