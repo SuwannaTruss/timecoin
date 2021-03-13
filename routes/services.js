@@ -67,7 +67,7 @@ router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
     } catch (err) {
         res.status(400).send({ message: err.message });
     }
-})
+});
 
 router.delete("/:id", userShouldBeLoggedIn, async (req, res) => {
     // const UserId = req.user_id;
@@ -80,6 +80,6 @@ router.delete("/:id", userShouldBeLoggedIn, async (req, res) => {
     } catch (err) {
         res.status(400).send({ message: err.message });
     }
-})
+});
 
 module.exports = router;

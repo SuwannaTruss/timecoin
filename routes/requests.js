@@ -31,12 +31,27 @@ router.get("/:serviceId", userShouldBeLoggedIn, async (req, res) => {
            attributes: ["firstname", "lastname", "location"]
         }
     })
-    .then((data) => {
-        if (data) res.send(data)
-        else res.status(404).send({message: "Service not found."})
-        })
+    .then((data) => {res.send(data)})
     .catch((error) => {res.status(500).send(error);
     });
+});
+
+router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
+    const UserId = req.user_id;
+    // we need to check if the users have right to update record. now any users that are already logged in can update it.
+    const { id } = req.params;
+    const { status } = req.body;
+    try {
+        await models.Requests.update({
+            status: status,
+        },
+        {
+            where: { id }
+        }); 
+        res.send({ message: "The service request has been approved."});
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+    }
 });
 
 
