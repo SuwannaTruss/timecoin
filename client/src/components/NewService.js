@@ -17,7 +17,7 @@ export default function NewService() {
   // const handleChange = (e) => {
   //   setNewService({ [e.target.name]: e.target.value });
   // };
-
+  //colocar postService dentro do handlechange ou vice-versa
   const postService = async () => {
     console.log(newService);
     await api.addService(newService);

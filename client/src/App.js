@@ -13,7 +13,8 @@ import Service from "./components/Service";
 import Wallet from "./components/Wallet";
 import NewService from "./components/NewService";
 import Home from "./components/Home";
-import ProtectedHome from "./components/ProtectedHome";
+import SearchBar from "./components/SearchBar";
+// import ProtectedHome from "./components/ProtectedHome";
 
 function App() {
   return (
@@ -37,14 +38,17 @@ function App() {
             <Route path="/services">
               <Services />
             </Route>
-            <Route path="/home">
+            {/* <Route path="/home">
               <ProtectedHome />
-            </Route>
+            </Route> */}
             <PrivateRoute path="/new-service">
               <NewService />
             </PrivateRoute>
             <Route path="/wallet">
               <Wallet />
+            </Route>
+            <Route path="/search-bar">
+              <SearchBar />
             </Route>
             <PrivateRoute path="/">
               <Home />
