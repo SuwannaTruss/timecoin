@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Requests.belongsTo(models.Users)
       Requests.belongsTo(models.Transactions)
-      Requests.belongsTo(models.Services)
+      Requests.belongsTo(models.Services, { foreignKey: "serviceId"})
     }
   };
   Requests.init({
