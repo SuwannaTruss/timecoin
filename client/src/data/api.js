@@ -19,14 +19,24 @@ export default {
     }
   },
 
-  async addService(data) {
-    return await axios.post("/services", {
-      headers: {
-        // to send the token back when make a req to Backend
-        "x-access-token": localStorage.getItem("token"),
-        data,
-      },
-    });
+  async addService(newService) {
+    // console.log(newService);
+    try {
+      const response = await axios.post(
+        "/services",
+        {
+          newService,
+        },
+        {
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   async getProfile() {

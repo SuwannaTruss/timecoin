@@ -6,17 +6,23 @@ import useAuth from "../hooks/useAuth";
 export default function NewService() {
   const auth = useAuth();
 
-  const [newService, setNewService] = useState([
-    { description: "", servicename: "" },
-  ]);
+  const [newService, setNewService] = useState({
+    servicename: "",
+    description: "",
+  });
 
+  // const handleChange = (e) => {
+  //   setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
+  // };
   const handleChange = (e) => {
-    setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
+    setNewService({ [e.target.name]: e.target.value });
   };
 
   const postService = async () => {
+    console.log(newService);
     await api.addService(newService);
   };
+
   //fetch get services for the categories
 
   return (

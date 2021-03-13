@@ -26,7 +26,7 @@ export default function Home() {
                   <div key={user.id} className="col-lg-4 col-md-6">
                     <div className="row">
                       {user.Services.map((s) => (
-                        <div className="card shadow service-card col m-2">
+                        <div className="card shadow service-card col-4 m-2">
                           <NavLink to={`/service/${s.id}`}>
                             <img
                               src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"

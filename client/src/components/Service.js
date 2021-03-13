@@ -14,8 +14,8 @@ export default function Service() {
 
   const getService = async () => {
     const results = await api.getService(id);
-    setService(results.data);
-    console.log(results.data);
+    // setService(results.data);
+    console.log(results);
   };
 
   return (
