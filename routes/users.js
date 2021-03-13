@@ -74,21 +74,6 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
   .catch((error) => {
     res.status(500).send(error);
   });
-  // const user = await models.Users.findOne({
-  //   attributes: [
-  //     "id",
-  //     "username",
-  //     "email",
-  //     "firstname",
-  //     "lastname",
-  //     "location",
-  //   ],
-  //   where: { id },
-  //   include: models.services
-    
-  //   // include: {all: true, nested: true}
-  // });
-  // res.send(user);
 });
 
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
@@ -98,6 +83,31 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
   });
   res.send(user);
 });
+
+router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
+  const UserId = req.user_id;
+  await models.Services.findAll({
+    where: {UserId},
+    attributes: {
+      include: [
+        [
+          models.Sequelize.fn("COUNT", models.Sequelize.col("requests.id")),
+          "requestCount",
+        ],
+      ],
+    },
+    include: {
+      model: models.Requests,
+      attributes: [],
+    }, 
+    group: ["Services.id"], 
+  })
+  .then((data) => res.send(data))
+  .catch((error) => {
+    res.status(500).send(error);
+  })
+});
+
 
 
 

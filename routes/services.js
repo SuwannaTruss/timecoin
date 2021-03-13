@@ -34,61 +34,6 @@ router.get("/:id", userShouldBeLoggedIn, (req, res) => {
     });
 });
 
-// router.get("/:id", async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//     const services = await models.Services.findOne({
-//         where: {id},
-//         include: models.Users,
-//     });
-//     const result = Object.assign(
-//         {}, {
-//             user_id: services.User.id,
-//             firstname: services.User.firstname,
-//             lastname: services.User.lastname,
-//             location: services.User.location,
-//             service_id: services.id,
-//             servicename: services.servicename,
-//             description: services.description
-//         }
-//     )
-//     console.log(result)
-//     res.send(result);
-//     } 
-//     catch (err) {
-//     res.status(400).send({ message: err.message });
-//   }
-// });
-
-// router.post("/", userShouldBeLoggedIn, async (req, res) => {
-//     const UserId = req.user_id;
-//     const { servicename, description, categoryId } = req.body;
-//     // console.log(categoryId)
-//     // const categoryExists = await models.Categories.findOne({
-//     //     attributes: ["id"],
-//     //     where: categoryId});
-//     // console.log(categoryExists.id);
-//     models.Services.create({
-//             servicename: servicename,
-//             description: description,
-//             UserId: UserId
-//             // categoryId: categoryId
-//         // }).then((myService) => {
-//         //     myService.setCategory(categoryId)
-//         //     console.log(myService)
-//         }, {
-//             include: [{
-//                 association: models.Services.Categories,
-//                 include: [models.Categories.id]
-//             }]
-//         }
-//         )
-//     .then((data) => {
-//         console.log(data);
-//         res.send({ message: "your new service has been added"})})
-//     .catch((err) => {res.status(400).send({ message: err.message })});
-// });
-
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
     const { servicename, description, categoryId } = req.body;
@@ -103,7 +48,7 @@ router.post("/", userShouldBeLoggedIn, async (req, res) => {
     } catch (err) {
         res.status(400).send({ message: err.message });
     }
-})
+});
 
 router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
     // const UserId = req.user_id;
