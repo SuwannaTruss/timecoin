@@ -1,7 +1,8 @@
 import { React, useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { NavLink, Route } from "react-router-dom";
 import api from "../data/index.js";
+import ProtectedHome from "./components/ProtectedHome";
+import Services from "./components/Services";
 
 export default function Home() {
   const auth = useAuth();
@@ -14,9 +15,8 @@ export default function Home() {
   }, []);
   return (
     <div>
-      {/* <Route path="/home">{auth.isLoggedIn && <ProtectedHome />}</Route> */}
-      {/* <ProtectedHome /> */}
-      <div className="container">
+      {auth.isLoggedIn ? <ProtectedHome /> : <Services />}
+      {/* <div className="container">
         <div className="row">
           <div className="col mx-auto">
             <div className="bg-white shadow rounded overflow-hidden">
@@ -55,7 +55,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

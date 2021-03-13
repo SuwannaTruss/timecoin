@@ -11,12 +11,12 @@ export default function NewService() {
     description: "",
   });
 
-  // const handleChange = (e) => {
-  //   setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
-  // };
   const handleChange = (e) => {
-    setNewService({ [e.target.name]: e.target.value });
+    setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
+  // const handleChange = (e) => {
+  //   setNewService({ [e.target.name]: e.target.value });
+  // };
 
   const postService = async () => {
     console.log(newService);
