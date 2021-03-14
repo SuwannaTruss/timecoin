@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   };
   Requests.init({
     storage: DataTypes.STRING,
-    status: DataTypes.BOOLEAN
+    status: DataTypes.STRING,
+    amount: DataTypes.INTEGER,
+    serviceDate: DataTypes.DATEONLY,
+    serviceTime: DataTypes.TIME
   }, {
     sequelize,
     modelName: 'Requests',
