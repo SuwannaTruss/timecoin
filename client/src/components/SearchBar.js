@@ -20,14 +20,6 @@ export default function SearchBar() {
     setCategories(result.data);
   }, []);
 
-  // const [services, setServices] = useState([]);
-
-  // useEffect(async () => {
-  //   const result = await api.getServices();
-  //   setServices(result.data);
-  //   // console.log(result);
-  // }, []);
-
   const [searchByName, setSearchByName] = useState("");
   const [searchByCategory, setSearchByCategory] = useState("");
   const [searchByLocation, setSearchByLocation] = useState("");
@@ -37,16 +29,18 @@ export default function SearchBar() {
       <div className="container">
         <div className="bg-white shadow rounded overflow-hidden">
           <h3 className="p-3 text-center"> PROTECTED HOME</h3>
-          {/* <div className="row m-2"> */}
-          <div classname="col mr-2">
-            <div class="form-group mb-4">
+
+          <div classname="row mr-2">
+            <div class="col form-group mb-4">
               <input
-                className=" "
+                className="form-control"
                 key="random1"
                 placeholder="search service"
                 onChange={(e) => setSearchByName(e.target.value)}
               />
               <input
+                type="text"
+                className="form-control"
                 key="random3"
                 placeholder="search location"
                 onChange={(e) => setSearchByLocation(e.target.value)}
@@ -134,7 +128,6 @@ export default function SearchBar() {
             </div>
             // {/* </div> */}
           ))}
-          {/* </div> */}
         </div>
       </div>
     </div>
