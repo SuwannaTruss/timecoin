@@ -14,6 +14,7 @@ import Wallet from "./components/Wallet";
 import NewService from "./components/NewService";
 import Home from "./components/Home";
 import SearchBar from "./components/SearchBar";
+import SearchBarPublic from "./components/SearchBarPublic";
 // import ProtectedHome from "./components/ProtectedHome";
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
             </Route>
             <Route path="/search-bar">
               <SearchBar />
+            </Route>
+            <Route path="/search-bar2">
+              <SearchBarPublic />
             </Route>
             <PrivateRoute path="/">
               <Home />

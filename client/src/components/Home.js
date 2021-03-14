@@ -40,7 +40,7 @@ export default function Home() {
 
                             <h5 className="card-text">{s.description}</h5>
                             <p className="card-text">
-                              Category: {s.CategoryId}
+                              Category: {s.categoryId}
                             </p>
                           </div>
                           <div className="card-body">
