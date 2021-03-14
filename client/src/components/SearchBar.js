@@ -13,13 +13,13 @@ export default function SearchBar() {
     setUsers(result.data);
   }, []);
 
-  const [services, setServices] = useState([]);
+  // const [services, setServices] = useState([]);
 
-  useEffect(async () => {
-    const result = await api.getServices();
-    setServices(result.data);
-    // console.log(result);
-  }, []);
+  // useEffect(async () => {
+  //   const result = await api.getServices();
+  //   setServices(result.data);
+  //   // console.log(result);
+  // }, []);
 
   const [searchByName, setSearchByName] = useState("");
   const [searchByCategory, setSearchByCategory] = useState("");
@@ -61,29 +61,48 @@ export default function SearchBar() {
                         ) {
                           return s;
                         }
-                      }).map((s) => (
-                        <div className="card shadow service-card col-4 m-2">
-                          <NavLink to={`/service/${s.id}`}>
-                            <img
-                              src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
-                              className="card-img-top"
-                              alt="..."
-                            />
-                          </NavLink>
-                          <div className="card-body ">
-                            <h4 className="card-title">{s.servicename}</h4>
+                      })
+                        .filter((s) => {
+                          if (searchByCategory === "") {
+                            return s;
+                          } else if (s.categoryId === +searchByCategory) {
+                            return s;
+                          }
+                        })
+                        .filter((s) => {
+                          if (searchByLocation === "") {
+                            return s;
+                          } else if (
+                            (user.location ? user.location : "")
+                              .toLowerCase()
+                              .includes(searchByLocation.toLowerCase())
+                          ) {
+                            return s;
+                          }
+                        })
+                        .map((s) => (
+                          <div className="card shadow service-card col-4 m-2">
+                            <NavLink to={`/service/${s.id}`}>
+                              <img
+                                src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
+                                className="card-img-top"
+                                alt="..."
+                              />
+                            </NavLink>
+                            <div className="card-body ">
+                              <h4 className="card-title">{s.servicename}</h4>
 
-                            <h5 className="card-text">{s.description}</h5>
-                            <p className="card-text">
-                              Category: {s.categoryId}
-                            </p>
+                              <h5 className="card-text">{s.description}</h5>
+                              <p className="card-text">
+                                Category: {s.categoryId}
+                              </p>
+                            </div>
+                            <div className="card-body">
+                              <h5>{`${user.firstname} ${user.lastname}`}</h5>
+                              {user.location}
+                            </div>
                           </div>
-                          <div className="card-body">
-                            <h5>{`${user.firstname} ${user.lastname}`}</h5>
-                            {user.location}
-                          </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
                 ))}
@@ -92,30 +111,6 @@ export default function SearchBar() {
           </div>
         </div>
       </div>
-      <>
-        {services
-          .filter((s) => {
-            if (searchByName === "") {
-              return s;
-            } else if (
-              (s.servicename ? s.servicename : "")
-                .toLowerCase()
-                .includes(searchByName.toLowerCase())
-            ) {
-              return s;
-            }
-          })
-          .map((data) => {
-            if (data) {
-              return (
-                <div key={data.id}>
-                  <h1>{data.servicename}</h1>
-                </div>
-              );
-            }
-            return null;
-          })}
-      </>
     </div>
   );
 }
