@@ -5,25 +5,47 @@ import useAuth from "../hooks/useAuth";
 
 export default function NewService() {
   const auth = useAuth();
+  const [categories, setCategories] = useState([]);
 
   const [newService, setNewService] = useState({
     servicename: "",
     description: "",
+    categoryId: "",
   });
 
   const handleChange = (e) => {
     setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
-  // const handleChange = (e) => {
-  //   setNewService({ [e.target.name]: e.target.value });
+
+  // const postService = async () => {
+  //   console.log(newService);
+  //   await api.addService(newService);
   // };
-  //colocar postService dentro do handlechange ou vice-versa
-  const postService = async () => {
-    console.log(newService);
-    await api.addService(newService);
+
+  const addService = async () => {
+    try {
+      console.log(newService);
+      const response = await axios.post(
+        "/services",
+        {
+          newService,
+        },
+        {
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  //fetch get services for the categories
+  useEffect(async () => {
+    const result = await api.getCategories();
+    setCategories(result.data);
+  }, []);
 
   return (
     <div>
@@ -92,7 +114,7 @@ export default function NewService() {
                         <button
                           type="button"
                           className="btn btn-outline-dark  btn-lg btn-block"
-                          onClick={postService}
+                          onClick={addService}
                         >
                           Send
                         </button>

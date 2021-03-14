@@ -12,7 +12,6 @@ export default function Profile() {
 
   useEffect(async () => {
     const result = await api.getProfile();
-    console.log(result);
     setProfile(result.data);
   }, []);
 

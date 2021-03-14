@@ -39,6 +39,15 @@ export default {
     }
   },
 
+  async getCategories() {
+    try {
+      const response = await axios.get("/categories");
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   async getProfile() {
     try {
       const response = await axios.get("/users/profile", {

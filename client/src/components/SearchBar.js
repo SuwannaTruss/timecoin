@@ -32,21 +32,24 @@ export default function SearchBar() {
           <div className="col mx-auto">
             <div className="bg-white shadow rounded overflow-hidden">
               <h3 className="p-3 text-center"> PROTECTED HOME</h3>
-              <input
-                key="random1"
-                placeholder="search service"
-                onChange={(e) => setSearchByName(e.target.value)}
-              />
-              <input
-                key="random2"
-                placeholder="search category"
-                onChange={(e) => setSearchByCategory(e.target.value)}
-              />
-              <input
-                key="random3"
-                placeholder="search location"
-                onChange={(e) => setSearchByLocation(e.target.value)}
-              />
+              <div class="form-group mb-4">
+                <input
+                  className="form-control "
+                  key="random1"
+                  placeholder="search service"
+                  onChange={(e) => setSearchByName(e.target.value)}
+                />
+                <input
+                  key="random2"
+                  placeholder="search category"
+                  onChange={(e) => setSearchByCategory(e.target.value)}
+                />
+                <input
+                  key="random3"
+                  placeholder="search location"
+                  onChange={(e) => setSearchByLocation(e.target.value)}
+                />
+              </div>
               <div className="row">
                 {users.map((user) => (
                   <div key={user.id} className="col-lg-4 col-md-6">
