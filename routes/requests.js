@@ -7,12 +7,16 @@ const models = require("../models");
 // user_id of the user who made a request is from token in header
 router.post("/", userShouldBeLoggedIn, async (req, res) => {
     const UserId = req.user_id;
-    const { id, storage } = req.body;
+    const { id, storage, amount, serviceDate, serviceTime, status } = req.body;
     try {
         await models.Requests.create({
-            storage: storage,
             UserId: UserId,
-            serviceId: id
+            serviceId: id,
+            storage: storage,
+            amount: amount || 1,
+            serviceDate: serviceDate || new Date(2021, 3, 20),
+            serviceTime: serviceTime,
+            status: status || "requested"
         });
         res.send({ message: "Your request has been received."});
     } catch (err) {
