@@ -19,8 +19,33 @@ export default {
     }
   },
 
-  async addService(data) {
-    return await axios.post(data);
+  async addService(newService) {
+    // console.log(newService);
+    try {
+      const response = await axios.post(
+        "/services",
+        {
+          newService,
+        },
+        {
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  async getCategories() {
+    try {
+      const response = await axios.get("/categories");
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   async getProfile() {
