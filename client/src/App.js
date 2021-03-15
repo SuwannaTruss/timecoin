@@ -14,6 +14,7 @@ import NewService from "./components/NewService";
 import Home from "./components/Home";
 import PublicHome from "./components/PublicHome";
 import ProtectedHome from "./components/ProtectedHome";
+import MyService from "./components/MyService";
 
 function App() {
   return (
@@ -34,7 +35,9 @@ function App() {
             <Route path="/service/:id">
               <Service />
             </Route>
-
+            <Route path="/my-service/:id">
+              <MyService />
+            </Route>
             <PrivateRoute path="/new-service">
               <NewService />
             </PrivateRoute>
