@@ -111,7 +111,7 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
 // });
 
 router.get("/requestCount", async (req, res) => {
-  const result = await Requests.findAll({
+  const result = await models.Requests.findAll({
     where: {
       status: "requested"
       }
