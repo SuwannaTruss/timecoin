@@ -8,14 +8,12 @@ import Profile from "./components/Profile";
 import ProvideAuth from "./components/ProvideAuth";
 import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/NavBar";
-import Services from "./components/Services";
 import Service from "./components/Service";
 import Wallet from "./components/Wallet";
 import NewService from "./components/NewService";
 import Home from "./components/Home";
-import SearchBar from "./components/SearchBar";
-import SearchBarPublic from "./components/SearchBarPublic";
-// import ProtectedHome from "./components/ProtectedHome";
+import PublicHome from "./components/PublicHome";
+import ProtectedHome from "./components/ProtectedHome";
 
 function App() {
   return (
@@ -36,27 +34,22 @@ function App() {
             <Route path="/service/:id">
               <Service />
             </Route>
-            <Route path="/services">
-              <Services />
-            </Route>
-            {/* <Route path="/home">
-              <ProtectedHome />
-            </Route> */}
+
             <PrivateRoute path="/new-service">
               <NewService />
             </PrivateRoute>
             <Route path="/wallet">
               <Wallet />
             </Route>
-            <Route path="/search-bar">
-              <SearchBar />
-            </Route>
-            <Route path="/search-bar2">
-              <SearchBarPublic />
-            </Route>
-            <PrivateRoute path="/">
-              <Home />
+            <PrivateRoute>
+              <ProtectedHome />
             </PrivateRoute>
+            <Route>
+              <PublicHome />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
           </Switch>
         </div>
       </Router>
