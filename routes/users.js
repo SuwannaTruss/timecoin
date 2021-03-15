@@ -5,6 +5,8 @@ const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const models = require("../models");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
+const { sequelize } = require("../models");
+const db = require("../models");
 const saltRounds = 10;
 
 const supersecret = process.env.SUPER_SECRET;
@@ -84,40 +86,98 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
   res.send(user);
 });
 
-// for Seller (User who offer service, this is UserId in services table.
-// router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
-//   const UserId = req.user_id;
-//   await models.Services.findAll({
-//     where: {UserId},
-//     attributes: {
-//       include: [
-//         [
-//           models.Sequelize.fn("COUNT", models.Sequelize.col("Requests.id")),
-//           "requestCount",
-//         ],
-//       ],
-//       raw: true,
-//     },
-//     include: {
-//       model: models.Requests,
-//       attributes: [],
-//     }, 
-//     group: ["Services.id"], 
-//   })
-//   .then((data) => res.send(data))
-//   .catch((error) => {
-//     res.status(500).send(error);
-//   })
-// });
 
-router.get("/requestCount", async (req, res) => {
-  const result = await models.Requests.findAll({
-    where: {
-      status: "requested"
+// SELECT `Users`.`id`, `Users`.`username`, `Users`.`email`, `Users`.`firstname`, `Users`.`lastname`, `Users`.`password`, `Users`.`location`, `Users`.`createdAt`, `Users`.`updatedAt`, COUNT(`Services->Requests`.`id`) AS `requestCount` FROM `Users` AS `Users` LEFT OUTER JOIN `Services` AS `Services` ON `Users`.`id` = `Services`.`UserId` LEFT OUTER JOIN `Requests` AS `Services->Requests` ON `Services`.`id` = `Services->Requests`.`serviceId` WHERE `Users`.`id` = 1 GROUP BY `services`.`id`;
+/* //this is count services ID that got requests xx
+router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
+  const id = req.user_id;
+  await models.Users.findOne({
+    where: {id},
+      // [Op.and]: [{id}, {status: "requested"}]}, 
+    attributes: {
+      include: [
+        [
+          models.Sequelize.fn("COUNT", models.Sequelize.col("Services.Requests.id")),
+          "requestCount",
+        ],
+      ],
+      // raw: true,
+    },
+    include: {
+      model: models.Services,
+      attributes: [],
+      include: {
+        model: models.Requests,
+        attributes:[]
       }
-    })
-    res.send(result)
+    }, 
+    group: ["services.id"], 
+  })
+  .then((data) => res.send(data))
+  .catch((error) => {
+    res.status(500).send(error);
+  })
+}); */
+
+
+// count number of request a loggedIn user received. 
+router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
+  try {
+    const results = await db.sequelize.query('SELECT Users.id, Users.username, Users.email, Users.firstname, Users.lastname, Users.location, Services.id, Services.serviceName, Requests.status, COUNT(Requests.id) AS requestCount FROM Users LEFT JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id', {
+      replacements: {id: req.user_id},
+      type: db.sequelize.QueryTypes.SELECT
+    });
+    res.send(results);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
 });
 
 
+// to calcualte wallet (balance = earning - spending), (available fund = balance - withholding)
+// 1. (+) earning: sum of requests.amount for users ON user.id = services.UserId WHERE requests.status = completed
+// 2. (-) spending: sum of requests.amount for users ON user.id = request.UserId WHERE requests.status = completed
+// 3. (-) withholding: sum of requests.amount for users ON user.id = request.UserId WHERE requests.status = booked
+router.get("/wallet", userShouldBeLoggedIn, async (req, res) => {
+  const initial_fund = 3;
+  let earning, spending, withholding, balance, available_fund;
+  try {
+    earning = await db.sequelize.query('SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS earning FROM Users LEFT JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "completed" GROUP BY Users.id', {
+      replacements: {id: req.user_id},
+      type: db.sequelize.QueryTypes.SELECT
+    });
+    
+    spending = await db.sequelize.query('SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS spending FROM Users LEFT JOIN Requests ON Users.id = Requests.UserId WHERE Users.id = :id AND Requests.status = "completed" GROUP BY Users.id', {
+      replacements: {id: req.user_id},
+      type: db.sequelize.QueryTypes.SELECT
+    });
+    
+    withholding = await db.sequelize.query('SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS withholding FROM Users LEFT JOIN Requests ON Users.id = Requests.UserId WHERE Users.id = :id AND Requests.status = "booked" GROUP BY Users.id', {
+      replacements: {id: req.user_id},
+      type: db.sequelize.QueryTypes.SELECT
+    });
+
+    balance = initial_fund + parseInt(earning[0].earning) - parseInt(spending[0].spending);
+    available_fund = balance - parseInt(withholding[0].withholding);
+    // fix when no data.
+    const data = {
+      balance: balance,
+      availalble_fund: available_fund,
+      earning: parseInt(earning[0].earning),
+      spending: parseInt(spending[0].spending),
+      withholding: parseInt(withholding[0].withholding),
+      initial_fund: initial_fund
+    }
+    res.send(data);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
+
+
+
+
 module.exports = router;
+
+
+
