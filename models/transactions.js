@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Transactions.init({
-    requestId: DataTypes.INTEGER,
+    // requestId: DataTypes.INTEGER,
     amount: DataTypes.INTEGER,
     dateOfBooking: DataTypes.DATEONLY,
     dateOfService: DataTypes.DATEONLY
