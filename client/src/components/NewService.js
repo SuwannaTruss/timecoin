@@ -17,25 +17,14 @@ export default function NewService() {
     setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
-  // const postService = async () => {
-  //   console.log(newService);
-  //   await api.addService(newService);
-  // };
-
   const addService = async () => {
     try {
       console.log(newService);
-      const response = await axios.post(
-        "/services",
-        {
-          newService,
+      const response = await axios.post("/services", newService, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
         },
-        {
-          headers: {
-            "x-access-token": localStorage.getItem("token"),
-          },
-        }
-      );
+      });
       return response;
     } catch (err) {
       console.log(err);
@@ -44,6 +33,12 @@ export default function NewService() {
 
   useEffect(async () => {
     const result = await api.getCategories();
+    setCategories(result.data);
+  }, []);
+
+  useEffect(async () => {
+    const result = await api.getCategories();
+    // console.log(result.data);
     setCategories(result.data);
   }, []);
 
@@ -102,11 +97,13 @@ export default function NewService() {
                         <select
                           className="custom-select"
                           id="inputGroupSelect01"
+                          onChange={handleChange}
+                          name="categoryId"
                         >
-                          <option>Choose...</option>
-                          <option value="1">Teach</option>
-                          <option value="2">Pets</option>
-                          <option value="3">House</option>
+                          <option selected>Choose...</option>
+                          {categories.map((c) => (
+                            <option value={c.id}>{c.categoryName}</option>
+                          ))}
                         </select>
                       </div>
 
