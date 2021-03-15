@@ -3,7 +3,11 @@ import axios from "axios";
 export default {
   async getService(id) {
     try {
-      const response = await axios.get(`/services/${id}`);
+      const response = await axios.get(`/services/${id}`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
       return response;
     } catch (err) {
       console.log(err);
@@ -74,4 +78,18 @@ export default {
       console.log(err);
     }
   },
+
+  // async sendRequest(newRequest) {
+  //   console.log(newRequest);
+  //   try {
+  //     const response = await axios.post("/requests", newRequest, {
+  //       headers: {
+  //         "x-access-token": localStorage.getItem("token"),
+  //       },
+  //     });
+  //     return response;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
 };
