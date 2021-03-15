@@ -5,18 +5,42 @@ import useAuth from "../hooks/useAuth";
 
 export default function NewService() {
   const auth = useAuth();
+  const [categories, setCategories] = useState([]);
 
-  const [newService, setNewService] = useState([
-    { description: "", servicename: "" },
-  ]);
+  const [newService, setNewService] = useState({
+    servicename: "",
+    description: "",
+    categoryId: "",
+  });
 
   const handleChange = (e) => {
     setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
-  const postService = async () => {
-    await api.addService(newService);
+  const addService = async () => {
+    try {
+      console.log(newService);
+      const response = await axios.post("/services", newService, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  useEffect(async () => {
+    const result = await api.getCategories();
+    setCategories(result.data);
+  }, []);
+
+  useEffect(async () => {
+    const result = await api.getCategories();
+    // console.log(result.data);
+    setCategories(result.data);
+  }, []);
 
   return (
     <div>
@@ -33,7 +57,7 @@ export default function NewService() {
                     </h1>
                   </div>
                   <div className="col-md-9 service-form">
-                    <div className="new-service-img mb-3">
+                    <div className="new-service-img">
                       <img
                         src="https://themighty.com/wp-content/uploads/2020/03/GettyImages-1152840785-2-640x213.jpg?v=1585671432"
                         alt="new_service_img"
@@ -73,11 +97,13 @@ export default function NewService() {
                         <select
                           className="custom-select"
                           id="inputGroupSelect01"
+                          onChange={handleChange}
+                          name="categoryId"
                         >
-                          <option>Choose...</option>
-                          <option value="teach">Teach</option>
-                          <option value="pets">Pets</option>
-                          <option value="house">House</option>
+                          <option selected>Choose...</option>
+                          {categories.map((c) => (
+                            <option value={c.id}>{c.categoryName}</option>
+                          ))}
                         </select>
                       </div>
 
@@ -85,7 +111,7 @@ export default function NewService() {
                         <button
                           type="button"
                           className="btn btn-outline-dark  btn-lg btn-block"
-                          onClick={postService}
+                          onClick={addService}
                         >
                           Send
                         </button>

@@ -12,13 +12,16 @@ module.exports = (sequelize, DataTypes) => {
   //    */
     static associate(models) {
       Requests.belongsTo(models.Users)
-      Requests.belongsTo(models.Transactions)
-      Requests.hasMany(models.Services)
+      // Requests.belongsTo(models.Transactions)
+      Requests.belongsTo(models.Services, { foreignKey: "serviceId"})
     }
   };
   Requests.init({
     storage: DataTypes.STRING,
-    status: DataTypes.BOOLEAN
+    status: DataTypes.STRING,
+    amount: DataTypes.INTEGER,
+    serviceDate: DataTypes.DATEONLY,
+    serviceTime: DataTypes.TIME
   }, {
     sequelize,
     modelName: 'Requests',

@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
   const id = req.user_id;
-  const user = await models.Users.findOne({
+  models.Users.findOne({
     attributes: [
       "id",
       "username",
@@ -65,9 +65,15 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
       "location",
     ],
     where: { id },
-    include: models.Services,
+    include: {
+      model: models.Services,
+      attributes: [ "id", "servicename", "description"]
+    }
+  })
+  .then((data) => res.send(data))
+  .catch((error) => {
+    res.status(500).send(error);
   });
-  res.send(user);
 });
 
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
@@ -77,5 +83,41 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
   });
   res.send(user);
 });
+
+// for Seller (User who offer service, this is UserId in services table.
+// router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
+//   const UserId = req.user_id;
+//   await models.Services.findAll({
+//     where: {UserId},
+//     attributes: {
+//       include: [
+//         [
+//           models.Sequelize.fn("COUNT", models.Sequelize.col("Requests.id")),
+//           "requestCount",
+//         ],
+//       ],
+//       raw: true,
+//     },
+//     include: {
+//       model: models.Requests,
+//       attributes: [],
+//     }, 
+//     group: ["Services.id"], 
+//   })
+//   .then((data) => res.send(data))
+//   .catch((error) => {
+//     res.status(500).send(error);
+//   })
+// });
+
+router.get("/requestCount", async (req, res) => {
+  const result = await models.Requests.findAll({
+    where: {
+      status: "requested"
+      }
+    })
+    res.send(result)
+});
+
 
 module.exports = router;

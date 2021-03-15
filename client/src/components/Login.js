@@ -20,6 +20,10 @@ export default function Login() {
   const login = () => {
     auth.signin(user);
   };
+
+  const logout = () => {
+    auth.signout();
+  };
   // const login = () => {
   //   fetch("/users/login", {
   //     method: "POST",
@@ -69,8 +73,11 @@ export default function Login() {
           type="password"
           className="form-control mb-2"
         />
-        <button className=" btn btn-primary" onClick={login}>
+        <button className=" btn btn-dark" onClick={login}>
           Log in
+        </button>
+        <button className=" btn btn-outline-dark" onClick={logout}>
+          Logout
         </button>
       </div>
     </div>

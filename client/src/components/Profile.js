@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 // import authContext from "../contexts/auth";
 // import { useHistory } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import api from "../data/index.js";
 
 export default function Profile() {
@@ -12,7 +12,6 @@ export default function Profile() {
 
   useEffect(async () => {
     const result = await api.getProfile();
-
     setProfile(result.data);
   }, []);
 
@@ -47,7 +46,8 @@ export default function Profile() {
             <div className="bg-light p-4 d-flex justify-content-end text-center">
               <li className="list-inline-item">
                 <h5 className="font-weight-bold mb-0 d-block text-muted">
-                  <i class="fas fa-wallet"></i> My Wallet
+                  <i className="fas fa-wallet"></i>
+                  My Wallet
                 </h5>
               </li>
             </div>
@@ -64,7 +64,7 @@ export default function Profile() {
                   <div className="row justify-content">
                     {profile.Services.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
-                        <NavLink to="/service/:id">
+                        <NavLink to={`/my-service/${s.id}`}>
                           <img
                             src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
                             className="card-img-top"
