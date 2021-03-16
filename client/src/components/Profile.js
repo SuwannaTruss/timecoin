@@ -62,7 +62,7 @@ export default function Profile() {
                 <h5 className="font-weight-bold mb-0 d-block text-muted">
                   <i className="fas fa-wallet"></i>
                   My Wallet 
-                  <small>   (Balance: {auth.wallet.balance}  Available: {auth.wallet.availalble_fund})</small> 
+                  <small>   (Balance: {auth.wallet.balance}  Available: {auth.wallet.available_fund})</small> 
                 </h5>
               </li>
             </div>

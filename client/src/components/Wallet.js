@@ -18,14 +18,13 @@ export default function Wallet() {
             </div>
             <div className="bg-white shadow rounded overflow-hidden">
               <ul>
-                <li className="p-3">Initial fund: {auth.wallet.initial_fund}</li>
+                {/* <li className="p-3">Initial fund: {auth.wallet.initial_fund}</li> */}
                 <li className="p-3">Balance: {auth.wallet.balance}</li>
                 <li className="p-3">Earning: {auth.wallet.earning}</li>
                 <li className="p-3">Spending: {auth.wallet.spending}</li>
                 <li className="p-3">Available fund: {auth.wallet.available_fund}</li>
                 <li className="p-3">Withholding: {auth.wallet.withholding}</li>
               </ul>
-
             </div>
           </div>
         </div>

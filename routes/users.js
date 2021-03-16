@@ -165,7 +165,7 @@ router.get("/wallet", userShouldBeLoggedIn, async (req, res) => {
     
     const data = {
       balance: balance,
-      availalble_fund: available_fund,
+      available_fund: available_fund,
       earning: earning,
       spending: spending,
       withholding: withholding,
