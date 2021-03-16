@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import useWallet from "../hooks/useWallet";
+
 // import axios from "axios";
 // import { useHistory } from "react-router-dom";
 // import authContext from "../contexts/auth";
@@ -12,20 +12,20 @@ export default function Login() {
   });
 
   const auth = useAuth();
-  const wallet = useWallet();
 
   const handleChange = (e) => {
     e.persist();
     setUser((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
-  const login = () => {
-    auth.signin(user);
-    wallet.getwallet();
+  const login = async () => {
+    await auth.signin(user);
+    auth.getWallet();
   };
 
   const logout = () => {
     auth.signout();
+    auth.clearWallet();
   };
 
   return (

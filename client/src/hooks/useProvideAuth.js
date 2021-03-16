@@ -37,17 +37,23 @@ function useProvideAuth() {
         },
       });
       setWallet(response.data);
+      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
+
+  const clearWallet = () => {
+    setWallet({});
+  };
 
   return {
     isLoggedIn,
     signin,
     signout,
     wallet,
-    getWallet
+    getWallet,
+    clearWallet
   };
 }
 

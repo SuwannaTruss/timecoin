@@ -83,6 +83,22 @@ const api = {
   //     console.log(err);
   //   }
   // },
+
+  async getWallet() {
+    try {
+      const response = await axios.get("/users/wallet", {
+        headers: {
+          // to send the token back when make a req to Backend
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+      console.log(response.data);
+      return (response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 };
 
 export default api;
