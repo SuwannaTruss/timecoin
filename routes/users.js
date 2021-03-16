@@ -67,13 +67,13 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
     where: { id },
     include: {
       model: models.Services,
-      attributes: [ "id", "servicename", "description"]
-    }
+      attributes: ["id", "servicename", "description", "categoryId"],
+    },
   })
-  .then((data) => res.send(data))
-  .catch((error) => {
-    res.status(500).send(error);
-  });
+    .then((data) => res.send(data))
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
@@ -101,8 +101,8 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
 //     include: {
 //       model: models.Requests,
 //       attributes: [],
-//     }, 
-//     group: ["Services.id"], 
+//     },
+//     group: ["Services.id"],
 //   })
 //   .then((data) => res.send(data))
 //   .catch((error) => {
@@ -113,11 +113,10 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
 router.get("/requestCount", async (req, res) => {
   const result = await models.Requests.findAll({
     where: {
-      status: "requested"
-      }
-    })
-    res.send(result)
+      status: "requested",
+    },
+  });
+  res.send(result);
 });
-
 
 module.exports = router;
