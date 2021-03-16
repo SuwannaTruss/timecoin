@@ -157,15 +157,18 @@ router.get("/wallet", userShouldBeLoggedIn, async (req, res) => {
       type: db.sequelize.QueryTypes.SELECT
     });
 
-    balance = initial_fund + parseInt(earning[0].earning) - parseInt(spending[0].spending);
-    available_fund = balance - parseInt(withholding[0].withholding);
-    // fix when no data.
+    earning = (earning.length) ? parseInt(earning[0].earning) : 0,
+    spending = (spending.length) ? parseInt(spending[0].spending) : 0,
+    withholding = (withholding.length) ? parseInt(withholding[0].withholding) : 0,
+    balance = initial_fund + earning - spending;
+    available_fund = balance - withholding;
+    
     const data = {
       balance: balance,
       availalble_fund: available_fund,
-      earning: parseInt(earning[0].earning),
-      spending: parseInt(spending[0].spending),
-      withholding: parseInt(withholding[0].withholding),
+      earning: earning,
+      spending: spending,
+      withholding: withholding,
       initial_fund: initial_fund
     }
     res.send(data);
