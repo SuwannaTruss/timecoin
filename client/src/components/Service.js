@@ -104,7 +104,7 @@ export default function Service() {
                       id="inputGroupSelect01"
                       className="form-control"
                       name="amount"
-                      placeholder="How many hours do you need?"
+                      placeholder="For how many hours?"
                       value={newRequest.amount}
                       onChange={handleChange}
                     />
