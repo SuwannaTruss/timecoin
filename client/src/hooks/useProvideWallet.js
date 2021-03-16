@@ -16,7 +16,7 @@ function useProvideWallet() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-      setWallet(response);
+      setWallet(response.data);
     } catch (err) {
       console.log(err);
     }

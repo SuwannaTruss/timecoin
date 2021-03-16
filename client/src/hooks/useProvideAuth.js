@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 function useProvideAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [wallet, setWallet] = useState({});
 
   const history = useHistory();
 
@@ -27,10 +28,26 @@ function useProvideAuth() {
     cb();
   };
 
+  const getWallet = async () => {
+    try {
+      const response = await axios.get("/users/wallet", {
+        headers: {
+          // to send the token back when make a req to Backend
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+      setWallet(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return {
     isLoggedIn,
     signin,
     signout,
+    wallet,
+    getWallet
   };
 }
 

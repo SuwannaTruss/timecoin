@@ -1,12 +1,10 @@
 import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import useWallet from "../hooks/useWallet";
 
 export default function NavBar() {
   const auth = useAuth();
   const history = useHistory();
-  const wallet = useWallet();
 
   const logout = () => {
     auth.signout(() => history.push("/login"));
@@ -58,7 +56,7 @@ export default function NavBar() {
               </li>
               <li>
                 <NavLink to="/wallet" className="nav-item dropdown">
-                  Balance: {wallet.wallet.balance}
+                  Balance: {auth.wallet.earning}
                 </NavLink>
               </li>
             </ul>
