@@ -54,7 +54,7 @@ export default function Service() {
           <h3 className="p-3"> {service.servicename}</h3>
           <div className="container service-container mb-5">
             <div className="row">
-              <div className="col-md-4 ads back-container-service">
+              <div className="col-md-3 ads back-container-service">
                 <h1 className="col-3">
                   <span id="fl">Request</span>
                   <span id="sl">Service</span>
@@ -70,7 +70,7 @@ export default function Service() {
                       </label>
                     </div>
                     <input
-                      type="text"
+                      type="date"
                       id="inputGroupSelect02"
                       className="form-control"
                       name="serviceDate"
@@ -88,7 +88,7 @@ export default function Service() {
                       </label>
                     </div>
                     <input
-                      type="text"
+                      type="time"
                       id="inputGroupSelect03"
                       className="form-control"
                       name="serviceTime"
@@ -138,7 +138,7 @@ export default function Service() {
                   <div className="form-group">
                     <button
                       type="button"
-                      className="btn btn-outline-dark  btn-lg btn-block"
+                      className="btn btn-dark  btn-lg btn-block"
                       onClick={sendRequest}
                     >
                       Send Request
@@ -146,7 +146,7 @@ export default function Service() {
                   </div>
                 </form>
               </div>
-              <div className="col-md-8 service-form">
+              <div className="col-md-9 service-form">
                 <div key={service.id} className="col-3">
                   {/* <div className="card shadow service-card col m-2"> */}
 
