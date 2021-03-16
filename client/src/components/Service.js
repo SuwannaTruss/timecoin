@@ -3,10 +3,9 @@ import { NavLink } from "react-router-dom";
 import api from "../data/index.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
 export default function Service() {
   const { id } = useParams();
-  const [service, setService] = useState([]);
+  const [service, setService] = useState({ User: {} });
 
   const [newRequest, setNewRequest] = useState({
     serviceId: id,
@@ -16,11 +15,18 @@ export default function Service() {
     storage: "",
   });
 
-  useEffect(async () => {
-    const result = await api.getService(id);
-    console.log(result.data.User.username);
-    setService(result.data);
-  }, []);
+  useEffect(() => {
+    async function getService() {
+      try {
+        const result = await api.getService(id);
+        console.log(result.data.User.username);
+        setService(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getService();
+  }, [id]);
 
   const handleChange = (e) => {
     setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
@@ -64,7 +70,7 @@ export default function Service() {
                       </label>
                     </div>
                     <input
-                      type="text"
+                      type="date"
                       id="inputGroupSelect02"
                       className="form-control"
                       name="serviceDate"
@@ -82,7 +88,7 @@ export default function Service() {
                       </label>
                     </div>
                     <input
-                      type="text"
+                      type="time"
                       id="inputGroupSelect03"
                       className="form-control"
                       name="serviceTime"
@@ -104,7 +110,7 @@ export default function Service() {
                       id="inputGroupSelect01"
                       className="form-control"
                       name="amount"
-                      placeholder="How many hours do you need?"
+                      placeholder="For how many hours?"
                       value={newRequest.amount}
                       onChange={handleChange}
                     />
@@ -132,7 +138,7 @@ export default function Service() {
                   <div className="form-group">
                     <button
                       type="button"
-                      className="btn btn-outline-dark  btn-lg btn-block"
+                      className="btn btn-dark  btn-lg btn-block"
                       onClick={sendRequest}
                     >
                       Send Request
@@ -149,10 +155,12 @@ export default function Service() {
 
                     <h6 className="">Description: {service.description}</h6>
                   </div>
+
                   <div className="">
                     <h5>{`${service.User.firstname} ${service.User.lastname}`}</h5>
                     {service.User.location}
                   </div>
+
                   {/* </div> */}
                   <button className="btn btn-sm btn-danger m-2">
                     Chat with {service.User.firstname}

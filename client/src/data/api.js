@@ -1,17 +1,12 @@
 import axios from "axios";
 
-export default {
-  async getService(id) {
-    try {
-      const response = await axios.get(`/services/${id}`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
+const api = {
+  getService(id) {
+    return axios.get(`/services/${id}`, {
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    });
   },
 
   async getServices() {
@@ -65,18 +60,14 @@ export default {
       console.log(err);
     }
   },
-  async getUsers() {
-    try {
-      const response = await axios.get("/users", {
-        headers: {
-          // to send the token back when make a req to Backend
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
+
+  getUsers() {
+    return axios.get("/users", {
+      headers: {
+        // to send the token back when make a req to Backend
+        "x-access-token": localStorage.getItem("token"),
+      },
+    });
   },
 
   // async sendRequest(newRequest) {
@@ -93,3 +84,5 @@ export default {
   //   }
   // },
 };
+
+export default api;
