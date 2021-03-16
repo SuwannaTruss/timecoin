@@ -3,10 +3,20 @@ import { NavLink } from "react-router-dom";
 import api from "../data/index.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
 export default function Service() {
   const { id } = useParams();
-  const [service, setService] = useState([]);
+  const [service, setService] = useState([
+    {
+      id: "",
+      servicename: "",
+      description: "",
+      User: {
+        firstname: "",
+        lastname: "",
+        location: "",
+      },
+    },
+  ]);
 
   const [newRequest, setNewRequest] = useState({
     serviceId: id,
@@ -18,8 +28,8 @@ export default function Service() {
 
   useEffect(async () => {
     const result = await api.getService(id);
-    console.log(result.data.User.username);
-    setService(result.data);
+    console.log(result);
+    // setService(result.data);
   }, []);
 
   const handleChange = (e) => {
@@ -48,7 +58,7 @@ export default function Service() {
           <h3 className="p-3"> {service.servicename}</h3>
           <div className="container service-container mb-5">
             <div className="row">
-              <div className="col-md-3 ads back-container-service">
+              <div className="col-md-4 ads back-container-service">
                 <h1 className="col-3">
                   <span id="fl">Request</span>
                   <span id="sl">Service</span>
@@ -140,7 +150,7 @@ export default function Service() {
                   </div>
                 </form>
               </div>
-              <div className="col-md-9 service-form">
+              <div className="col-md-8 service-form">
                 <div key={service.id} className="col-3">
                   {/* <div className="card shadow service-card col m-2"> */}
 
