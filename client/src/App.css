@@ -60,6 +60,12 @@
   background: #eabf9f !important;
 }
 
+/* service request component */
+
+.back-container-service {
+  background-color: #11698e;
+  opacity: 0.9;
+}
 /* .new-service-container {
   background-color: #faf3e0;
 } */

@@ -32,26 +32,27 @@ function App() {
             <PrivateRoute path="/profile">
               <Profile />
             </PrivateRoute>
+            <PrivateRoute path="/my-service/:id">
+              <MyService />
+            </PrivateRoute>
             <Route path="/service/:id">
               <Service />
             </Route>
-            <Route path="/my-service/:id">
-              <MyService />
-            </Route>
+
             <PrivateRoute path="/new-service">
               <NewService />
             </PrivateRoute>
             <Route path="/wallet">
               <Wallet />
             </Route>
+            <Route path="/">
+              <Home />
+            </Route>
             <PrivateRoute>
               <ProtectedHome />
             </PrivateRoute>
             <Route>
               <PublicHome />
-            </Route>
-            <Route path="/">
-              <Home />
             </Route>
           </Switch>
         </div>

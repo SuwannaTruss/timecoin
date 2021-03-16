@@ -1,14 +1,15 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 export default function NavBar() {
   const auth = useAuth();
+  const history = useHistory();
 
   const logout = () => {
-    auth.signout();
+    auth.signout(() => history.push("/login"));
   };
-  // onClick={logout}
+
   return (
     <div>
       <div>
@@ -31,24 +32,27 @@ export default function NavBar() {
           <div id="navbarSupportedContent" className="collapse navbar-collapse">
             <ul className="navbar-nav ml-auto">
               <li className="mx-1">
-                <NavLink to="/register" className="nav-item dropdown">
-                  Register
-                </NavLink>
+                {!auth.isLoggedIn && <NavLink to="/register">Register</NavLink>}
               </li>
               <li className="mx-1">
-                <NavLink to="/profile" className="nav-item dropdown">
-                  Profile
-                </NavLink>
+                {auth.isLoggedIn && <NavLink to="/profile">Profile</NavLink>}
               </li>
               <li className="mx-1">
-                <NavLink to="/login" className="nav-item dropdown">
-                  {!auth.isLoggedIn && "Login"}
-                </NavLink>
+                {!auth.isLoggedIn && (
+                  <NavLink to="/login" className="nav-item dropdown">
+                    Login
+                  </NavLink>
+                )}
               </li>
               <li className="mx-1">
-                <NavLink to="/login" className="nav-item dropdown">
+                {auth.isLoggedIn && (
+                  <button onClick={logout} className="btn btn-sm btn-dark">
+                    Logout
+                  </button>
+                )}
+                {/* <NavLink to="/login" className="nav-item dropdown">
                   {auth.isLoggedIn && "Logout"}
-                </NavLink>
+                </NavLink> */}
               </li>
               <li>
                 <NavLink to="/wallet" className="nav-item dropdown">
