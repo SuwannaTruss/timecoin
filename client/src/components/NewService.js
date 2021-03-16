@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import api from "../data/index.js";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
@@ -13,6 +14,8 @@ export default function NewService() {
     categoryId: "",
   });
 
+  const history = useHistory();
+
   const handleChange = (e) => {
     setNewService((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
@@ -25,7 +28,7 @@ export default function NewService() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-      return response;
+      if (response) history.push("/profile");
     } catch (err) {
       console.log(err);
     }
