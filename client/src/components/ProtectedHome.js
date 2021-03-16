@@ -8,10 +8,16 @@ export default function ProtectedHome() {
   const [users, setUsers] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  useEffect(async () => {
-    const result = await api.getUsers();
-    // console.log(result.data);
-    setUsers(result.data);
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const result = await api.getUsers();
+        setUsers(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getUsers();
   }, []);
 
   useEffect(async () => {

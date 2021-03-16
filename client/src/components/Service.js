@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 export default function Service() {
   const { id } = useParams();
-  const [service, setService] = useState([]);
+  const [service, setService] = useState({ User: {} });
 
   const [newRequest, setNewRequest] = useState({
     serviceId: id,
@@ -16,11 +16,18 @@ export default function Service() {
     storage: "",
   });
 
-  useEffect(async () => {
-    const result = await api.getService(id);
-    console.log(result.data.User.username);
-    setService(result.data);
-  }, []);
+  useEffect(() => {
+    async function getService() {
+      try {
+        const result = await api.getService(id);
+        console.log(result.data.User.username);
+        setService(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getService();
+  }, [id]);
 
   const handleChange = (e) => {
     setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
@@ -149,10 +156,12 @@ export default function Service() {
 
                     <h6 className="">Description: {service.description}</h6>
                   </div>
+
                   <div className="">
                     <h5>{`${service.User.firstname} ${service.User.lastname}`}</h5>
                     {service.User.location}
                   </div>
+
                   {/* </div> */}
                   <button className="btn btn-sm btn-danger m-2">
                     Chat with {service.User.firstname}
