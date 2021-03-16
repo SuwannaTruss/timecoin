@@ -36,17 +36,4 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  const { categoryName, image } = req.body;
-  try {
-    await models.Categories.create({
-      categoryName: categoryName,
-      image: image,
-    });
-    res.send({ message: "Your category has been uploaded." });
-  } catch (err) {
-    res.status(400).send({ message: err.message });
-  }
-});
-
 module.exports = router;
