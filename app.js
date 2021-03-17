@@ -39,11 +39,6 @@ app.use("/services", servicesRouter);
 app.use("/categories", categoriesRouter);
 app.use("/requests", requestsRouter);
 
-//instructions from heroku README file
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
-});
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -58,6 +53,11 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.send("error");
+
+  //instructions from heroku README file
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  });
 });
 
 module.exports = app;
