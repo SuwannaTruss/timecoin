@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
+
 // import axios from "axios";
 // import { useHistory } from "react-router-dom";
 // import authContext from "../contexts/auth";
@@ -17,12 +18,14 @@ export default function Login() {
     setUser((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
-  const login = () => {
-    auth.signin(user);
+  const login = async () => {
+    await auth.signin(user);
+    auth.getWallet();
   };
 
   const logout = () => {
     auth.signout();
+    auth.clearWallet();
   };
 
   return (
