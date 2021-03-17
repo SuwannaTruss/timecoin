@@ -49,7 +49,7 @@ router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   try {
-    await models.Requests.update(
+    const request = await models.Requests.update(
       {
         status: status,
       },
@@ -57,6 +57,7 @@ router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
         where: { id },
       }
     );
+    console.log("i'm here", request);
     res.send({ message: "The service request has been approved." });
   } catch (err) {
     res.status(400).send({ message: err.message });

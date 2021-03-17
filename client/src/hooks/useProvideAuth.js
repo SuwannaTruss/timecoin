@@ -8,18 +8,17 @@ function useProvideAuth() {
 
   const history = useHistory();
 
-  const signin = (user, cb = () => {}) => {
-    axios
-      .post("/users/login", user)
-      .then((result) => {
-        //store it locally
-        localStorage.setItem("token", result.data.token);
-        setIsLoggedIn(true);
+  const signin = async (user, cb = () => {}) => {
+    const result = await axios.post("/users/login", user);
 
-        // an open door so we can do anything after logging in
-        cb();
-      })
-      .catch((error) => console.log(error));
+    //store it locally
+    localStorage.setItem("token", result.data.token);
+    setIsLoggedIn(true);
+
+    // an open door so we can do anything after logging in
+    cb();
+
+    // .c/atch((error) => console.log(error));
   };
 
   const signout = (cb = () => {}) => {
@@ -53,7 +52,7 @@ function useProvideAuth() {
     signout,
     wallet,
     getWallet,
-    clearWallet
+    clearWallet,
   };
 }
 
