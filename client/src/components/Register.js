@@ -10,6 +10,7 @@ export default function Register() {
     firstname: "",
     lastname: "",
     location: "",
+    picture: "",
   });
 
   const history = useHistory();
@@ -99,6 +100,14 @@ export default function Register() {
           type="text"
           className="form-control mb-2"
           placeholder="location"
+        />
+        <input
+          value={user.picture}
+          onChange={handleChange}
+          name="picture"
+          type="file"
+          className="form-control mb-2"
+          placeholder="picture"
         />
         <button className=" btn btn-primary" onClick={registerUser}>
           Sign up

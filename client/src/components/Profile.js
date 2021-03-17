@@ -17,15 +17,23 @@ export default function Profile() {
 
   const images = (x) => {
     if (x === 1) {
+      //education
       return "https://img.icons8.com/plasticine/2x/cat-footprint.pnghttps://img.icons8.com/bubbles/2x/flip-chart.png";
     } else if (x === 2) {
+      //outdoor
       return "https://img.icons8.com/clouds/2x/outdoor-swimming-pool.png";
     } else if (x === 3) {
+      //housework
       return "https://img.icons8.com/officel/2x/kitchen-room.png";
     } else if (x === 4) {
+      //caring || people
       return "https://img.icons8.com/bubbles/2x/user-group-woman-woman.png";
     } else if (x === 5) {
+      // pet
       return "https://img.icons8.com/plasticine/2x/cat-footprint.png";
+    } else if (x === 6) {
+      //food
+      return "https://img.icons8.com/bubbles/2x/food.png";
     } else return "https://img.icons8.com/bubbles/2x/stack-of-photos.png";
   };
 

@@ -17,7 +17,7 @@ function TestImage() {
     const formData = new FormData();
 
     // Update the formData object
-    formData.append("imagefile", selectedFile, selectedFile.name);
+    formData.append("picture", selectedFile, selectedFile.name);
 
     try {
       // Request made to the backend api
