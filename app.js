@@ -5,14 +5,20 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var fileUpload = require("express-fileupload");
 
+var bodyParser = require("body-parser");
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var servicesRouter = require("./routes/services");
 var categoriesRouter = require("./routes/categories");
 var requestsRouter = require("./routes/requests");
+// var chatRouter = require("./routes/chat");
 
 var app = express();
 
+// app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -23,7 +29,7 @@ app.use(
     tempFileDir: "./tmp/",
   })
 );
-// app.use(express.static(path.join(__dirname, "public")));
+
 app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(express.static("public"));
 

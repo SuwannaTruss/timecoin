@@ -54,11 +54,12 @@ export default function NavBar() {
                   {auth.isLoggedIn && "Logout"}
                 </NavLink> */}
               </li>
+              {auth.isLoggedIn && 
               <li>
                 <NavLink to="/wallet" className="nav-item dropdown">
-                  Balance: 2h
+                  Balance: {auth.wallet.balance}
                 </NavLink>
-              </li>
+              </li> }
             </ul>
           </div>
         </nav>

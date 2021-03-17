@@ -10,9 +10,23 @@ export default function Profile() {
 
   const [profile, setProfile] = useState({ Services: [] });
 
-  useEffect(async () => {
-    const result = await api.getProfile();
-    setProfile(result.data);
+  // useEffect(async () => {
+  //   const result = await api.getProfile();
+  //   setProfile(result.data);
+  // }, []);
+
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        const result = await api.getProfile();
+        console.log(result.data);
+        setProfile(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    auth.getWallet();
+    getProfile();
   }, []);
 
   const images = (x) => {
@@ -73,7 +87,8 @@ export default function Profile() {
               <li className="list-inline-item">
                 <h5 className="font-weight-bold mb-0 d-block text-muted">
                   <i className="fas fa-wallet"></i>
-                  My Wallet
+                  My Wallet 
+                  <small>   (Balance: {auth.wallet.balance}  Available: {auth.wallet.available_fund})</small> 
                 </h5>
               </li>
             </div>
