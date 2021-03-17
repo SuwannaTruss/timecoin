@@ -3,14 +3,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    location: "",
-  });
+  const [user, setUser] = useState({});
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const history = useHistory();
 
@@ -19,29 +13,24 @@ export default function Register() {
     setUser((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
-  // const registerUser = () => {
-  //   fetch("/users/register", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(user),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.message);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const onFileChange = (event) => {
+    // Update the state
+    setSelectedFile(event.target.files[0]);
+  };
 
   const registerUser = async (req, res) => {
+    const formData = new FormData();
+    formData.append("imagefile", selectedFile, selectedFile.name);
+    Object.keys(user).forEach((key) => {
+      formData.append(key, user[key]);
+    });
+
     try {
-      let result = await axios.post("/users/register", user);
-      //history push: home page / register / login
-      //history replace: home page / login
-      //push from actual url ("/register") to url("/login")
+      let result = await axios.post("/users/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (result) history.push("/login");
     } catch (err) {
       res.status(400).send({ message: err.message });
@@ -99,6 +88,11 @@ export default function Register() {
           type="text"
           className="form-control mb-2"
           placeholder="location"
+        />
+        <input
+          type="file"
+          className="form-control mb-2"
+          onChange={onFileChange}
         />
         <button className=" btn btn-primary" onClick={registerUser}>
           Sign up

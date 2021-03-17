@@ -15,6 +15,28 @@ export default function Profile() {
     setProfile(result.data);
   }, []);
 
+  const images = (x) => {
+    if (x === 1) {
+      //education
+      return "https://img.icons8.com/plasticine/2x/cat-footprint.pnghttps://img.icons8.com/bubbles/2x/flip-chart.png";
+    } else if (x === 2) {
+      //outdoor
+      return "https://img.icons8.com/clouds/2x/outdoor-swimming-pool.png";
+    } else if (x === 3) {
+      //housework
+      return "https://img.icons8.com/officel/2x/kitchen-room.png";
+    } else if (x === 4) {
+      //caring || people
+      return "https://img.icons8.com/bubbles/2x/user-group-woman-woman.png";
+    } else if (x === 5) {
+      // pet
+      return "https://img.icons8.com/plasticine/2x/cat-footprint.png";
+    } else if (x === 6) {
+      //food
+      return "https://img.icons8.com/bubbles/2x/food.png";
+    } else return "https://img.icons8.com/bubbles/2x/stack-of-photos.png";
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -25,7 +47,11 @@ export default function Profile() {
               <div className="media align-items-end profile-head">
                 <div className="profile mr-3">
                   <img
-                    src="https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg"
+                    src={
+                      profile.picture
+                        ? `/img/${profile.picture}`
+                        : "https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg"
+                    }
                     alt="..."
                     width="130"
                     className="rounded mb-2 img-thumbnail"
@@ -51,12 +77,12 @@ export default function Profile() {
                 </h5>
               </li>
             </div>
-            <div className="px-4 py-3">
+            {/* <div className="px-4 py-3">
               <h5 className="mb-0">About</h5>
               <div className="p-4 rounded shadow-sm bg-light">
                 <p>If we need it</p>
               </div>
-            </div>
+            </div> */}
             <div className="py-4 px-5">
               <h3 className="mb-1 text-center">SERVICES</h3>
               <div className="row">
@@ -66,7 +92,7 @@ export default function Profile() {
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
                         <NavLink to={`/my-service/${s.id}`}>
                           <img
-                            src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
+                            src={images(s.categoryId)}
                             className="card-img-top"
                             alt="..."
                           />

@@ -20,6 +20,22 @@ export default function PublicHome() {
     setCategories(result.data);
   }, []);
 
+  const images = (x) => {
+    if (x === 1) {
+      return "https://img.icons8.com/plasticine/2x/cat-footprint.pnghttps://img.icons8.com/bubbles/2x/flip-chart.png";
+    } else if (x === 2) {
+      return "https://img.icons8.com/clouds/2x/outdoor-swimming-pool.png";
+    } else if (x === 3) {
+      return "https://img.icons8.com/officel/2x/kitchen-room.png";
+    } else if (x === 4) {
+      return "https://img.icons8.com/bubbles/2x/user-group-woman-woman.png";
+    } else if (x === 5) {
+      return "https://img.icons8.com/plasticine/2x/cat-footprint.png";
+    } else if (x === 6) {
+      return "https://img.icons8.com/bubbles/2x/food.png";
+    } else return "https://img.icons8.com/bubbles/2x/stack-of-photos.png";
+  };
+
   return (
     <div>
       <div className="container">
@@ -82,7 +98,7 @@ export default function PublicHome() {
                   <div className="card shadow service-card col m-2">
                     <NavLink to={`/service/${s.id}`}>
                       <img
-                        src="https://img.icons8.com/bubbles/2x/stack-of-photos.png"
+                        src={images(s.categoryId)}
                         className="card-img-top"
                         alt="..."
                       />

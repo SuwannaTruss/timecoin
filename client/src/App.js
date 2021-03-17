@@ -15,14 +15,18 @@ import Home from "./components/Home";
 import PublicHome from "./components/PublicHome";
 import ProtectedHome from "./components/ProtectedHome";
 import MyService from "./components/MyService";
+import TestImage from "./components/TestImage";
 
 function App() {
   return (
-    <ProvideAuth>
-      <Router>
+    <Router>
+      <ProvideAuth>
         <NavBar />
         <div className="App container p-5">
           <Switch>
+            <Route path="/test-image">
+              <TestImage />
+            </Route>
             <Route path="/login">
               <Login />
             </Route>
@@ -56,8 +60,8 @@ function App() {
             </Route>
           </Switch>
         </div>
-      </Router>
-    </ProvideAuth>
+      </ProvideAuth>
+    </Router>
   );
 }
 
