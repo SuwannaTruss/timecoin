@@ -19,8 +19,8 @@ import TestImage from "./components/TestImage";
 
 function App() {
   return (
-    <ProvideAuth>
-      <Router>
+    <Router>
+      <ProvideAuth>
         <NavBar />
         <div className="App container p-5">
           <Switch>
@@ -60,8 +60,8 @@ function App() {
             </Route>
           </Switch>
         </div>
-      </Router>
-    </ProvideAuth>
+      </ProvideAuth>
+    </Router>
   );
 }
 

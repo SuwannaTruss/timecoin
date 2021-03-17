@@ -47,7 +47,11 @@ export default function Profile() {
               <div className="media align-items-end profile-head">
                 <div className="profile mr-3">
                   <img
-                    src="https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg"
+                    src={
+                      profile.picture
+                        ? `/img/${profile.picture}`
+                        : "https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg"
+                    }
                     alt="..."
                     width="130"
                     className="rounded mb-2 img-thumbnail"
@@ -73,12 +77,12 @@ export default function Profile() {
                 </h5>
               </li>
             </div>
-            <div className="px-4 py-3">
+            {/* <div className="px-4 py-3">
               <h5 className="mb-0">About</h5>
               <div className="p-4 rounded shadow-sm bg-light">
                 <p>If we need it</p>
               </div>
-            </div>
+            </div> */}
             <div className="py-4 px-5">
               <h3 className="mb-1 text-center">SERVICES</h3>
               <div className="row">
