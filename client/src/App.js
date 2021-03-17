@@ -15,7 +15,6 @@ import Home from "./components/Home";
 import PublicHome from "./components/PublicHome";
 import ProtectedHome from "./components/ProtectedHome";
 import MyService from "./components/MyService";
-import TestImage from "./components/TestImage";
 
 function App() {
   return (
@@ -24,9 +23,6 @@ function App() {
         <NavBar />
         <div className="App container p-5">
           <Switch>
-            <Route path="/test-image">
-              <TestImage />
-            </Route>
             <Route path="/login">
               <Login />
             </Route>
