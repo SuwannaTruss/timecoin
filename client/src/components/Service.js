@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+
 import api from "../data/index.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -35,7 +35,7 @@ export default function Service() {
   const sendRequest = async () => {
     try {
       console.log(newRequest);
-      const response = await axios.post("/requests", newRequest, {
+      const response = await axios.post(`/requests/${id}`, newRequest, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -46,7 +46,6 @@ export default function Service() {
     }
   };
 
-  //should I create a component My Requests?
   return (
     <div>
       <div className="col mx-auto">
@@ -174,8 +173,3 @@ export default function Service() {
     </div>
   );
 }
-
-// Service component
-// Route: /services/:id
-// Link to: chat, request,
-//need to create button to delete service
