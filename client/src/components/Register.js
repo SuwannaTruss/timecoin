@@ -3,15 +3,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    location: "",
-    picture: "",
-  });
+  const [user, setUser] = useState({});
+  // const [selectedFile, setSelectedFile] = useState(null);
 
   const history = useHistory();
 
@@ -20,29 +13,14 @@ export default function Register() {
     setUser((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
-  // const registerUser = () => {
-  //   fetch("/users/register", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(user),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.message);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
+  // const onFileChange = (event) => {
+  //   // Update the state
+  //   setSelectedFile(event.target.files[0]);
   // };
 
   const registerUser = async (req, res) => {
     try {
       let result = await axios.post("/users/register", user);
-      //history push: home page / register / login
-      //history replace: home page / login
-      //push from actual url ("/register") to url("/login")
       if (result) history.push("/login");
     } catch (err) {
       res.status(400).send({ message: err.message });
@@ -101,14 +79,14 @@ export default function Register() {
           className="form-control mb-2"
           placeholder="location"
         />
-        <input
+        {/* <input
           value={user.picture}
-          onChange={handleChange}
+          onChange={SelectedFile((e) => e.target.files[0])}
           name="picture"
           type="file"
           className="form-control mb-2"
           placeholder="picture"
-        />
+        /> */}
         <button className=" btn btn-primary" onClick={registerUser}>
           Sign up
         </button>

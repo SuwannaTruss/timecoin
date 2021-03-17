@@ -6,7 +6,8 @@ const models = require("../models");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-// import { v4 as uuidv4 } from "uuid";
+const { v4: uuidv4 } = require("uuid");
+var path = require("path");
 var mime = require("mime-types");
 var fs = require("fs/promises");
 
@@ -14,16 +15,16 @@ const supersecret = process.env.SUPER_SECRET;
 
 router.post("/register", async (req, res) => {
   const { username, password, email, firstname, lastname, location } = req.body;
-  // const { picture } = req.files;
-  // const { imagefile } = req.files;
-  // const extension = mime.extension(imagefile.mimetype);
-  // const filename = uuidv4() + "." + extension;
-  // const tmp_path = picture.tempFilePath;
-  // const target_path = path.join(__dirname, "../public/img/") + filename;
+  const { imagefile } = req.files;
+  const extension = mime.extension(imagefile.mimetype);
+  const filename = uuidv4() + "." + extension;
+  const tmp_path = imagefile.tempFilePath;
+  const target_path = path.join(__dirname, "../public/img/") + filename;
 
   try {
     const hash = await bcrypt.hash(password, saltRounds);
     await fs.rename(tmp_path, target_path);
+
     await models.Users.create({
       username,
       password: hash,
@@ -31,7 +32,7 @@ router.post("/register", async (req, res) => {
       firstname,
       lastname,
       location,
-      // picture: filename,
+      picture: filename,
     });
 
     res.send({ message: "Register successful" });
