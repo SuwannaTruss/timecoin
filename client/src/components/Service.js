@@ -35,7 +35,7 @@ export default function Service() {
   const sendRequest = async () => {
     try {
       console.log(newRequest);
-      const response = await axios.post("/requests", newRequest, {
+      const response = await axios.post(`/requests/${id}`, newRequest, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },

@@ -105,9 +105,8 @@ export default function MyService() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-      console.log(response.data);
+
       setRequestsInfo(response.data);
-      console.log(requestsInfo);
     } catch (err) {
       console.log(err);
     }

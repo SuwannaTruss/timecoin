@@ -5,9 +5,10 @@ const models = require("../models");
 
 // services_id is selected by the Users with onClick on the service card
 // user_id of the user who made a request is from token in header
-router.post("/", userShouldBeLoggedIn, async (req, res) => {
+router.post("/:id", userShouldBeLoggedIn, async (req, res) => {
   const UserId = req.user_id;
-  const { id, storage, amount, serviceDate, serviceTime, status } = req.body;
+  const { id } = req.params;
+  const { storage, amount, serviceDate, serviceTime, status } = req.body;
   try {
     await models.Requests.create({
       UserId: UserId,
