@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+
 import api from "../data/index.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -45,36 +45,6 @@ export default function Service() {
       console.log(err);
     }
   };
-
-  const sendRequest = () => {
-    fetch("/requests", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newRequest),
-    })
-      .then(() => {})
-      .catch((error) => {
-        console.log("Error");
-      });
-  };
-  function handleClick() {
-    sendRequest();
-    //userId
-    //serviceId
-    //post request to requests table
-    //pass the token
-  }
-
-  // async getServices() {
-  //   try {
-  //     const response = await axios.get("/services");
-  //     return response;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
 
   return (
     <div>
@@ -198,13 +168,6 @@ export default function Service() {
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <button className="btn btn-lg btn-danger m-2">Message Button</button>
-          <button className="btn btn-lg btn-success m-2">Delete Button</button>
-          <button onClick={handleClick} className="btn btn-lg btn-success mg-2">
-            Request Service Button
-          </button>
         </div>
       </div>
     </div>
