@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Pusher from "pusher";
+// import Pusher from "pusher";
 import axios from "axios";
 
 export default function Chat() {

@@ -46,7 +46,6 @@ export default function Service() {
     }
   };
 
-  //should I create a component My Requests?
   return (
     <div>
       <div className="col mx-auto">
@@ -174,8 +173,3 @@ export default function Service() {
     </div>
   );
 }
-
-// Service component
-// Route: /services/:id
-// Link to: chat, request,
-//need to create button to delete service
