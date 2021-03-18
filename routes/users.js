@@ -98,53 +98,21 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
   res.send(user);
 });
 
-// SELECT `Users`.`id`, `Users`.`username`, `Users`.`email`, `Users`.`firstname`, `Users`.`lastname`, `Users`.`password`, `Users`.`location`, `Users`.`createdAt`, `Users`.`updatedAt`, COUNT(`Services->Requests`.`id`) AS `requestCount` FROM `Users` AS `Users` LEFT OUTER JOIN `Services` AS `Services` ON `Users`.`id` = `Services`.`UserId` LEFT OUTER JOIN `Requests` AS `Services->Requests` ON `Services`.`id` = `Services->Requests`.`serviceId` WHERE `Users`.`id` = 1 GROUP BY `services`.`id`;
-/* //this is count services ID that got requests xx
-router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
-  const id = req.user_id;
-  await models.Users.findOne({
-    where: {id},
-      // [Op.and]: [{id}, {status: "requested"}]}, 
-    attributes: {
-      include: [
-        [
-          models.Sequelize.fn("COUNT", models.Sequelize.col("Services.Requests.id")),
-          "requestCount",
-        ],
-      ],
-      // raw: true,
-    },
-    include: {
-      model: models.Services,
-      attributes: [],
-      include: {
-        model: models.Requests,
-        attributes:[]
-      }
-    }, 
-    group: ["services.id"], 
-  })
-  .then((data) => res.send(data))
-  .catch((error) => {
-    res.status(500).send(error);
-  })
-}); */
-
-// count number of request a loggedIn user received.
-router.get("/requestCount", userShouldBeLoggedIn, async (req, res) => {
-  try {
-    const results = await db.sequelize.query(
-      'SELECT Users.id, Users.username, Users.email, Users.firstname, Users.lastname, Users.location, Services.id, Services.serviceName, Requests.status, COUNT(Requests.id) AS requestCount FROM Users LEFT JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id',
-      {
-        replacements: { id: req.user_id },
-        type: db.sequelize.QueryTypes.SELECT,
-      }
-    );
-    res.send(results);
-  } catch (err) {
-    res.status(400).send({ message: err.message });
-  }
-});
+//New: Get profile with count number of request a loggedIn user received.
+// router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
+//   try {
+//     const results = await db.sequelize.query(
+//       'SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(if(Requests.status = "requested", 1, 0)) AS requestCount FROM Users LEFT JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id',
+//       {
+//         replacements: { id: req.user_id },
+//         type: db.sequelize.QueryTypes.SELECT,
+//       }
+//     );
+//     res.send(results);
+//   } catch (err) {
+//     res.status(400).send({ message: err.message });
+//   }
+// });
 
 // to calcualte wallet (balance = earning - spending), (available fund = balance - withholding)
 // 1. (+) earning: sum of requests.amount for users ON user.id = services.UserId WHERE requests.status = completed
