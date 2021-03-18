@@ -110,6 +110,8 @@ export default function Profile() {
                     {profile.Services.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
                         <NavLink to={`/my-service/${s.id}`}>
+                          {/* {X && 
+                          <span className="notify-badge">X</span>} */}
                           <img
                             src={images(s.categoryId)}
                             className="card-img-top"
@@ -117,8 +119,8 @@ export default function Profile() {
                           />
                         </NavLink>
                         <div className="card-body ">
-                          <h5 className="card-title">{s.servicename}</h5>
-
+                          <h5 className="card-title">{s.servicename}
+                          </h5>
                           <p className="card-text">{s.description}</p>
                         </div>
                       </div>

@@ -58,11 +58,25 @@ router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
         where: { id },
       }
     );
-    console.log("i'm here", request);
-    res.send({ message: "The service request has been approved." });
+    res.send({ message: "The status has been updated" });
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
+});
+
+// My request (of logged in user) to be used in profile
+router.get("/", userShouldBeLoggedIn, async (req, res) => {
+  const UserId = req.user_id;
+  models.Requests.findAll({
+    // attributes: ["id", "storage", "status", "amount", "serviceDate", "serviceTime"],
+    where: { UserId } ,
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 module.exports = router;

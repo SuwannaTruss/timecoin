@@ -20,10 +20,17 @@ export default function ProtectedHome() {
     getUsers();
   }, []);
 
-  useEffect(async () => {
-    const result = await api.getCategories();
-    // console.log(result.data);
-    setCategories(result.data);
+  useEffect(() => {
+    async function getCategories() {
+      try {
+        const result = await api.getCategories();
+        // console.log(result.data);
+        setCategories(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getCategories();
   }, []);
 
   const [searchByName, setSearchByName] = useState("");

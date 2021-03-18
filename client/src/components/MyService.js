@@ -34,7 +34,7 @@ export default function MyService() {
     getService();
     getRequestsCountByService(id);
     getRequestsInfoByService(id);
-  }, [id]);
+  }, [id, requestsCount, requestsInfo]);
 
   const handleChange = (e) => {
     setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
@@ -114,7 +114,6 @@ export default function MyService() {
 
   const updateStatus = async (requestId, newStatus) => {
     try {
-      // await setRequestStatus({status: newStatus});
       const response = await axios.patch(
         `/requests/${requestId}`,
         { status: newStatus },
@@ -125,11 +124,18 @@ export default function MyService() {
         }
       );
       console.log(response.data.message);
-      setNotify(response.data.message);
+      if (response.data.message) { }
+      setNotify(`The status has been updated to ${newStatus}.`);
+      // handleNotify();
     } catch (err) {
       console.log(err);
     }
   };
+
+  // const handleNotify = () => {
+  //   getRequestsCountByService(id);
+  //   getRequestsInfoByService(id);
+  // }
 
   return (
     <div>
@@ -147,7 +153,7 @@ export default function MyService() {
                 Edit
               </button>
               <button
-                className="btn btn-dark  btn-lg col-2 pl-3"
+                className="btn btn-dark  btn-lg col-2 pl-3 ml-2"
                 onClick={deleteService}
               >
                 Delete
@@ -229,25 +235,31 @@ export default function MyService() {
                       {request.User.location}
                     </div>
                     <div className="container mt-2">
-                      <div className="row justify-content-between">
+                      <div className="row justify-space-between">
                         <button
-                          className="col"
                           type="button"
-                          className="btn btn-dark  btn-md "
+                          className="btn btn-dark col g-1"
                           onClick={() => updateStatus(request.id, "booked")}
                         >
                           Approved
                         </button>
                         <button
-                          className="col"
                           type="button"
-                          className="btn btn-dark  btn-md "
+                          className="btn btn-dark col ml-1"
                           onClick={() => updateStatus(request.id, "cancelled")}
                         >
                           Declined
                         </button>
+                        <button
+                          type="button"
+                          className="btn btn-dark col my-1"
+                          onClick={() => updateStatus(request.id, "completed")}
+                        >
+                          Completed
+                        </button>
                       </div>
                     </div>
+                    {notify && <p>{notify}</p>}
                     {/* </div> */}
                     <button className="btn btn-sm btn-danger btn-block mt-2">
                       Chat with {request.User.firstname}

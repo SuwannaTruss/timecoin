@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { BrowserRouter as Redirect, Route } from "react-router-dom";
 
 // import axios from "axios";
 // import { useHistory } from "react-router-dom";
@@ -21,7 +22,13 @@ export default function Login() {
   const login = async () => {
     await auth.signin(user);
     auth.getWallet();
+    // AuthRoute();
+    if (auth.isLoggedIn) return <Redirect to="/"></Redirect>;
   };
+
+  const AuthRoute = () => {
+    if (auth.isLoggedIn) return <Redirect to="/"></Redirect>;
+  }
 
   const logout = () => {
     auth.signout();
@@ -49,9 +56,13 @@ export default function Login() {
         <button className=" btn btn-dark" onClick={login}>
           Log in
         </button>
+        {/* {auth.isLoggedIn && 
+        <Redirect to="/"></Redirect>
+        } */}
         <button className=" btn btn-outline-dark" onClick={logout}>
           Logout
         </button>
+        
       </div>
     </div>
   );
