@@ -30,22 +30,22 @@ export default function Profile() {
   }, []);
 
   const images = (x) => {
-    if (x === 1) {
+    if (x === 4) {
       //education
       return "https://img.icons8.com/plasticine/2x/cat-footprint.pnghttps://img.icons8.com/bubbles/2x/flip-chart.png";
-    } else if (x === 2) {
+    } else if (x === 14) {
       //outdoor
       return "https://img.icons8.com/clouds/2x/outdoor-swimming-pool.png";
-    } else if (x === 3) {
+    } else if (x === 24) {
       //housework
       return "https://img.icons8.com/officel/2x/kitchen-room.png";
-    } else if (x === 4) {
+    } else if (x === 34) {
       //caring || people
       return "https://img.icons8.com/bubbles/2x/user-group-woman-woman.png";
-    } else if (x === 5) {
+    } else if (x === 44) {
       // pet
       return "https://img.icons8.com/plasticine/2x/cat-footprint.png";
-    } else if (x === 6) {
+    } else if (x === 54) {
       //food
       return "https://img.icons8.com/bubbles/2x/food.png";
     } else return "https://img.icons8.com/bubbles/2x/stack-of-photos.png";
@@ -87,8 +87,12 @@ export default function Profile() {
               <li className="list-inline-item">
                 <h5 className="font-weight-bold mb-0 d-block text-muted">
                   <i className="fas fa-wallet"></i>
-                  My Wallet 
-                  <small>   (Balance: {auth.wallet.balance}  Available: {auth.wallet.available_fund})</small> 
+                  My Wallet
+                  <small>
+                    {" "}
+                    (Balance: {auth.wallet.balance} Available:{" "}
+                    {auth.wallet.available_fund})
+                  </small>
                 </h5>
               </li>
             </div>
