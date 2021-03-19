@@ -221,14 +221,14 @@ export default function MyService() {
                           className="btn btn-dark col g-1"
                           onClick={() => updateStatus(request.id, "booked")}
                         >
-                          Approved
+                          Approve
                         </button>
                         <button
                           type="button"
                           className="btn btn-dark col ml-1"
                           onClick={() => updateStatus(request.id, "cancelled")}
                         >
-                          Declined
+                          Decline
                         </button>
                         <button
                           type="button"
