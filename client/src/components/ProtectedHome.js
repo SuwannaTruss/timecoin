@@ -20,10 +20,17 @@ export default function ProtectedHome() {
     getUsers();
   }, []);
 
-  useEffect(async () => {
-    const result = await api.getCategories();
-    // console.log(result.data);
-    setCategories(result.data);
+  useEffect(() => {
+    async function getCategories() {
+      try {
+        const result = await api.getCategories();
+        // console.log(result.data);
+        setCategories(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getCategories();
   }, []);
 
   const [searchByName, setSearchByName] = useState("");
@@ -49,110 +56,113 @@ export default function ProtectedHome() {
 
   return (
     <div>
-      <div className="container">
-        <div className="bg-white shadow rounded overflow-hidden">
-          <h3 className="p-3 text-center"> PROTECTED HOME</h3>
+      {/* <div className="container"> */}
+      <div className="bg-white shadow rounded overflow-hidden ">
+        <h3 className=" text-center home-header">
+          {" "}
+          FIND A SERVICE IN YOUR COMMUNITY
+        </h3>
 
-          <div classname="row mr-2">
-            <div class="col form-group mb-4">
-              <input
-                className="form-control"
-                key="random1"
-                placeholder="search service"
-                onChange={(e) => setSearchByName(e.target.value)}
-              />
-              <input
-                type="text"
-                className="form-control"
-                key="random3"
-                placeholder="search location"
-                onChange={(e) => setSearchByLocation(e.target.value)}
-              />
-              <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <label className="input-group-text" for="inputGroupSelect01">
-                    Categories
-                  </label>
-                </div>
-
-                <select
-                  className="custom-select"
-                  id="inputGroupSelect01"
-                  onChange={(e) => setSearchByCategory(e.target.value)}
-                >
-                  <option selected value="">
-                    Choose...
-                  </option>
-                  {categories.map((c) => (
-                    <option value={c.id}>{c.categoryName}</option>
-                  ))}
-                </select>
+        <div classname="row m-2 search-container">
+          <div class="col form-group  search-inputs">
+            <input
+              className="form-control"
+              key="random1"
+              placeholder="search service"
+              onChange={(e) => setSearchByName(e.target.value)}
+            />
+            <input
+              type="text"
+              className="form-control"
+              key="random3"
+              placeholder="search location"
+              onChange={(e) => setSearchByLocation(e.target.value)}
+            />
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text" for="inputGroupSelect01">
+                  Categories
+                </label>
               </div>
+
+              <select
+                className="custom-select"
+                id="inputGroupSelect01"
+                onChange={(e) => setSearchByCategory(e.target.value)}
+              >
+                <option selected value="">
+                  Choose...
+                </option>
+                {categories.map((c) => (
+                  <option value={c.id}>{c.categoryName}</option>
+                ))}
+              </select>
             </div>
           </div>
+        </div>
 
-          {users.map((user) => (
-            // <div key={user.id} className="col-lg-4 col-md-6">
-            <div className="row">
-              {user.Services.filter((s) => {
-                if (searchByName === "") {
+        {users.map((user) => (
+          // <div key={user.id} className="col-lg-4 col-md-6">
+          <div className="row services-card-home">
+            {user.Services.filter((s) => {
+              if (searchByName === "") {
+                return s;
+              } else if (
+                (s.servicename ? s.servicename : "")
+                  .toLowerCase()
+                  .includes(searchByName.toLowerCase())
+              ) {
+                return s;
+              }
+            })
+              .filter((s) => {
+                if (searchByCategory === "") {
+                  return s;
+                } else if (s.categoryId === +searchByCategory) {
+                  return s;
+                }
+              })
+              .filter((s) => {
+                if (searchByLocation === "") {
                   return s;
                 } else if (
-                  (s.servicename ? s.servicename : "")
+                  (user.location ? user.location : "")
                     .toLowerCase()
-                    .includes(searchByName.toLowerCase())
+                    .includes(searchByLocation.toLowerCase())
                 ) {
                   return s;
                 }
               })
-                .filter((s) => {
-                  if (searchByCategory === "") {
-                    return s;
-                  } else if (s.categoryId === +searchByCategory) {
-                    return s;
-                  }
-                })
-                .filter((s) => {
-                  if (searchByLocation === "") {
-                    return s;
-                  } else if (
-                    (user.location ? user.location : "")
-                      .toLowerCase()
-                      .includes(searchByLocation.toLowerCase())
-                  ) {
-                    return s;
-                  }
-                })
-                .map((s) => (
-                  <div key={user.id} className="col-3">
-                    <div className="card shadow service-card col m-2">
-                      <NavLink to={`/service/${s.id}`}>
-                        <img
-                          src={images(s.categoryId)}
-                          className="card-img-top"
-                          alt="..."
-                        />
-                      </NavLink>
-                      <div className="card-body ">
-                        <h4 className="card-title">{s.servicename}</h4>
+              .map((s) => (
+                <div key={user.id} className="col-lg-3 col-md-4 ">
+                  <div className="card shadow service-card col m-2">
+                    <NavLink to={`/service/${s.id}`}>
+                      <img
+                        src={images(s.categoryId)}
+                        className="card-img-top"
+                        alt="..."
+                      />
+                    </NavLink>
+                    <div className="card-body ">
+                      <h4 className="card-title">{s.servicename}</h4>
 
-                        <h6 className="card-text">
-                          Description: {s.description}
-                        </h6>
-                        <p className="card-text">Category: {s.categoryId}</p>
-                      </div>
-                      <div className="card-body">
-                        <h5>{`${user.firstname} ${user.lastname}`}</h5>
-                        {user.location}
-                      </div>
+                      <h6 className="card-text">
+                        Description: {s.description}
+                      </h6>
+                      <p className="card-text">Category: {s.categoryId}</p>
+                    </div>
+                    <div className="card-body">
+                      <h5>{`${user.firstname} ${user.lastname}`}</h5>
+                      {user.location}
                     </div>
                   </div>
-                ))}
-            </div>
-            // {/* </div> */}
-          ))}
-        </div>
+                </div>
+              ))}
+          </div>
+          // {/* </div> */}
+        ))}
       </div>
+      {/* </div> */}
     </div>
   );
 }

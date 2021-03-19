@@ -106,7 +106,9 @@ router.get("/:serviceId/requestInfo", userShouldBeLoggedIn, async (req, res) => 
   models.Requests.findAll({
     attributes: ["id", "serviceDate", "serviceTime", "amount", "storage", "status", "UserId", "serviceId"],
     where: { 
-      [Op.and]: [{serviceId: serviceId}, {status: "requested"}]},
+      [Op.and]: [{serviceId: serviceId}, {
+      [Op.or]:  [{status: "requested"}, {status: "booked"}]
+      }]},
     include: {
       model: models.Users,
       attributes: ["firstname", "lastname", "location"],

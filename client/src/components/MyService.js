@@ -7,19 +7,11 @@ import { useParams } from "react-router-dom";
 export default function MyService() {
   const { id } = useParams();
   const [service, setService] = useState({ User: {} });
-  const [serviceUpdate, setServiceUpdate] = useState({ description: "" });
+  // const [serviceUpdate, setServiceUpdate] = useState({ description: "" });
   const [requestsCount, setRequestsCount] = useState(0);
   const [requestsInfo, setRequestsInfo] = useState([]);
   const [notify, setNotify] = useState("");
-  const [requestStatus, setRequestStatus] = useState({});
-
-  const [newRequest, setNewRequest] = useState({
-    serviceId: id,
-    amount: "",
-    serviceDate: "",
-    serviceTime: "",
-    storage: "",
-  });
+  // const [requestStatus, setRequestStatus] = useState({});
 
   useEffect(() => {
     async function getService() {
@@ -34,25 +26,14 @@ export default function MyService() {
     getService();
     getRequestsCountByService(id);
     getRequestsInfoByService(id);
-  }, [id]);
+  }, []);
 
-  const handleChange = (e) => {
-    setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
-  };
-
-  const sendRequest = async () => {
-    try {
-      console.log(newRequest);
-      const response = await axios.post("/requests", newRequest, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleChange = (e) => {
+  //   setServiceUpdate((state) => ({
+  //     ...state,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
 
   const updateService = async () => {
     try {
@@ -105,7 +86,7 @@ export default function MyService() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-
+      console.log(response.data);
       setRequestsInfo(response.data);
     } catch (err) {
       console.log(err);
@@ -114,7 +95,6 @@ export default function MyService() {
 
   const updateStatus = async (requestId, newStatus) => {
     try {
-      // await setRequestStatus({status: newStatus});
       const response = await axios.patch(
         `/requests/${requestId}`,
         { status: newStatus },
@@ -125,18 +105,27 @@ export default function MyService() {
         }
       );
       console.log(response.data.message);
-      setNotify(response.data.message);
+      if (response.data.message) {
+      }
+      setNotify(`The status has been updated to ${newStatus}.`);
+      getRequestsCountByService(id);
+      getRequestsInfoByService(id);
     } catch (err) {
       console.log(err);
     }
   };
 
+  // const handleNotify = () => {
+  //   getRequestsCountByService(id);
+  //   getRequestsInfoByService(id);
+  // }
+
   return (
     <div>
-      <h2 className="p-3">My service</h2>
+      {/* <h2 className="p-3">My service</h2> */}
       <div className="col mx-auto">
         <div className="bg-white shadow rounded overflow-hidden">
-          <h3 className="p-3"> {service.servicename}</h3>
+          <h2 className="p-3 header-service-name"> {service.servicename}</h2>
           <h5 className="p-3"> {service.description}</h5>
           <div className="container">
             <div className="row p-3">
@@ -147,7 +136,7 @@ export default function MyService() {
                 Edit
               </button>
               <button
-                className="btn btn-dark  btn-lg col-2 pl-3"
+                className="btn btn-dark  btn-lg col-2 pl-3 ml-2"
                 onClick={deleteService}
               >
                 Delete
@@ -228,26 +217,33 @@ export default function MyService() {
                       <h5>{`${request.User.firstname} ${request.User.lastname}`}</h5>
                       {request.User.location}
                     </div>
+                    <h6>Status: {request.status}</h6>
                     <div className="container mt-2">
-                      <div className="row justify-content-between">
+                      <div className="row justify-space-between">
                         <button
-                          className="col"
                           type="button"
-                          className="btn btn-dark  btn-md "
+                          className="btn btn-dark col g-1"
                           onClick={() => updateStatus(request.id, "booked")}
                         >
-                          Approved
+                          Approve
                         </button>
                         <button
-                          className="col"
                           type="button"
-                          className="btn btn-dark  btn-md "
+                          className="btn btn-dark col ml-1"
                           onClick={() => updateStatus(request.id, "cancelled")}
                         >
-                          Declined
+                          Decline
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-dark col my-1"
+                          onClick={() => updateStatus(request.id, "completed")}
+                        >
+                          Completed
                         </button>
                       </div>
                     </div>
+                    {notify && <p>{notify}</p>}
                     {/* </div> */}
                     <button className="btn btn-sm btn-danger btn-block mt-2">
                       Chat with {request.User.firstname}

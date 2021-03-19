@@ -40,9 +40,12 @@ export default function PublicHome() {
     <div>
       <div className="container">
         <div className="bg-white shadow rounded overflow-hidden">
-          <h3 className="p-3 text-center"> PUBLIC HOME</h3>
-          <div classname="row mr-2">
-            <div class="col form-group mb-4">
+          <h3 className=" text-center home-header">
+            {" "}
+            BE PART OF A NEW COMMUNITY
+          </h3>
+          <div classname="row mr-2 search-container">
+            <div class="col form-group search-inputs">
               <input
                 className="form-control"
                 key="random1"
@@ -73,7 +76,7 @@ export default function PublicHome() {
             </div>
           </div>
           {/* {services.map((s) => ( */}
-          <div className="row">
+          <div className="row services-card-home">
             {services
               .filter((s) => {
                 if (searchByName === "") {
@@ -94,9 +97,9 @@ export default function PublicHome() {
                 }
               })
               .map((s) => (
-                <div key={s.id} className="col-3">
+                <div key={s.id} className="col-lg-3 col-md-4 ">
                   <div className="card shadow service-card col m-2">
-                    <NavLink to={`/service/${s.id}`}>
+                    <NavLink to={`/login`}>
                       <img
                         src={images(s.categoryId)}
                         className="card-img-top"
@@ -109,7 +112,7 @@ export default function PublicHome() {
                       <h6 className="card-text">
                         Description: {s.description}
                       </h6>
-                      <p className="card-text">Category: {s.categoryId}</p>
+                      {/* <p className="card-text">Category: {s.categoryId}</p> */}
                     </div>
                   </div>
                 </div>

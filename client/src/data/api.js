@@ -61,6 +61,20 @@ const api = {
     }
   },
 
+  // async getProfile() {
+  //   try {
+  //     const response = await axios.get("/users/profileWithBadge", {
+  //       headers: {
+  //         // to send the token back when make a req to Backend
+  //         "x-access-token": localStorage.getItem("token"),
+  //       },
+  //     });
+  //     return response;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
+
   getUsers() {
     return axios.get("/users", {
       headers: {
