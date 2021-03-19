@@ -100,7 +100,15 @@ export default function Profile() {
             <div className="px-4 pt-0 pb-4 cover">
               <div className="media align-items-end profile-head">
                 <div className="profile mr-3">
+                  {/* CODE FOR HEROKU WITHOUT PROFILE IMAGE */}
                   <img
+                    src="https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg"
+                    alt="..."
+                    width="130"
+                    className="rounded mb-2 img-thumbnail"
+                  />
+
+                  {/* <img
                     src={
                       profile.picture
                         ? `/img/${profile.picture}`
@@ -109,7 +117,7 @@ export default function Profile() {
                     alt="..."
                     width="130"
                     className="rounded mb-2 img-thumbnail"
-                  />
+                  /> */}
                   <button className="btn btn-outline-dark btn-sm btn-block">
                     Edit profile
                   </button>

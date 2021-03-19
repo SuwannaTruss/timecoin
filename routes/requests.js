@@ -70,6 +70,10 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
   models.Requests.findAll({
     // attributes: ["id", "storage", "status", "amount", "serviceDate", "serviceTime"],
     where: { UserId },
+    include: {
+      model: models.Services,
+      attributes: ["id", "servicename", "description", "categoryId"],
+    },
   })
     .then((data) => {
       res.send(data);
@@ -78,7 +82,6 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
       res.status(500).send(error);
     });
 });
-
 // requests/34/messages
 // router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
 //   let { id } = req.params;
