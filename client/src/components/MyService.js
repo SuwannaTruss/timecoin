@@ -28,12 +28,12 @@ export default function MyService() {
     getRequestsInfoByService(id);
   }, []);
 
-  const handleChange = (e) => {
-    setServiceUpdate((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   setServiceUpdate((state) => ({
+  //     ...state,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
 
   const updateService = async () => {
     try {
@@ -122,10 +122,10 @@ export default function MyService() {
 
   return (
     <div>
-      <h2 className="p-3">My service</h2>
+      {/* <h2 className="p-3">My service</h2> */}
       <div className="col mx-auto">
         <div className="bg-white shadow rounded overflow-hidden">
-          <h3 className="p-3"> {service.servicename}</h3>
+          <h2 className="p-3 header-service-name"> {service.servicename}</h2>
           <h5 className="p-3"> {service.description}</h5>
           <div className="container">
             <div className="row p-3">
