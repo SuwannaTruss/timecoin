@@ -12,11 +12,24 @@ export default function Profile() {
   const [profile, setProfile] = useState({ Services: [] });
   const [requestBadges, setRequestBadges] = useState([]);
   const [serviceInfoBadge, setServiceInfoBadge] = useState([]);
+  const [myRequests, setMyRequests] = useState([]);
 
   // useEffect(async () => {
   //   const result = await api.getProfile();
   //   setProfile(result.data);
   // }, []);
+  useEffect(() => {
+    async function getMyRequests() {
+      try {
+        const result = await api.getMyRequests();
+        // console.log(result.data);
+        setMyRequests(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getMyRequests();
+  }, []);
 
   useEffect(() => {
     async function getProfile() {
@@ -185,7 +198,7 @@ export default function Profile() {
                           {" "}
                           <h5 className="card-text text-info">Total</h5>
                           <p className="text-secondary">
-                            Dog walking | booked.
+                            Dog walking | booked | 23/03
                           </p>
                         </div>
                       </div>

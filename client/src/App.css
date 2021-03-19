@@ -104,6 +104,10 @@
   font-size: 15px;
 }
 
+.placing-my-service-card {
+  padding-left: 40px;
+}
+
 /* HOME COMPONENT */
 .search-container {
   text-align: center;

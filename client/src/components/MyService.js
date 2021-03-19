@@ -125,35 +125,41 @@ export default function MyService() {
       {/* <h2 className="p-3">My service</h2> */}
       <div className="col mx-auto">
         <div className="bg-white shadow rounded overflow-hidden">
-          <h2 className="p-3 header-service-name"> {service.servicename}</h2>
-          <h5 className="p-3"> {service.description}</h5>
-          <div className="container">
-            <div className="row p-3">
-              <button
-                className="btn btn-dark  btn-lg col-2"
-                onClink={updateService}
-              >
-                Edit
-              </button>
-              <button
-                className="btn btn-dark  btn-lg col-2 pl-3 ml-2"
-                onClick={deleteService}
-              >
-                Delete
-              </button>
+          <h2 className="pl-5 pt-3 header-service-name">
+            {" "}
+            {service.servicename}
+          </h2>
+
+          <div className="col placing-my-service-card">
+            <div className="card border-secondary mb-3 profile-card ">
+              <div className="card-header">{service.description}</div>
+              <div className="card-body text-secondary">
+                <h5 className="card-title">
+                  You received {requestsCount} requests for this service
+                </h5>
+                <div className="card-text">
+                  <button
+                    className="btn btn-dark btn m-2"
+                    onClink={updateService}
+                  >
+                    Edit Service
+                  </button>
+                  <button
+                    className="btn btn-outline-danger  btn m-2"
+                    onClick={deleteService}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Shall we redirect to Profile page once the services.id has been deleted */}
-          <h4 className="m-5">
-            You received {requestsCount} requests for this service
-          </h4>
 
           {requestsInfo.map((request) => (
             <div className="container service-container mb-5" key={request.id}>
               <div className="row">
-                <div className="col-md-3 ads back-container-service">
-                  <h1 className="col-3">
+                <div className="col-lg-4 col-md-4 ads back-container-service">
+                  <h1 className="">
                     <span id="fl">Request</span>
                     <span id="sl">Detail</span>
                   </h1>
@@ -206,49 +212,67 @@ export default function MyService() {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-9 service-form">
-                  <div key={request.id} className="col-4">
+                <div className="col-lg-4 service-form">
+                  <div key={request.id} className="row p-4">
                     {/* <div className="card shadow service-card col m-2"> */}
-                    <div className="pt-5 mt-2 mb-4">
+                    <div className="">
                       <h5 className="">Requested by:</h5>
                       {/* <h6 className="">Description: {service.description}</h6> */}
+                      <div className="">
+                        <h5>{`${request.User.firstname} ${request.User.lastname}`}</h5>
+                        <p>{request.User.location}</p>
+                      </div>
+                      <div>
+                        <h6 className=""> Status: {request.status}</h6>
+                      </div>
                     </div>
-                    <div className="">
-                      <h5>{`${request.User.firstname} ${request.User.lastname}`}</h5>
-                      {request.User.location}
-                    </div>
-                    <h6>Status: {request.status}</h6>
+
                     <div className="container mt-2">
                       <div className="row justify-space-between">
                         <button
                           type="button"
-                          className="btn btn-dark col g-1"
+                          className="btn btn-sm btn-dark m-1"
                           onClick={() => updateStatus(request.id, "booked")}
                         >
                           Approve
                         </button>
-                        <button
-                          type="button"
-                          className="btn btn-dark col ml-1"
-                          onClick={() => updateStatus(request.id, "cancelled")}
-                        >
-                          Decline
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-dark col my-1"
-                          onClick={() => updateStatus(request.id, "completed")}
-                        >
-                          Completed
-                        </button>
+                        <div>
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger m-1"
+                            onClick={() =>
+                              updateStatus(request.id, "cancelled")
+                            }
+                          >
+                            Decline
+                          </button>
+                        </div>
+                        <div>
+                          <button
+                            type="button"
+                            className="btn btn-outline-dark m-1"
+                            onClick={() =>
+                              updateStatus(request.id, "completed")
+                            }
+                          >
+                            Completed
+                          </button>
+                        </div>
                       </div>
                     </div>
+
                     {notify && <p>{notify}</p>}
                     {/* </div> */}
-                    <button className="btn btn-sm btn-danger btn-block mt-2">
-                      Chat with {request.User.firstname}
+                    <button className="btn btn-sm btn-outline-success mt-5 m-2">
+                      Text {request.User.firstname}
                     </button>
                   </div>
+                </div>
+                <div className="col-lg-4">
+                  <img
+                    className="request-img"
+                    src="http://www.trec.on.ca/wp-content/uploads/2017/04/CB-graphic-communityimpact.png"
+                  />
                 </div>
               </div>
             </div>

@@ -47,6 +47,15 @@ const api = {
     }
   },
 
+  async getMyRequests() {
+    try {
+      const response = await axios.get("/");
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   async getProfile() {
     try {
       const response = await axios.get("/users/profile", {
@@ -107,12 +116,11 @@ const api = {
         },
       });
       console.log(response.data);
-      return (response.data);
+      return response.data;
     } catch (err) {
       console.log(err);
     }
-  }
-
+  },
 };
 
 export default api;
