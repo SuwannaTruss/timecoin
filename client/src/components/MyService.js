@@ -11,15 +11,7 @@ export default function MyService() {
   const [requestsCount, setRequestsCount] = useState(0);
   const [requestsInfo, setRequestsInfo] = useState([]);
   const [notify, setNotify] = useState("");
-  const [requestStatus, setRequestStatus] = useState({});
-
-  const [newRequest, setNewRequest] = useState({
-    serviceId: id,
-    amount: "",
-    serviceDate: "",
-    serviceTime: "",
-    storage: "",
-  });
+  // const [requestStatus, setRequestStatus] = useState({});
 
   useEffect(() => {
     async function getService() {
@@ -34,24 +26,10 @@ export default function MyService() {
     getService();
     getRequestsCountByService(id);
     getRequestsInfoByService(id);
-  }, [id, requestsCount, requestsInfo]);
+  }, []);
 
   const handleChange = (e) => {
-    setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
-  };
-
-  const sendRequest = async () => {
-    try {
-      console.log(newRequest);
-      const response = await axios.post("/requests", newRequest, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
+    setServiceUpdate((state) => ({ ...state, [e.target.name]: e.target.value }));
   };
 
   const updateService = async () => {
@@ -105,7 +83,7 @@ export default function MyService() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-
+      console.log(response.data);
       setRequestsInfo(response.data);
     } catch (err) {
       console.log(err);
@@ -126,7 +104,8 @@ export default function MyService() {
       console.log(response.data.message);
       if (response.data.message) { }
       setNotify(`The status has been updated to ${newStatus}.`);
-      // handleNotify();
+      getRequestsCountByService(id);
+      getRequestsInfoByService(id);
     } catch (err) {
       console.log(err);
     }
@@ -234,6 +213,7 @@ export default function MyService() {
                       <h5>{`${request.User.firstname} ${request.User.lastname}`}</h5>
                       {request.User.location}
                     </div>
+                    <h6>Status: {request.status}</h6>
                     <div className="container mt-2">
                       <div className="row justify-space-between">
                         <button

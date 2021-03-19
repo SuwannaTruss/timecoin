@@ -90,19 +90,12 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
     });
 });
 
-router.get("/", userShouldBeLoggedIn, async (req, res) => {
-  const user = await models.Users.findAll({
-    attributes: ["id", "username", "firstname", "lastname", "location"],
-    include: models.Services,
-  });
-  res.send(user);
-});
-
-//New: Get profile with count number of request a loggedIn user received.
-// router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
+// New: Get profile with count number of request a loggedIn user received.
+// `SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(CASE WHEN Requests.status = 'requested' THEN 1 ELSE 0 END) AS requestCount FROM Users CROSS JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id`
+// router.get("/profileWithBadge", userShouldBeLoggedIn, async (req, res) => {
 //   try {
 //     const results = await db.sequelize.query(
-//       'SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(if(Requests.status = "requested", 1, 0)) AS requestCount FROM Users LEFT JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id',
+//       `SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(CASE WHEN Requests.status = 'requested' THEN 1 ELSE 0 END) AS requestCount FROM Users CROSS JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id GROUP BY Services.id`,
 //       {
 //         replacements: { id: req.user_id },
 //         type: db.sequelize.QueryTypes.SELECT,
@@ -113,6 +106,30 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
 //     res.status(400).send({ message: err.message });
 //   }
 // });
+
+//counting of requests I receive for each service I offered.
+router.get("/requestNotifyBadge", userShouldBeLoggedIn, async (req, res) => {
+  try {
+    const results = await db.sequelize.query(
+      'SELECT Users.id, Services.id, COUNT(Requests.id) AS requestCount FROM Users LEFT JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id',
+      {
+        replacements: { id: req.user_id },
+        type: db.sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.send(results);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
+
+router.get("/", userShouldBeLoggedIn, async (req, res) => {
+  const user = await models.Users.findAll({
+    attributes: ["id", "username", "firstname", "lastname", "location"],
+    include: models.Services,
+  });
+  res.send(user);
+});
 
 // to calcualte wallet (balance = earning - spending), (available fund = balance - withholding)
 // 1. (+) earning: sum of requests.amount for users ON user.id = services.UserId WHERE requests.status = completed
