@@ -83,19 +83,7 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            <div className="bg-light p-4 d-flex justify-content-end text-center">
-              <li className="list-inline-item">
-                <h5 className="font-weight-bold mb-0 d-block text-muted">
-                  <i className="fas fa-wallet"></i>
-                  My Wallet
-                  <small>
-                    {" "}
-                    (Balance: {auth.wallet.balance} Available:{" "}
-                    {auth.wallet.available_fund})
-                  </small>
-                </h5>
-              </li>
-            </div>
+            <div className="bg-light p-4 d-flex justify-content-end text-center"></div>
             {/* <div className="px-4 py-3">
               <h5 className="mb-0">About</h5>
               <div className="p-4 rounded shadow-sm bg-light">
@@ -103,9 +91,9 @@ export default function Profile() {
               </div>
             </div> */}
             <div className="py-4 px-5">
-              <h3 className="mb-1 text-center">SERVICES</h3>
               <div className="row">
                 <div className="col-6 mb-2" key={profile.id}>
+                  <h3 className="mb-1  header-profile ">MY SERVICES</h3>
                   <div className="row justify-content">
                     {profile.Services.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
@@ -124,6 +112,57 @@ export default function Profile() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="row">
+                    <div className="col placing-profile-card">
+                      <div className="card border-info mb-3 profile-card">
+                        <div className="card-header">
+                          <h5 className="font-weight-bold mb-0 d-block text-muted">
+                            <i className="fas fa-wallet"></i>
+                            My Wallet
+                          </h5>
+                        </div>
+                        <div className="card-body ">
+                          <NavLink to="/wallet">
+                            <h5 className="card-text text-info">
+                              Balance: {auth.wallet.balance}
+                            </h5>
+                          </NavLink>
+                          <p className="text-secondary">
+                            Available fund: {auth.wallet.available_fund}
+                          </p>
+                          <p className="text-secondary">
+                            Earning: {auth.wallet.earning}
+                          </p>
+                          <p className="text-secondary">
+                            Spending: {auth.wallet.spending}
+                          </p>
+                          <p className="text-secondary">
+                            Withholding: {auth.wallet.withholding}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col placing-profile-card">
+                      <div className="card border-info mb-3 profile-card">
+                        <div className="card-header">
+                          <h5 className="font-weight-bold mb-0 d-block text-muted">
+                            <i className="fas fa-list-ul"></i>
+                            My Requests
+                          </h5>
+                        </div>
+
+                        <div className="card-body ">
+                          {" "}
+                          <h5 className="card-text text-info">Total</h5>
+                          <p className="text-secondary">
+                            Place here all the requests I've made.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

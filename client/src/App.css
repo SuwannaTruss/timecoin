@@ -21,6 +21,21 @@
   /* background-color: rgb(212, 212, 211); */
 }
 
+.header-profile {
+  font-family: "Ubuntu Condensed", sans-serif;
+  font-size: 2.5rem;
+  padding-left: 200px;
+}
+
+.profile-card {
+  max-width: 18rem;
+}
+
+.placing-profile-card {
+  padding-top: 65px;
+  padding-left: 250px;
+}
+
 /* NEW SERVICE COMPONENT */
 .service-container {
   margin-top: 5%;
