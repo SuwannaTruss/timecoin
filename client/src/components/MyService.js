@@ -7,11 +7,11 @@ import { useParams } from "react-router-dom";
 export default function MyService() {
   const { id } = useParams();
   const [service, setService] = useState({ User: {} });
-  const [serviceUpdate, setServiceUpdate] = useState({ description: "" });
+  // const [serviceUpdate, setServiceUpdate] = useState({ description: "" });
   const [requestsCount, setRequestsCount] = useState(0);
   const [requestsInfo, setRequestsInfo] = useState([]);
   const [notify, setNotify] = useState("");
-  const [requestStatus, setRequestStatus] = useState({});
+  // const [requestStatus, setRequestStatus] = useState({});
 
   const [newRequest, setNewRequest] = useState({
     serviceId: id,
@@ -34,7 +34,7 @@ export default function MyService() {
     getService();
     getRequestsCountByService(id);
     getRequestsInfoByService(id);
-  }, [id, requestsCount, requestsInfo]);
+  }, []);
 
   const handleChange = (e) => {
     setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
@@ -124,7 +124,8 @@ export default function MyService() {
         }
       );
       console.log(response.data.message);
-      if (response.data.message) { }
+      if (response.data.message) {
+      }
       setNotify(`The status has been updated to ${newStatus}.`);
       // handleNotify();
     } catch (err) {

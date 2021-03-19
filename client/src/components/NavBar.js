@@ -37,6 +37,7 @@ export default function NavBar() {
               <li className="mx-1">
                 {auth.isLoggedIn && <NavLink to="/profile">Profile</NavLink>}
               </li>
+
               <li className="mx-1">
                 {!auth.isLoggedIn && (
                   <NavLink to="/login" className="nav-item dropdown">
@@ -44,6 +45,14 @@ export default function NavBar() {
                   </NavLink>
                 )}
               </li>
+
+              {auth.isLoggedIn && (
+                <li>
+                  <NavLink to="/wallet" className="nav-item dropdown">
+                    Balance: {auth.wallet.balance}
+                  </NavLink>
+                </li>
+              )}
               <li className="mx-1">
                 {auth.isLoggedIn && (
                   <button onClick={logout} className="btn btn-sm btn-dark">
@@ -54,12 +63,6 @@ export default function NavBar() {
                   {auth.isLoggedIn && "Logout"}
                 </NavLink> */}
               </li>
-              {auth.isLoggedIn && 
-              <li>
-                <NavLink to="/wallet" className="nav-item dropdown">
-                  Balance: {auth.wallet.balance}
-                </NavLink>
-              </li> }
             </ul>
           </div>
         </nav>

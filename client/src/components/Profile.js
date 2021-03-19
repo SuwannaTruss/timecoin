@@ -119,8 +119,7 @@ export default function Profile() {
                           />
                         </NavLink>
                         <div className="card-body ">
-                          <h5 className="card-title">{s.servicename}
-                          </h5>
+                          <h5 className="card-title">{s.servicename}</h5>
                           <p className="card-text">{s.description}</p>
                         </div>
                       </div>

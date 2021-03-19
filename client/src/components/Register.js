@@ -39,64 +39,125 @@ export default function Register() {
 
   return (
     <div>
-      <h1>Register</h1>
       <div>
-        <input
-          value={user.username}
-          onChange={handleChange}
-          name="username"
-          type="text"
-          className="form-control mb-2"
-          placeholder="username"
-        />
-        <input
-          value={user.password}
-          onChange={handleChange}
-          name="password"
-          type="password"
-          className="form-control mb-2"
-          placeholder="password"
-        />
-        <input
-          value={user.email}
-          onChange={handleChange}
-          name="email"
-          type="text"
-          className="form-control mb-2"
-          placeholder="email"
-        />
-        <input
-          value={user.firstname}
-          onChange={handleChange}
-          name="firstname"
-          type="text"
-          className="form-control mb-2"
-          placeholder="firstname"
-        />
-        <input
-          value={user.lastname}
-          onChange={handleChange}
-          name="lastname"
-          type="text"
-          className="form-control mb-2"
-          placeholder="lastname"
-        />
-        <input
-          value={user.location}
-          onChange={handleChange}
-          name="location"
-          type="text"
-          className="form-control mb-2"
-          placeholder="location"
-        />
-        <input
-          type="file"
-          className="form-control mb-2"
-          onChange={onFileChange}
-        />
-        <button className=" btn btn-primary" onClick={registerUser}>
-          Sign up
-        </button>
+        <div>
+          <h1 classname="text-secondary">Register</h1>
+        </div>
+        <div className="login-form-1">
+          <div id="login-form" className="text-left">
+            <div className="login-form-main-message"></div>
+            <div className="main-login-form">
+              <div className="login-group">
+                <div className="form-group">
+                  <label htmlFor="lg_username" className="sr-only">
+                    Username
+                  </label>
+                  <input
+                    value={user.username}
+                    onChange={handleChange}
+                    name="username"
+                    type="text"
+                    className="form-control"
+                    id="lg_username"
+                    placeholder="username "
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lg_password" className="sr-only">
+                    Password
+                  </label>
+                  <input
+                    className="form-control"
+                    id="lg_password"
+                    placeholder="password"
+                    value={user.password}
+                    onChange={handleChange}
+                    name="password"
+                    type="password"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lg_email" className="sr-only">
+                    Email
+                  </label>
+                  <input
+                    value={user.email}
+                    onChange={handleChange}
+                    name="email"
+                    type="text"
+                    className="form-control mb-2"
+                    placeholder="email"
+                    id="lg_email"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lg_firstname" className="sr-only">
+                    First Name
+                  </label>
+                  <input
+                    value={user.firstname}
+                    onChange={handleChange}
+                    name="firstname"
+                    type="text"
+                    className="form-control"
+                    placeholder="firstname"
+                    id="lg_firstname"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lg_lastname" className="sr-only">
+                    Last Name
+                  </label>
+                  <input
+                    value={user.lastname}
+                    onChange={handleChange}
+                    name="lastname"
+                    type="text"
+                    className="form-control"
+                    placeholder="lastname"
+                    id="lg_lastname"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lg_location" className="sr-only">
+                    Location
+                  </label>
+                  <input
+                    value={user.location}
+                    onChange={handleChange}
+                    name="location"
+                    type="text"
+                    className="form-control "
+                    placeholder="location"
+                    id="lg_location"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lg_file" className="sr-only">
+                    Location
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    onChange={onFileChange}
+                    id="lg_file"
+                  />
+                </div>
+              </div>
+              <button className="login-button" onClick={registerUser}>
+                <i className="fa fa-chevron-right"></i>
+              </button>
+            </div>
+            <div className="etc-login-form">
+              {/* <p>
+                forgot your password? <a href="#">click here</a>
+              </p> */}
+              {/* <p>
+                new user? <NavLink to="/register">create a new account</NavLink>
+              </p> */}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
