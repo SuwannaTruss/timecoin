@@ -69,7 +69,7 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
   const UserId = req.user_id;
   models.Requests.findAll({
     // attributes: ["id", "storage", "status", "amount", "serviceDate", "serviceTime"],
-    where: { UserId } ,
+    where: { UserId },
   })
     .then((data) => {
       res.send(data);
@@ -78,5 +78,31 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
       res.status(500).send(error);
     });
 });
+
+// requests/34/messages
+// router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
+//   let { id } = req.params;
+//   let text = req.body.data.message;
+//   const loggedInId = req.user_id;
+//   try {
+//     Messages.create({ text, senderId: loggedInId });
+//     // const request = await models.Requests.findOne({ id });
+//     // request.createMessage({ text, senderId: req.user.id });
+
+//   // const ids = [sender_id, receiver_id].sort();
+
+//   const channel = `private-timecoinChat-${id}`;
+
+//   //trigger an event to Pusher
+//   pusher.trigger(channel, "message", {
+//     loggedInId,
+//     text,
+//   });
+
+//   res.send({ msg: "Sent" });
+// } catch (err) {
+//   res.status(500).send(err);
+// }
+// });
 
 module.exports = router;

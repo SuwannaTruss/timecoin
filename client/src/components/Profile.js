@@ -158,7 +158,7 @@ export default function Profile() {
                           {" "}
                           <h5 className="card-text text-info">Total</h5>
                           <p className="text-secondary">
-                            Place here all the requests I've made.
+                            Dog walking | booked.
                           </p>
                         </div>
                       </div>

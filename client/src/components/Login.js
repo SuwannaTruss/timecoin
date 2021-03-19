@@ -29,8 +29,6 @@ export default function Login() {
       let result = await auth.signin(user);
       auth.getWallet();
       // AuthRoute();
-      // if (auth.isLoggedIn) return <Redirect to="/"></Redirect>;
-      if (result) history.push("/");
     } catch (err) {
       console.log(err);
     }
