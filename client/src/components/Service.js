@@ -50,11 +50,11 @@ export default function Service() {
     <div>
       <div className="col mx-auto">
         <div className="bg-white shadow rounded overflow-hidden">
-          <h3 className="p-3"> {service.servicename}</h3>
+          <h2 className="p-3 header-service-name"> {service.servicename}</h2>
           <div className="container service-container mb-5">
             <div className="row">
-              <div className="col-md-3 ads back-container-service">
-                <h1 className="col-3">
+              <div className="col-lg-4 col-md-4 ads back-container-service">
+                <h1 className="">
                   <span id="fl">Request</span>
                   <span id="sl">Service</span>
                 </h1>
@@ -145,26 +145,32 @@ export default function Service() {
                   </div>
                 </form>
               </div>
-              <div className="col-md-9 service-form">
-                <div key={service.id} className="col-3">
+              <div className="col-lg-4 service-form">
+                <div key={service.id} className="row p-4">
                   {/* <div className="card shadow service-card col m-2"> */}
 
                   <div className="">
-                    <h4 className="">{service.servicename}</h4>
+                    <h2 className="">{service.servicename}</h2>
 
-                    <h6 className="">Description: {service.description}</h6>
+                    <h4 className="">Description: {service.description}</h4>
                   </div>
 
                   <div className="">
                     <h5>{`${service.User.firstname} ${service.User.lastname}`}</h5>
-                    {service.User.location}
+                    <p>{service.User.location}</p>
                   </div>
 
                   {/* </div> */}
-                  <button className="btn btn-sm btn-danger m-2">
-                    Chat with {service.User.firstname}
-                  </button>
                 </div>
+                <button className="btn btn-sm btn-success mt-5 m-2">
+                  Text {service.User.firstname}
+                </button>
+              </div>
+              <div className="col-lg-4">
+                <img
+                  className="request-img"
+                  src="http://www.trec.on.ca/wp-content/uploads/2017/04/CB-graphic-communityimpact.png"
+                />
               </div>
             </div>
           </div>

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { BrowserRouter as Redirect, NavLink } from "react-router-dom";
+import {
+  BrowserRouter as Redirect,
+  NavLink,
+  useHistory,
+} from "react-router-dom";
 
 // import axios from "axios";
 // import { useHistory } from "react-router-dom";
@@ -13,6 +17,7 @@ export default function Login() {
   });
 
   const auth = useAuth();
+  const history = useHistory();
 
   const handleChange = (e) => {
     e.persist();
@@ -20,10 +25,15 @@ export default function Login() {
   };
 
   const login = async () => {
-    await auth.signin(user);
-    auth.getWallet();
-    // AuthRoute();
-    if (auth.isLoggedIn) return <Redirect to="/"></Redirect>;
+    try {
+      let result = await auth.signin(user);
+      auth.getWallet();
+      // AuthRoute();
+      // if (auth.isLoggedIn) return <Redirect to="/"></Redirect>;
+      if (result) history.push("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const AuthRoute = () => {

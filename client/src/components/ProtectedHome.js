@@ -60,7 +60,7 @@ export default function ProtectedHome() {
       <div className="bg-white shadow rounded overflow-hidden ">
         <h3 className=" text-center home-header">
           {" "}
-          FIND A SERVICE IN YOUR COMUNITY
+          FIND A SERVICE IN YOUR COMMUNITY
         </h3>
 
         <div classname="row m-2 search-container">

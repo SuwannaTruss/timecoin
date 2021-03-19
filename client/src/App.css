@@ -41,11 +41,6 @@
   text-align: center;
   width: 100%;
 }
-/* .service-form h3 {
-  text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
-} */
 
 .form-control {
   font-size: 14px;
@@ -110,7 +105,7 @@
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -25px;
-  margin-left: 100px;
+  margin-left: 25px;
 }
 
 body {
@@ -209,4 +204,26 @@ body {
 }
 .login-form-1 .login-button.clicked:hover {
   transform: none;
+}
+
+/* MAKE REQUEST SERVICE COMPONENT */
+
+.header-service-name {
+  font-family: "Ubuntu Condensed", sans-serif;
+  font-size: 3.5rem;
+}
+
+.service-form {
+  font-family: "Montserrat-black", sans-serif;
+  font-size: 1.5rem;
+  padding: 15px;
+  padding-bottom: 15px;
+  position: relative;
+
+  color: #046582;
+}
+
+.request-img {
+  max-width: 20rem;
+  max-height: 40rem;
 }
