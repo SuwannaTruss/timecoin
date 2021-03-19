@@ -90,6 +90,7 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
     });
 });
 
+// add note
 // New: Get profile with count number of request a loggedIn user received.
 // `SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(CASE WHEN Requests.status = 'requested' THEN 1 ELSE 0 END) AS requestCount FROM Users CROSS JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id`
 // router.get("/profileWithBadge", userShouldBeLoggedIn, async (req, res) => {
