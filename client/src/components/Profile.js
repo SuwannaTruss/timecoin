@@ -4,11 +4,14 @@ import { React, useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { NavLink } from "react-router-dom";
 import api from "../data/index.js";
+import axios from "axios";
 
 export default function Profile() {
   const auth = useAuth();
 
   const [profile, setProfile] = useState({ Services: [] });
+  const [requestBadges, setRequestBadges] = useState([]);
+  const [serviceInfoBadge, setServiceInfoBadge] = useState([]);
 
   // useEffect(async () => {
   //   const result = await api.getProfile();
@@ -27,7 +30,31 @@ export default function Profile() {
     }
     auth.getWallet();
     getProfile();
+    // getRequestNotifyBadge();
   }, []);
+
+  // const getRequestNotifyBadge = async () => {
+  //   try {
+  //     const response = await axios.get(`/users/requestNotifyBadge`, {
+  //       headers: {
+  //         "x-access-token": localStorage.getItem("token"),
+  //       },
+  //     });
+  //     console.log(response.data)
+  //     setRequestBadges(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // const mergeServiceData = () => {
+  //   const merge = profile.Services.concat(requestBadges);
+  //   Array.prototype.groupBy = function(k) {
+  //     return this.reduce((acc, item) => ((acc[item[k]] = [...(acc[item[k]] || []), item]), acc),[]);
+  //   };
+  //   console.log(merge);
+  //   console.log(merge.groupBy("id"));
+  // }
 
   const images = (x) => {
     if (x === 4) {
@@ -98,7 +125,7 @@ export default function Profile() {
                     {profile.Services.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
                         <NavLink to={`/my-service/${s.id}`}>
-                          {/* {X && 
+                          {/* {! && 
                           <span className="notify-badge">X</span>} */}
                           <img
                             src={images(s.categoryId)}

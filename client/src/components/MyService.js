@@ -13,14 +13,6 @@ export default function MyService() {
   const [notify, setNotify] = useState("");
   // const [requestStatus, setRequestStatus] = useState({});
 
-  const [newRequest, setNewRequest] = useState({
-    serviceId: id,
-    amount: "",
-    serviceDate: "",
-    serviceTime: "",
-    storage: "",
-  });
-
   useEffect(() => {
     async function getService() {
       try {
@@ -37,21 +29,10 @@ export default function MyService() {
   }, []);
 
   const handleChange = (e) => {
-    setNewRequest((state) => ({ ...state, [e.target.name]: e.target.value }));
-  };
-
-  const sendRequest = async () => {
-    try {
-      console.log(newRequest);
-      const response = await axios.post("/requests", newRequest, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
+    setServiceUpdate((state) => ({
+      ...state,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const updateService = async () => {
@@ -105,7 +86,7 @@ export default function MyService() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-
+      console.log(response.data);
       setRequestsInfo(response.data);
     } catch (err) {
       console.log(err);
@@ -127,7 +108,8 @@ export default function MyService() {
       if (response.data.message) {
       }
       setNotify(`The status has been updated to ${newStatus}.`);
-      // handleNotify();
+      getRequestsCountByService(id);
+      getRequestsInfoByService(id);
     } catch (err) {
       console.log(err);
     }
@@ -235,6 +217,7 @@ export default function MyService() {
                       <h5>{`${request.User.firstname} ${request.User.lastname}`}</h5>
                       {request.User.location}
                     </div>
+                    <h6>Status: {request.status}</h6>
                     <div className="container mt-2">
                       <div className="row justify-space-between">
                         <button
@@ -242,14 +225,14 @@ export default function MyService() {
                           className="btn btn-dark col g-1"
                           onClick={() => updateStatus(request.id, "booked")}
                         >
-                          Approved
+                          Approve
                         </button>
                         <button
                           type="button"
                           className="btn btn-dark col ml-1"
                           onClick={() => updateStatus(request.id, "cancelled")}
                         >
-                          Declined
+                          Decline
                         </button>
                         <button
                           type="button"
