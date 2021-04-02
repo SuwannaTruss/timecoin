@@ -102,6 +102,7 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
       "location",
       "picture",
     ],
+    where: { id },
   })
     .then((data) => res.send(data))
     .catch((error) => {
