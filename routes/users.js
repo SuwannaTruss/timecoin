@@ -178,7 +178,7 @@ router.get("/wallet", userShouldBeLoggedIn, async (req, res) => {
     );
 
     withholding = await db.sequelize.query(
-      'SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS withholding FROM Users LEFT JOIN Requests ON Users.id = Requests.UserId WHERE Users.id = :id AND Requests.status = "booked" GROUP BY Users.id',
+      'SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS withholding FROM Users LEFT JOIN Requests ON Users.id = Requests.UserId WHERE Users.id = :id AND (Requests.status = "booked" OR Requests.status = "requested") GROUP BY Users.id',
       {
         replacements: { id: req.user_id },
         type: db.sequelize.QueryTypes.SELECT,
