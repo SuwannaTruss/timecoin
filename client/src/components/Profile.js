@@ -22,8 +22,8 @@ export default function Profile() {
     async function getMyRequests() {
       try {
         const result = await api.getMyRequests();
-        // console.log(result.data);
-        setMyRequests(result.data);
+        console.log(result.data);
+        await setMyRequests(result.data);
       } catch (err) {
         console.log(err);
       }
@@ -205,9 +205,14 @@ export default function Profile() {
                         <div className="card-body ">
                           {" "}
                           <h5 className="card-text text-info">Total</h5>
-                          <p className="text-secondary">
+                          {/* <p className="text-secondary">
                             Dog walking | booked | 23/03
-                          </p>
+                          </p> */}
+                          {myRequests.map((r) => (
+                            <p className="text-secondary">
+                              {r["Service.servicename"]} | {r.status} | {r.serviceDate}
+                            </p>
+                          ))}
                         </div>
                       </div>
                     </div>

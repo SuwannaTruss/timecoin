@@ -74,6 +74,7 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
       model: models.Services,
       attributes: ["id", "servicename", "description", "categoryId"],
     },
+    raw: true,
   })
     .then((data) => {
       res.send(data);
