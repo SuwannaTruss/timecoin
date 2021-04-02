@@ -77,7 +77,7 @@ const api = {
 
   async getMyServicesWithBadge() {
     try {
-      const response = await axios.get("/users/profileWithBadge", {
+      const response = await axios.get("/users/MyServicesWithBadge", {
         headers: {
           // to send the token back when make a req to Backend
           "x-access-token": localStorage.getItem("token"),

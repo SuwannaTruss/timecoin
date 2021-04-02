@@ -68,12 +68,19 @@ router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
   const UserId = req.user_id;
   models.Requests.findAll({
+    // order: [
+    //   ['serviceDate', 'ASC'],
+    //   ['serviceTime', 'ASC'],
+    //   // ['Services.servicename', 'ASC']
+    // ],
     // attributes: ["id", "storage", "status", "amount", "serviceDate", "serviceTime"],
+    attributes: ["id", "status", "serviceDate", "serviceTime"],
     where: { UserId },
     include: {
       model: models.Services,
       attributes: ["id", "servicename", "description", "categoryId"],
     },
+    
     raw: true,
   })
     .then((data) => {
