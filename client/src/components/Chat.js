@@ -1,68 +1,51 @@
 import React, { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
-// import Pusher from "pusher-js";
-// import axios from "axios";
-// import useAuth from "../hooks/useAuth";
+import { useParams } from "react-router-dom";
+import Pusher from "pusher-js";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 // import api from "../data/index.js";
 
-// Pusher.logToConsole = true;
-
 export default function Chat() {
-  // const auth = useAuth();
+  const auth = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   // const [sender, setSender] = useState();
 
-  // let sender = profile.id;
-  // let { receiver } = useParams();
+  let { id } = useParams();
 
-  // useEffect(() => {
-  //     async function getProfile() { //check api.js
-  //       try {
-  //         const result = await api.getProfile();
-  //         setSender(result.data.id);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     }
-  //     getProfile();
-  //   }, []);
+  useEffect(() => {
+    Pusher.logToConsole = true;
+    var pusher = new Pusher("f656e2c483a6ebf79c8c", {
+      cluster: "eu",
+      forceTLS: true,
+      authEndpoint: "/requests/:id/messages",
+      auth: {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      },
+    });
 
-  // useEffect(() => {
-  //   setMessages([]);
-  //   getMessages();
+    //private channels MUST start with private-
+    const channelTimecoin = `private-timecoinChat-${id}`;
 
-  //   Pusher.logToConsole = true;
+    var channel = pusher.subscribe(channelTimecoin);
+    channel.bind("message", function (data) {
+      // alert(JSON.stringify(data));
+      setMessages((messages) => [...messages, data]);
+    });
 
-  //   var pusher = new Pusher(process.env.PUSHER_KEY , {
-  //     cluster: 'eu',
-  //     forceTLS: true,
-  //     authEndpoint: "/chat/pusher/auth",
-  //     auth: {
-  //         headers: {
-  //             "x-access-token": localStorage.getItem("token"),
-  //         },
-  //     },
-  //   });
-  //   const ids = [sender, receiver].sort();
-  //   const channelName = `private-timecoinChat-${ids[0]}-${ids[1]}`;
+    return () => {
+      pusher.unsubscribe(channelTimecoin);
+    };
+  }, [id]);
 
-  //   var channel = pusher.subscribe(channelName);
-  //   channel.bind('message', function(data) {
-  //     //pass function that accepts the previous version of the messages and I return the new version of the messages
-  //     setMessages((messages) => [...messages, data])
-  //   });
-
-  //   return () => {
-  //     pusher.unsubscribe(channelName);
-  //   };
-  // }, [receiver, sender]);
-
-  // const sendMessage = async () => {
-  //   axios.post(`/chat/${sender}/${receiver}`, {
-  //     data: {message: input},
-  //   });
-  // };
+  const sendMessage = async () => {
+    axios.post(`/requests/${id}/messages`, {
+      data: { message: input },
+    });
+    setInput("");
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -78,10 +61,10 @@ export default function Chat() {
             type="text"
             className="form-control"
             value={input}
-            // onChange={e => setInput(e.target.value)}
-            // onKeyPress={e => {
-            //   if (e.key === "Enter") sendMessage();
-            // }}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") sendMessage();
+            }}
           />
           <div className="input-group-append">
             <button className="btn btn-outline-primary">Send</button>

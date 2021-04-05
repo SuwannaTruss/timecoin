@@ -97,6 +97,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
   //check if I have permission to access the channel
+  // private-auth-id -> request Id
   const [_, __, req_id] = channel.split("-"); //maybe i dont need this because the only user is the logged in
 
   //findAll from request where id = id
@@ -107,6 +108,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
   //find the sender_id and the receiver_id | IF any of those are equal loggedIn
 
   const loggedInId = req.user_id;
+
   const sender_id = models.Requests.findOne({
     attributes: ["UserId"],
     where: {
@@ -130,7 +132,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
   }
 });
 
-// requests/34/messages
+// /requests/34/messages
 router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   let { id } = req.params;
   let message = req.body.data.message;
