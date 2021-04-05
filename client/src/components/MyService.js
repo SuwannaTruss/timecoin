@@ -136,6 +136,7 @@ export default function MyService() {
               <div className="card-body text-secondary">
                 <h5 className="card-title">
                   You received {requestsCount} requests for this service
+                  {/* Requests you received for this service */}
                 </h5>
                 <div className="card-text">
                   <button
@@ -263,9 +264,11 @@ export default function MyService() {
 
                     {notify && <p>{notify}</p>}
                     {/* </div> */}
-                    <button className="btn btn-sm btn-outline-success mt-5 m-2">
-                      Text {request.User.firstname}
-                    </button>
+                    <NavLink to="/chat">
+                      <button className="btn btn-sm btn-success mt-5 m-2">
+                        Text {service.User.firstname}
+                      </button>
+                    </NavLink>
                   </div>
                 </div>
                 <div className="col-lg-4">

@@ -70,22 +70,22 @@ export default function Profile() {
   // }
 
   const images = (x) => {
-    if (x === 4) {
+    if (x === 1) {
       //education
       return "https://img.icons8.com/plasticine/2x/cat-footprint.pnghttps://img.icons8.com/bubbles/2x/flip-chart.png";
-    } else if (x === 14) {
+    } else if (x === 2) {
       //outdoor
       return "https://img.icons8.com/clouds/2x/outdoor-swimming-pool.png";
-    } else if (x === 24) {
+    } else if (x === 3) {
       //housework
       return "https://img.icons8.com/officel/2x/kitchen-room.png";
-    } else if (x === 34) {
+    } else if (x === 4) {
       //caring || people
       return "https://img.icons8.com/bubbles/2x/user-group-woman-woman.png";
-    } else if (x === 44) {
+    } else if (x === 5) {
       // pet
       return "https://img.icons8.com/plasticine/2x/cat-footprint.png";
-    } else if (x === 54) {
+    } else if (x === 6) {
       //food
       return "https://img.icons8.com/bubbles/2x/food.png";
     } else return "https://img.icons8.com/bubbles/2x/stack-of-photos.png";
@@ -101,14 +101,14 @@ export default function Profile() {
               <div className="media align-items-end profile-head">
                 <div className="profile mr-3">
                   {/* CODE FOR HEROKU WITHOUT PROFILE IMAGE */}
-                  <img
+                  {/* <img
                     src="https://image.freepik.com/free-vector/portrait-african-american-woman-profile-avatar-young-black-girl_102172-418.jpg"
                     alt="..."
                     width="130"
                     className="rounded mb-2 img-thumbnail"
-                  />
+                  /> */}
 
-                  {/* <img
+                  <img
                     src={
                       profile.picture
                         ? `/img/${profile.picture}`
@@ -117,7 +117,7 @@ export default function Profile() {
                     alt="..."
                     width="130"
                     className="rounded mb-2 img-thumbnail"
-                  /> */}
+                  />
                   <button className="btn btn-outline-dark btn-sm btn-block">
                     Edit profile
                   </button>

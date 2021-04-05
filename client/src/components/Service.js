@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { NavLink } from "react-router-dom";
 import api from "../data/index.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -162,9 +162,12 @@ export default function Service() {
 
                   {/* </div> */}
                 </div>
-                <button className="btn btn-sm btn-success mt-5 m-2">
-                  Text {service.User.firstname}
-                </button>
+
+                <NavLink to="/chat">
+                  <button className="btn btn-sm btn-success mt-5 m-2">
+                    Text {service.User.firstname}
+                  </button>
+                </NavLink>
               </div>
               <div className="col-lg-4">
                 <img
