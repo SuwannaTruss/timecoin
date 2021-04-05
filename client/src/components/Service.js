@@ -42,7 +42,7 @@ export default function Service() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-      return history.push(`/request/${response.data.id}`);
+      return history.push(`/request/${response.data.id}/${id}`);
     } catch (err) {
       console.log(err);
     }

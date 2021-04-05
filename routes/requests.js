@@ -90,6 +90,33 @@ router.get("/", userShouldBeLoggedIn, async (req, res) => {
     });
 });
 
+// get requests by ID with service info
+router.get("/info/:id", userShouldBeLoggedIn, (req, res) => {
+  const { id } = req.params;
+  models.Requests.findOne({
+    attributes: [
+      "id",
+      "status",
+      "amount",
+      "serviceDate",
+      "serviceTime",
+      "serviceId",
+    ],
+    where: { id },
+    include: {
+      model: models.Services,
+      attributes: ["id", "description", "servicename"],
+    },
+  })
+    .then((data) => {
+      if (data) res.send(data);
+      else res.status(404).send({ message: "Request not found." });
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 const pusher = new Pusher({
   key: process.env.PUSHER_KEY,
   appId: process.env.PUSHER_APP_ID,
@@ -103,7 +130,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
   const channel = req.body.channel_name;
   //check if I have permission to access the channel
   // private-auth-id -> request Id
-  const [_, __, req_id] = channel.split("-"); //maybe i dont need this because the only user is the logged in
+  const [_, __, req_id] = channel.split("-");
 
   //findAll from request where id = id
   // grab the userId = (senderId)
