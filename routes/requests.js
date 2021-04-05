@@ -12,7 +12,7 @@ router.post("/:id", userShouldBeLoggedIn, async (req, res) => {
   const { id } = req.params;
   const { storage, amount, serviceDate, serviceTime, status } = req.body;
   try {
-    await models.Requests.create({
+    const response = await models.Requests.create({
       UserId: UserId,
       serviceId: id,
       storage: storage,
@@ -21,7 +21,8 @@ router.post("/:id", userShouldBeLoggedIn, async (req, res) => {
       serviceTime: serviceTime,
       status: status || "requested",
     });
-    res.send({ message: "Your request has been received." });
+    // res.send({ message: "Your request has been received." });
+    res.send(response);
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
@@ -70,9 +71,7 @@ router.patch("/:id", userShouldBeLoggedIn, async (req, res) => {
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
   const UserId = req.user_id;
   models.Requests.findAll({
-    order: [
-      ['createdAt', 'DESC']
-    ],
+    order: [["createdAt", "DESC"]],
     limit: 5,
     // attributes: ["id", "storage", "status", "amount", "serviceDate", "serviceTime"],
     attributes: ["id", "status", "serviceDate", "serviceTime", "createdAt"],

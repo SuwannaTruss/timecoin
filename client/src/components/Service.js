@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import api from "../data/index.js";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+
 export default function Service() {
   const { id } = useParams();
   const [service, setService] = useState({ User: {} });
+  const history = useHistory();
 
   const [newRequest, setNewRequest] = useState({
     serviceId: id,
@@ -40,7 +42,7 @@ export default function Service() {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-      return response;
+      return history.push(`/request/${response.data.id}`);
     } catch (err) {
       console.log(err);
     }
