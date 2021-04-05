@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
+/* router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
   const id = req.user_id;
   models.Users.findOne({
     attributes: [
@@ -88,26 +88,48 @@ router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
     .catch((error) => {
       res.status(500).send(error);
     });
+}); */
+
+router.get("/profile", userShouldBeLoggedIn, async (req, res) => {
+  const id = req.user_id;
+  models.Users.findOne({
+    attributes: [
+      "id",
+      "username",
+      "email",
+      "firstname",
+      "lastname",
+      "location",
+      "picture",
+    ],
+    where: { id },
+  })
+    .then((data) => res.send(data))
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 // add note
 // New: Get profile with count number of request a loggedIn user received.
 // `SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(CASE WHEN Requests.status = 'requested' THEN 1 ELSE 0 END) AS requestCount FROM Users CROSS JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id AND Requests.status = "requested" GROUP BY services.id`
-// router.get("/profileWithBadge", userShouldBeLoggedIn, async (req, res) => {
-//   try {
-//     const results = await db.sequelize.query(
-//       `SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Requests.status, SUM(CASE WHEN Requests.status = 'requested' THEN 1 ELSE 0 END) AS requestCount FROM Users CROSS JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id GROUP BY Services.id`,
-//       {
-//         replacements: { id: req.user_id },
-//         type: db.sequelize.QueryTypes.SELECT,
-//       }
-//     );
-//     res.send(results);
-//   } catch (err) {
-//     res.status(400).send({ message: err.message });
-//   }
-// });
+router.get("/MyServicesWithBadge", userShouldBeLoggedIn, async (req, res) => {
+  try {
+    const results = await db.sequelize.query(
+      `SELECT Users.id, Users.username, Users.firstname, Users.lastname, Users.location, Users.picture, Services.id, Services.serviceName, Services.description, Services.categoryId, COUNT(Services.id) AS serviceCount, Requests.status, SUM(CASE WHEN Requests.status = 'requested' THEN 1 ELSE 0 END) AS requestCount FROM Users CROSS JOIN Services ON Users.id = Services.UserId LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE Users.id = :id GROUP BY Services.id, requests.status`,
+      {
+        replacements: { id: req.user_id },
+        type: db.sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.send(results);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
 
+
+/* // Not using now, replaced by profileWithBadge
 //counting of requests I receive for each service I offered.
 router.get("/requestNotifyBadge", userShouldBeLoggedIn, async (req, res) => {
   try {
@@ -122,7 +144,7 @@ router.get("/requestNotifyBadge", userShouldBeLoggedIn, async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
-});
+}); */
 
 router.get("/", userShouldBeLoggedIn, async (req, res) => {
   const user = await models.Users.findAll({
@@ -157,7 +179,7 @@ router.get("/wallet", userShouldBeLoggedIn, async (req, res) => {
     );
 
     withholding = await db.sequelize.query(
-      'SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS withholding FROM Users LEFT JOIN Requests ON Users.id = Requests.UserId WHERE Users.id = :id AND Requests.status = "booked" GROUP BY Users.id',
+      'SELECT Users.id, Users.username, Users.firstname, Users.lastname, SUM(Requests.amount) AS withholding FROM Users LEFT JOIN Requests ON Users.id = Requests.UserId WHERE Users.id = :id AND (Requests.status = "booked" OR Requests.status = "requested") GROUP BY Users.id',
       {
         replacements: { id: req.user_id },
         type: db.sequelize.QueryTypes.SELECT,

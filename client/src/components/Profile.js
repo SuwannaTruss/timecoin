@@ -9,21 +9,18 @@ import axios from "axios";
 export default function Profile() {
   const auth = useAuth();
 
-  const [profile, setProfile] = useState({ Services: [] });
+  const [profile, setProfile] = useState([]);
   const [requestBadges, setRequestBadges] = useState([]);
-  const [serviceInfoBadge, setServiceInfoBadge] = useState([]);
+  const [servicesInfoBadge, setServicesInfoBadge] = useState([]);
   const [myRequests, setMyRequests] = useState([]);
 
-  // useEffect(async () => {
-  //   const result = await api.getProfile();
-  //   setProfile(result.data);
-  // }, []);
+
   useEffect(() => {
     async function getMyRequests() {
       try {
         const result = await api.getMyRequests();
-        // console.log(result.data);
-        setMyRequests(result.data);
+        console.log(result.data);
+        await setMyRequests(result.data);
       } catch (err) {
         console.log(err);
       }
@@ -43,31 +40,20 @@ export default function Profile() {
     }
     auth.getWallet();
     getProfile();
-    // getRequestNotifyBadge();
   }, []);
 
-  // const getRequestNotifyBadge = async () => {
-  //   try {
-  //     const response = await axios.get(`/users/requestNotifyBadge`, {
-  //       headers: {
-  //         "x-access-token": localStorage.getItem("token"),
-  //       },
-  //     });
-  //     console.log(response.data)
-  //     setRequestBadges(response.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const mergeServiceData = () => {
-  //   const merge = profile.Services.concat(requestBadges);
-  //   Array.prototype.groupBy = function(k) {
-  //     return this.reduce((acc, item) => ((acc[item[k]] = [...(acc[item[k]] || []), item]), acc),[]);
-  //   };
-  //   console.log(merge);
-  //   console.log(merge.groupBy("id"));
-  // }
+  useEffect(() => {
+    async function getMyServicesWithBadge() {
+      try {
+        const result = await api.getMyServicesWithBadge();
+        console.log(result.data);
+        setServicesInfoBadge(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getMyServicesWithBadge();
+  }, []);
 
   const images = (x) => {
     if (x === 4) {
@@ -140,14 +126,16 @@ export default function Profile() {
             </div> */}
             <div className="py-4 px-5">
               <div className="row">
-                <div className="col-6 mb-2" key={profile.id}>
+                <div className="col-6 mb-2" key={servicesInfoBadge.id}>
                   <h3 className="mb-1  header-profile ">MY SERVICES</h3>
                   <div className="row justify-content">
-                    {profile.Services.map((s) => (
+                    {servicesInfoBadge.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
                         <NavLink to={`/my-service/${s.id}`}>
-                          {/* {! && 
-                          <span className="notify-badge">X</span>} */}
+                        {s.requestCount>0 &&
+                          <span className="notify-badge">{s.requestCount}</span>
+                        }
+                          
                           <img
                             src={images(s.categoryId)}
                             className="card-img-top"
@@ -205,9 +193,14 @@ export default function Profile() {
                         <div className="card-body ">
                           {" "}
                           <h5 className="card-text text-info">Total</h5>
-                          <p className="text-secondary">
+                          {/* <p className="text-secondary">
                             Dog walking | booked | 23/03
-                          </p>
+                          </p> */}
+                          {myRequests.map((r) => (
+                            <p className="text-secondary">
+                              {r["Service.servicename"]} | {r.status} | {r.serviceDate}
+                            </p>
+                          ))}
                         </div>
                       </div>
                     </div>
