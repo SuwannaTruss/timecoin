@@ -9,8 +9,20 @@ export default function Chat() {
   const auth = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  // const [sender, setSender] = useState();
   const [service, setService] = useState({ User: {} });
+  const [test, setTest] = useState();
+
+  useEffect(() => {
+    async function getTest() {
+      try {
+        const result = await axios.get(`/requests/test/${id}`);
+        console.log(result.data.UserId);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getTest();
+  }, []);
 
   let { id, serviceId } = useParams();
 
@@ -25,14 +37,17 @@ export default function Chat() {
       }
     }
     getService();
+    console.log(id);
   }, []);
 
   useEffect(() => {
+    setMessages([]);
+
     Pusher.logToConsole = true;
     var pusher = new Pusher("f656e2c483a6ebf79c8c", {
       cluster: "eu",
       forceTLS: true,
-      authEndpoint: "/requests/:id/messages",
+      authEndpoint: "/requests/pusher/auth",
       auth: {
         headers: {
           "x-access-token": localStorage.getItem("token"),
@@ -45,7 +60,6 @@ export default function Chat() {
 
     var channel = pusher.subscribe(channelTimecoin);
     channel.bind("message", function (data) {
-      // alert(JSON.stringify(data));
       setMessages((messages) => [...messages, data]);
     });
 
@@ -55,25 +69,109 @@ export default function Chat() {
   }, [id]);
 
   const sendMessage = async () => {
-    axios.post(`/requests/${id}/messages`, {
-      data: { message: input },
-    });
+    const response = await axios.post(
+      `/requests/${id}/messages`,
+      {
+        data: { message: input },
+      }
+      // {
+      //   headers: {
+      //     "x-access-token": localStorage.getItem("token"),
+      //   },
+      // }
+    );
+    console.log(response);
     setInput("");
   };
 
   return (
-    <div className="d-flex flex-column h-100">
+    <div className="d-flex flex-column ">
       <div className="bg-white shadow rounded overflow-hidden">
-        <h2 className="p-3 header-service-name"> {service.servicename}</h2>
-        <div className="row border rounded bg-white shadow">
-          <div className="col-9 px-0 border-left">
-            <div className="flex-grow-1 p-3">
-              {messages.map((message) => (
-                <div>{message.text}</div>
-              ))}
+        <h2 className="p-3 header-service-name"> Request Details</h2>
+        <div className="container service-container mb-5">
+          <div className="row">
+            {/* <div className="col-9 px-0 border-left"> */}
+            <div className="col-lg-3 col-md-4 ads back-container-service">
+              <h1 className="">
+                {/* <span id="fl">Request</span> */}
+                <span id="sl" className="text-center">
+                  {service.servicename}
+                </span>
+              </h1>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <label
+                    className="input-group-text "
+                    htmlFor="inputGroupSelect02"
+                  >
+                    Date
+                  </label>
+                </div>
+                <input
+                  type="date"
+                  id="inputGroupSelect02"
+                  className="form-control"
+                  name="serviceDate"
+                />
+              </div>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <label
+                    className="input-group-text "
+                    htmlFor="inputGroupSelect03"
+                  >
+                    Time
+                  </label>
+                </div>
+                <input
+                  type="time"
+                  id="inputGroupSelect03"
+                  className="form-control"
+                  name="serviceTime"
+                />
+              </div>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <label
+                    className="input-group-text"
+                    htmlFor="inputGroupSelect01"
+                  >
+                    Hours
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  id="inputGroupSelect01"
+                  className="form-control"
+                  name="amount"
+                  placeholder="For how many hours?"
+                />
+              </div>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <label
+                    className="input-group-text"
+                    htmlFor="inputGroupSelect01"
+                  >
+                    Hello!
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  id="inputGroupSelect01"
+                  className="form-control"
+                  placeholder="Say something :)"
+                  name="storage"
+                />
+              </div>
             </div>
 
-            <div className="bg-light p-4 border-top">
+            <div className="col-9 bg-light p-4 border-top">
+              <div className="flex-grow-1 p-3">
+                {messages.map((message) => (
+                  <div>{message.text}</div>
+                ))}
+              </div>
               <div className="input-group">
                 <input
                   type="text"

@@ -4,6 +4,8 @@ const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const models = require("../models");
 const Pusher = require("pusher");
 const Messages = require("../models/messages");
+const { sequelize } = require("../models");
+const db = require("../models");
 
 // services_id is selected by the Users with onClick on the service card
 // user_id of the user who made a request is from token in header
@@ -125,7 +127,7 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
+router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
   //check if I have permission to access the channel
@@ -141,13 +143,13 @@ router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
 
   const loggedInId = req.user_id;
 
-  const sender_id = models.Requests.findOne({
+  const sender_id = await models.Requests.findOne({
     attributes: ["UserId"],
     where: {
       id: req_id,
     },
   });
-  const receiver_id = models.Requests.findOne({
+  const receiver_id = await models.Requests.findOne({
     attributes: ["serviceId"],
     where: { id: req_id },
     include: {
@@ -155,7 +157,8 @@ router.post("/pusher/auth", userShouldBeLoggedIn, function (req, res) {
       attributes: ["UserId"],
     },
   });
-  if (loggedInId === sender_id || loggedInId === receiver_id) {
+  // if (loggedInId === sender_id || loggedInId === receiver_id) {
+  if (sender_id === 6) {
     //all good
     const auth = pusher.authenticate(socketId, channel);
     res.send(auth);
@@ -176,7 +179,7 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   } catch (err) {
     res.status(500).send(err);
   }
-  const channel = `private-timecoinChat-${id}`;
+  let channel = `private-timecoinChat-${id}`;
 
   //trigger an event to Pusher
   pusher.trigger(channel, "message", {
@@ -185,6 +188,28 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   });
 
   res.send({ msg: "Sent" });
+});
+
+router.get("/test/:id", async (req, res) => {
+  let { id } = req.params;
+  // const result = await sequelize.query(
+  //   `SELECT UserId from Requests WHERE id = ${id}`,
+  //   { type: db.sequelize.QueryTypes.SELECT }
+  // );
+  const result = await models.Requests.findOne({
+    // const { UserId } = await models.Requests.findOne({
+    // attributes: ["UserId"],
+    where: {
+      id,
+    },
+    // include: {
+    //   model: models.Users,
+    //   attributes: ["id"],
+    // },
+    // raw: true,
+  });
+
+  res.send(result.data);
 });
 
 module.exports = router;
