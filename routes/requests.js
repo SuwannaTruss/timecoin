@@ -165,30 +165,24 @@ router.post("/:id/messages", userShouldBeLoggedIn, (req, res) => {
   let { id } = req.params;
   let message = req.body.data.message;
   const loggedInId = req.user_id;
-  // try {
-  // let results = await models.Messages.create({
-  models.Messages.create({
-    message: message,
-    senderId: loggedInId,
-    requestId: id,
-  })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
+  try {
+    // let results = await models.Messages.create({
+    models.Messages.create({
+      message,
+      senderId: loggedInId,
+      requestId: id,
     });
-  // const results = await db.sequelize.query(
-  //   `insert into messages (message, senderId, requestId, createdAt, updatedAt) values (:message, :loggedInId, :id, "2021-04-07 15:16:57","2021-04-07 15:16:57");`,
-  //   {
-  //     replacements: { message: message, loggedInId: loggedInId, id: id },
-  //     type: db.sequelize.QueryTypes.SELECT,
-  //   }
-  // );
-  // res.send(results);
-  // } catch (err) {
-  //   res.status(500).send(err);
-  // }
+    // .then((data) => {
+    //   res.send(data);
+    // })
+    // .catch((error) => {
+    //   res.status(500).send(error);
+    // });
+
+    res.send(results);
+  } catch (err) {
+    res.status(500).send(err);
+  }
   let channel = `private-timecoinChat-${id}`;
 
   //trigger an event to Pusher
@@ -217,9 +211,10 @@ router.get("/test/:id", async (req, res) => {
   //   `SELECT UserId from Requests WHERE id = ${id}`,
   //   { type: db.sequelize.QueryTypes.SELECT }
   // );
-  // const result = await models.Requests.findOne({
-  const { serviceDate } = await models.Requests.findOne({
-    // attributes: ["UserId"],
+  const result = await models.Requests.findOne({
+    // const { serviceDate } = await models.Requests.findOne({
+    attributes: ["UserId"],
+    // attributes: ["serviceDate"],
     where: {
       id,
     },
@@ -230,7 +225,7 @@ router.get("/test/:id", async (req, res) => {
     // raw: true,
   });
 
-  res.send(serviceDate);
+  res.send(result.UserId);
 });
 
 module.exports = router;
