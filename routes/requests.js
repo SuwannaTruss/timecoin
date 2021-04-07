@@ -161,15 +161,34 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
 });
 
 // /requests/34/messages
-router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
+router.post("/:id/messages", userShouldBeLoggedIn, (req, res) => {
   let { id } = req.params;
   let message = req.body.data.message;
   const loggedInId = req.user_id;
-  try {
-    await models.Messages.create({ message, senderId: loggedInId });
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  // try {
+  // let results = await models.Messages.create({
+  models.Messages.create({
+    message: message,
+    senderId: loggedInId,
+    requestId: id,
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+  // const results = await db.sequelize.query(
+  //   `insert into messages (message, senderId, requestId, createdAt, updatedAt) values (:message, :loggedInId, :id, "2021-04-07 15:16:57","2021-04-07 15:16:57");`,
+  //   {
+  //     replacements: { message: message, loggedInId: loggedInId, id: id },
+  //     type: db.sequelize.QueryTypes.SELECT,
+  //   }
+  // );
+  // res.send(results);
+  // } catch (err) {
+  //   res.status(500).send(err);
+  // }
   let channel = `private-timecoinChat-${id}`;
 
   //trigger an event to Pusher
@@ -179,6 +198,16 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   });
 
   res.send({ msg: "Sent" });
+});
+
+router.get("/:id/messages", async (req, res) => {
+  let { id } = req.params;
+  let messages = await models.Messages.findAll({
+    where: { id },
+    limit: 10,
+    order: [["id", "DESC"]],
+  });
+  res.send(messages.reverse());
 });
 
 router.get("/test/:id", async (req, res) => {

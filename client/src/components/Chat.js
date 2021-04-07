@@ -4,7 +4,6 @@ import Pusher from "pusher-js";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import api from "../data/index.js";
-import { getCurrentInstance } from "@vue/runtime-core";
 
 export default function Chat() {
   const auth = useAuth();
@@ -58,7 +57,7 @@ export default function Chat() {
 
   useEffect(() => {
     setMessages([]);
-
+    getMessages();
     Pusher.logToConsole = true;
     var pusher = new Pusher("f656e2c483a6ebf79c8c", {
       cluster: "eu",
@@ -98,6 +97,12 @@ export default function Chat() {
     );
     setInput("");
     return response;
+  };
+
+  const getMessages = async () => {
+    let { data } = await axios(`/request/${id}/messages`);
+
+    setMessages((messages) => [...messages, ...data]);
   };
 
   return (
