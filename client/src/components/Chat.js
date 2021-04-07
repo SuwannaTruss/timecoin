@@ -4,27 +4,44 @@ import Pusher from "pusher-js";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import api from "../data/index.js";
+import { getCurrentInstance } from "@vue/runtime-core";
 
 export default function Chat() {
   const auth = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [service, setService] = useState({ User: {} });
-  const [test, setTest] = useState();
+  const [request, setRequest] = useState({ serviceDate: "" });
+
+  // useEffect(() => {
+  //   async function getTest() {
+  //     try {
+  //       const result = await axios.get(`/requests/test/${id}`);
+  //       console.log(result.data.UserId);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   getTest();
+  // }, []);
+
+  let { id, serviceId } = useParams();
 
   useEffect(() => {
-    async function getTest() {
+    async function getRequest() {
       try {
-        const result = await axios.get(`/requests/test/${id}`);
-        console.log(result.data.UserId);
+        const result = await axios.get(`/requests/info/${id}`, {
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+          },
+        });
+        setRequest(result.data);
       } catch (err) {
         console.log(err);
       }
     }
-    getTest();
+    getRequest();
   }, []);
-
-  let { id, serviceId } = useParams();
 
   useEffect(() => {
     async function getService() {
@@ -37,7 +54,6 @@ export default function Chat() {
       }
     }
     getService();
-    console.log(id);
   }, []);
 
   useEffect(() => {
@@ -73,15 +89,15 @@ export default function Chat() {
       `/requests/${id}/messages`,
       {
         data: { message: input },
+      },
+      {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
       }
-      // {
-      //   headers: {
-      //     "x-access-token": localStorage.getItem("token"),
-      //   },
-      // }
     );
-    console.log(response);
     setInput("");
+    return response;
   };
 
   return (
@@ -99,70 +115,13 @@ export default function Chat() {
                 </span>
               </h1>
               <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <label
-                    className="input-group-text "
-                    htmlFor="inputGroupSelect02"
-                  >
-                    Date
-                  </label>
-                </div>
-                <input
-                  type="date"
-                  id="inputGroupSelect02"
-                  className="form-control"
-                  name="serviceDate"
-                />
+                <h5>Day: {request.serviceDate}</h5>
               </div>
               <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <label
-                    className="input-group-text "
-                    htmlFor="inputGroupSelect03"
-                  >
-                    Time
-                  </label>
-                </div>
-                <input
-                  type="time"
-                  id="inputGroupSelect03"
-                  className="form-control"
-                  name="serviceTime"
-                />
+                <h5>Time: {request.serviceTime}</h5>
               </div>
               <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <label
-                    className="input-group-text"
-                    htmlFor="inputGroupSelect01"
-                  >
-                    Hours
-                  </label>
-                </div>
-                <input
-                  type="text"
-                  id="inputGroupSelect01"
-                  className="form-control"
-                  name="amount"
-                  placeholder="For how many hours?"
-                />
-              </div>
-              <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <label
-                    className="input-group-text"
-                    htmlFor="inputGroupSelect01"
-                  >
-                    Hello!
-                  </label>
-                </div>
-                <input
-                  type="text"
-                  id="inputGroupSelect01"
-                  className="form-control"
-                  placeholder="Say something :)"
-                  name="storage"
-                />
+                <h5>For how long? {request.amount} hour</h5>
               </div>
             </div>
 
@@ -183,7 +142,12 @@ export default function Chat() {
                   }}
                 />
                 <div className="input-group-append">
-                  <button className="btn btn-outline-primary">Send</button>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={sendMessage}
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
             </div>

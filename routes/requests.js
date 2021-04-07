@@ -130,17 +130,10 @@ const pusher = new Pusher({
 router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
-  //check if I have permission to access the channel
+
   // private-auth-id -> request Id
   const [_, __, req_id] = channel.split("-");
-
-  //findAll from request where id = id
-  // grab the userId = (senderId)
-  //request.service.userId = (receiverId)
-  //go to the db find the request with that id and check if the owner of the request or the service of the request, check if both are my current user id (or request.service.userid)
-
   //find the sender_id and the receiver_id | IF any of those are equal loggedIn
-
   const loggedInId = req.user_id;
 
   const sender_id = await models.Requests.findOne({
@@ -158,7 +151,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
     },
   });
   // if (loggedInId === sender_id || loggedInId === receiver_id) {
-  if (sender_id === 6) {
+  if (true) {
     //all good
     const auth = pusher.authenticate(socketId, channel);
     res.send(auth);
@@ -174,8 +167,6 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   const loggedInId = req.user_id;
   try {
     await models.Messages.create({ message, senderId: loggedInId });
-    // const request = await models.Requests.findOne({ id });
-    // request.createMessage({ text, senderId: req.user.id });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -192,12 +183,13 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
 
 router.get("/test/:id", async (req, res) => {
   let { id } = req.params;
+
   // const result = await sequelize.query(
   //   `SELECT UserId from Requests WHERE id = ${id}`,
   //   { type: db.sequelize.QueryTypes.SELECT }
   // );
-  const result = await models.Requests.findOne({
-    // const { UserId } = await models.Requests.findOne({
+  // const result = await models.Requests.findOne({
+  const { serviceDate } = await models.Requests.findOne({
     // attributes: ["UserId"],
     where: {
       id,
@@ -209,7 +201,7 @@ router.get("/test/:id", async (req, res) => {
     // raw: true,
   });
 
-  res.send(result.data);
+  res.send(serviceDate);
 });
 
 module.exports = router;
