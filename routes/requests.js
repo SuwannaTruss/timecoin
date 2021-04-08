@@ -161,24 +161,18 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
 });
 
 // /requests/34/messages
-router.post("/:id/messages", userShouldBeLoggedIn, (req, res) => {
+router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   let { id } = req.params;
   let message = req.body.data.message;
-  const loggedInId = req.user_id;
+  const SenderId = req.user_id;
   try {
-    // let results = await models.Messages.create({
-    models.Messages.create({
+    let results = await models.Messages.create({
+      // models.Messages.create({
       message,
-      senderId: loggedInId,
-      requestId: id,
+      SenderId: req.user_id,
+      RequestId: id,
     });
-    // .then((data) => {
-    //   res.send(data);
-    // })
-    // .catch((error) => {
-    //   res.status(500).send(error);
-    // });
-
+    console.log("THIS IS THE USER ID", req.user_id);
     res.send(results);
   } catch (err) {
     res.status(500).send(err);
@@ -187,7 +181,7 @@ router.post("/:id/messages", userShouldBeLoggedIn, (req, res) => {
 
   //trigger an event to Pusher
   pusher.trigger(channel, "message", {
-    loggedInId,
+    SenderId,
     message,
   });
 
@@ -213,7 +207,7 @@ router.get("/test/:id", async (req, res) => {
   // );
   const result = await models.Requests.findOne({
     // const { serviceDate } = await models.Requests.findOne({
-    attributes: ["UserId"],
+    // attributes: ["UserId"],
     // attributes: ["serviceDate"],
     where: {
       id,
@@ -225,7 +219,7 @@ router.get("/test/:id", async (req, res) => {
     // raw: true,
   });
 
-  res.send(result.UserId);
+  res.send(result["UserId"]);
 });
 
 module.exports = router;
