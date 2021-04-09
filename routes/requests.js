@@ -136,12 +136,22 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
   //find the sender_id and the receiver_id | IF any of those are equal loggedIn
   const loggedInId = req.user_id;
 
-  const sender_id = await models.Requests.findOne({
-    attributes: ["UserId"],
+  const getSender = await models.Requests.findOne({
     where: {
       id: req_id,
     },
   });
+  let senderId = getSender.UserId;
+
+  const getReceiver = await models.Requests.findOne({
+    attributes: ["serviceId"],
+    where: { id },
+    include: {
+      model: models.Services,
+      attributes: ["UserId"],
+    },
+  });
+  let receiverId = getReceiver.Service.UserId;
   const receiver_id = await models.Requests.findOne({
     attributes: ["serviceId"],
     where: { id: req_id },
@@ -150,7 +160,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
       attributes: ["UserId"],
     },
   });
-  // if (loggedInId === sender_id || loggedInId === receiver_id) {
+  // if (loggedInId === senderId || loggedInId === receiverId) {
   if (true) {
     //all good
     const auth = pusher.authenticate(socketId, channel);
@@ -166,14 +176,12 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   let message = req.body.data.message;
   const SenderId = req.user_id;
   try {
-    let results = await models.Messages.create({
-      // models.Messages.create({
+    const results = await models.Messages.create({
       message,
-      SenderId: req.user_id,
+      SenderId,
       RequestId: id,
     });
-    console.log("THIS IS THE USER ID", req.user_id);
-    res.send(results);
+    // res.send(results);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -201,25 +209,24 @@ router.get("/:id/messages", async (req, res) => {
 router.get("/test/:id", async (req, res) => {
   let { id } = req.params;
 
-  // const result = await sequelize.query(
-  //   `SELECT UserId from Requests WHERE id = ${id}`,
-  //   { type: db.sequelize.QueryTypes.SELECT }
-  // );
-  const result = await models.Requests.findOne({
-    // const { serviceDate } = await models.Requests.findOne({
-    // attributes: ["UserId"],
-    // attributes: ["serviceDate"],
-    where: {
-      id,
+  // const result = await models.Requests.findOne({
+  //   where: {
+  //     id,
+  //   },
+  // });
+  // let senderId = result.UserId;
+  // console.log("THIS IS THE SENDER ID", senderId);
+  // res.send(result);
+  const receiver_id = await models.Requests.findOne({
+    attributes: ["serviceId"],
+    where: { id },
+    include: {
+      model: models.Services,
+      attributes: ["UserId"],
     },
-    // include: {
-    //   model: models.Users,
-    //   attributes: ["id"],
-    // },
-    // raw: true,
   });
-
-  res.send(result["UserId"]);
+  console.log("THIS IS THE RECEIVER ID", receiver_id.Service.UserId);
+  res.send(receiver_id);
 });
 
 module.exports = router;

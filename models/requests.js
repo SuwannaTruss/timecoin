@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       Requests.belongsTo(models.Users);
       // Requests.belongsTo(models.Transactions)
       Requests.belongsTo(models.Services, { foreignKey: "serviceId" });
-      Requests.hasMany(models.Messages);
+      Requests.hasMany(models.Messages, { foreignKey: "RequestId" });
+      Requests.hasMany(models.Messages, { foreignKey: "SenderId" });
     }
   }
   Requests.init(

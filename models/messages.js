@@ -11,11 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Messages.belongsTo(models.Requests);
       Messages.belongsTo(models.Requests, { as: "SenderId" });
-      // Messages.belongsToMany(models.Requests, {
-      //   through: "message_request",
-      //   targetKey: "id",
-      //   targetKey: "UserId",
-      // });
+
       Messages.belongsTo(models.Requests, { as: "RequestId" });
     }
   }
