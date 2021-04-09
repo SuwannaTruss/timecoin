@@ -131,7 +131,8 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
 
-  // private-auth-id -> request Id
+  // channel = private-timecoinChat-id -> request Id
+  //if split("-") = [private, timecoinChat, id]
   const [_, __, req_id] = channel.split("-");
   //find the sender_id and the receiver_id | IF any of those are equal loggedIn
   const loggedInId = req.user_id;
@@ -154,7 +155,6 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
   let receiverId = getReceiver.Service.UserId;
 
   if (loggedInId === senderId || loggedInId === receiverId) {
-    // if (true) {
     //all good
     const auth = pusher.authenticate(socketId, channel);
     res.send(auth);
@@ -189,7 +189,7 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   res.send({ msg: "Sent" });
 });
 
-router.get("/:id/messages", async (req, res) => {
+router.get("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   let { id } = req.params;
 
   try {
@@ -197,36 +197,12 @@ router.get("/:id/messages", async (req, res) => {
       attributes: ["id", "message", "SenderId"],
       where: { RequestId: id },
       limit: 10,
-      order: [["id", "DESC"]],
+      order: [["id", "ASC"]],
     });
-    res.send(messages.reverse());
-    // res.send(messages);
+    res.send(messages);
   } catch (err) {
     res.status(500);
   }
-});
-
-router.get("/test/:id", async (req, res) => {
-  let { id } = req.params;
-
-  // const result = await models.Requests.findOne({
-  //   where: {
-  //     id,
-  //   },
-  // });
-  // let senderId = result.UserId;
-  // console.log("THIS IS THE SENDER ID", senderId);
-  // res.send(result);
-  const receiver_id = await models.Requests.findOne({
-    attributes: ["serviceId"],
-    where: { id },
-    include: {
-      model: models.Services,
-      attributes: ["UserId"],
-    },
-  });
-  console.log("THIS IS THE RECEIVER ID", receiver_id.Service.UserId);
-  res.send(receiver_id);
 });
 
 module.exports = router;

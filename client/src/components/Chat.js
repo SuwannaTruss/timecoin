@@ -57,7 +57,6 @@ export default function Chat() {
 
   useEffect(() => {
     setMessages([]);
-    // getMessages();
     Pusher.logToConsole = true;
     var pusher = new Pusher("f656e2c483a6ebf79c8c", {
       cluster: "eu",
@@ -71,15 +70,15 @@ export default function Chat() {
     });
 
     //private channels MUST start with private-
-    const channelTimecoin = `private-timecoinChat-${id}`;
+    const channel_name = `private-timecoinChat-${id}`;
 
-    var channel = pusher.subscribe(channelTimecoin);
+    var channel = pusher.subscribe(channel_name);
     channel.bind("message", function (data) {
       setMessages((messages) => [...messages, data]);
     });
 
     return () => {
-      pusher.unsubscribe(channelTimecoin);
+      pusher.unsubscribe(channel_name);
     };
   }, [id]);
 
@@ -101,7 +100,11 @@ export default function Chat() {
 
   useEffect(() => {
     const getMessages = async () => {
-      let { data } = await axios.get(`/requests/${id}/messages`);
+      let { data } = await axios.get(`/requests/${id}/messages`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
 
       setMessages((messages) => [...messages, ...data]);
       // console.log(result.data);

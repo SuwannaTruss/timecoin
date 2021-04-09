@@ -27,9 +27,9 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/request/:id">
+            <PrivateRoute path="/request/:id">
               <Chat />
-            </Route>
+            </PrivateRoute>
             <Route path="/register">
               <Register />
             </Route>

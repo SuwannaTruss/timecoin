@@ -14,7 +14,6 @@ export default function Service() {
     amount: "",
     serviceDate: "",
     serviceTime: "",
-    storage: "",
   });
 
   useEffect(() => {
@@ -116,25 +115,6 @@ export default function Service() {
                       onChange={handleChange}
                     />
                   </div>
-                  <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <label
-                        className="input-group-text"
-                        htmlFor="inputGroupSelect01"
-                      >
-                        Hello!
-                      </label>
-                    </div>
-                    <input
-                      type="text"
-                      id="inputGroupSelect01"
-                      className="form-control"
-                      placeholder="Say something :)"
-                      name="storage"
-                      value={newRequest.storage}
-                      onChange={handleChange}
-                    />
-                  </div>
 
                   <div className="form-group">
                     <button
@@ -164,9 +144,6 @@ export default function Service() {
 
                   {/* </div> */}
                 </div>
-                <button className="btn btn-sm btn-success mt-5 m-2">
-                  Text {service.User.firstname}
-                </button>
               </div>
               <div className="col-lg-4">
                 <img
