@@ -27,7 +27,7 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/request/:id/:serviceId">
+            <Route path="/request/:id">
               <Chat />
             </Route>
             <Route path="/register">

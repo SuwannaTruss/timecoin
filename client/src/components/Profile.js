@@ -14,7 +14,6 @@ export default function Profile() {
   const [servicesInfoBadge, setServicesInfoBadge] = useState([]);
   const [myRequests, setMyRequests] = useState([]);
 
-
   useEffect(() => {
     async function getMyRequests() {
       try {
@@ -132,10 +131,12 @@ export default function Profile() {
                     {servicesInfoBadge.map((s) => (
                       <div className="card shadow border-0 service-card col-lg-4 m-2 ">
                         <NavLink to={`/my-service/${s.id}`}>
-                        {s.requestCount>0 &&
-                          <span className="notify-badge">{s.requestCount}</span>
-                        }
-                          
+                          {s.requestCount > 0 && (
+                            <span className="notify-badge">
+                              {s.requestCount}
+                            </span>
+                          )}
+
                           <img
                             src={images(s.categoryId)}
                             className="card-img-top"
@@ -197,9 +198,12 @@ export default function Profile() {
                             Dog walking | booked | 23/03
                           </p> */}
                           {myRequests.map((r) => (
-                            <p className="text-secondary">
-                              {r["Service.servicename"]} | {r.status} | {r.serviceDate}
-                            </p>
+                            <NavLink to={`/request/${r.id}`}>
+                              <p className="text-secondary">
+                                {r["Service.servicename"]} | {r.status} |{" "}
+                                {r.serviceDate}
+                              </p>
+                            </NavLink>
                           ))}
                         </div>
                       </div>

@@ -11,20 +11,21 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [service, setService] = useState({ User: {} });
   const [request, setRequest] = useState({ serviceDate: "" });
-
-  // useEffect(() => {
-  //   async function getTest() {
-  //     try {
-  //       const result = await axios.get(`/requests/test/${id}`);
-  //       console.log(result.data.UserId);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   getTest();
-  // }, []);
+  const [user, setUser] = useState();
 
   let { id, serviceId } = useParams();
+
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        const result = await api.getProfile();
+        setUser(result.data.id);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getProfile();
+  }, []);
 
   useEffect(() => {
     async function getRequest() {
@@ -46,7 +47,6 @@ export default function Chat() {
     async function getService() {
       try {
         const result = await api.getService(serviceId);
-        console.log(result.data.User.username);
         setService(result.data);
       } catch (err) {
         console.log(err);
@@ -57,7 +57,7 @@ export default function Chat() {
 
   useEffect(() => {
     setMessages([]);
-    getMessages();
+    // getMessages();
     Pusher.logToConsole = true;
     var pusher = new Pusher("f656e2c483a6ebf79c8c", {
       cluster: "eu",
@@ -99,11 +99,16 @@ export default function Chat() {
     return response;
   };
 
-  const getMessages = async () => {
-    let { data } = await axios(`/request/${id}/messages`);
+  useEffect(() => {
+    const getMessages = async () => {
+      let { data } = await axios.get(`/requests/${id}/messages`);
 
-    setMessages((messages) => [...messages, ...data]);
-  };
+      setMessages((messages) => [...messages, ...data]);
+      // console.log(result.data);
+    };
+
+    getMessages();
+  }, []);
 
   return (
     <div className="d-flex flex-column ">
@@ -132,8 +137,27 @@ export default function Chat() {
 
             <div className="col-9 bg-light p-4 border-top">
               <div className="flex-grow-1 p-3">
-                {messages.map((message) => (
-                  <div>{message.text}</div>
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={
+                      message.SenderId == user
+                        ? "text-right my-2"
+                        : "text-left my-2"
+                    }
+                  >
+                    <div className="">
+                      <span
+                        className={`px-2 py-1 rounded text-white ${
+                          message.SenderId == user
+                            ? "bg-primary"
+                            : "bg-secondary"
+                        }`}
+                      >
+                        {message.message}
+                      </span>
+                    </div>
+                  </div>
                 ))}
               </div>
               <div className="input-group">

@@ -145,23 +145,16 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
 
   const getReceiver = await models.Requests.findOne({
     attributes: ["serviceId"],
-    where: { id },
-    include: {
-      model: models.Services,
-      attributes: ["UserId"],
-    },
-  });
-  let receiverId = getReceiver.Service.UserId;
-  const receiver_id = await models.Requests.findOne({
-    attributes: ["serviceId"],
     where: { id: req_id },
     include: {
       model: models.Services,
       attributes: ["UserId"],
     },
   });
-  // if (loggedInId === senderId || loggedInId === receiverId) {
-  if (true) {
+  let receiverId = getReceiver.Service.UserId;
+
+  if (loggedInId === senderId || loggedInId === receiverId) {
+    // if (true) {
     //all good
     const auth = pusher.authenticate(socketId, channel);
     res.send(auth);
@@ -198,12 +191,19 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
 
 router.get("/:id/messages", async (req, res) => {
   let { id } = req.params;
-  let messages = await models.Messages.findAll({
-    where: { id },
-    limit: 10,
-    order: [["id", "DESC"]],
-  });
-  res.send(messages.reverse());
+
+  try {
+    let messages = await models.Messages.findAll({
+      attributes: ["id", "message", "SenderId"],
+      where: { RequestId: id },
+      limit: 10,
+      order: [["id", "DESC"]],
+    });
+    res.send(messages.reverse());
+    // res.send(messages);
+  } catch (err) {
+    res.status(500);
+  }
 });
 
 router.get("/test/:id", async (req, res) => {
