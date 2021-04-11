@@ -131,10 +131,7 @@ router.post("/pusher/auth", userShouldBeLoggedIn, async (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
 
-  // channel = private-timecoinChat-id -> request Id
-  //if split("-") = [private, timecoinChat, id]
   const [_, __, req_id] = channel.split("-");
-  //find the sender_id and the receiver_id | IF any of those are equal loggedIn
   const loggedInId = req.user_id;
 
   const getSender = await models.Requests.findOne({
@@ -168,25 +165,53 @@ router.post("/:id/messages", userShouldBeLoggedIn, async (req, res) => {
   let { id } = req.params;
   let message = req.body.data.message;
   const SenderId = req.user_id;
-  try {
-    const results = await models.Messages.create({
-      message,
-      SenderId,
-      RequestId: id,
-    });
-    // res.send(results);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-  let channel = `private-timecoinChat-${id}`;
-
-  //trigger an event to Pusher
-  pusher.trigger(channel, "message", {
-    SenderId,
-    message,
+  const getRequestUser = await models.Requests.findOne({
+    where: {
+      id,
+    },
   });
+  let requestUserId = getRequestUser.UserId;
 
-  res.send({ msg: "Sent" });
+  const getServiceUser = await models.Requests.findOne({
+    attributes: ["serviceId"],
+    where: { id },
+    include: {
+      model: models.Services,
+      attributes: ["UserId"],
+    },
+  });
+  let serviceUserId = getServiceUser.Service.UserId;
+
+  if (SenderId === requestUserId || SenderId === serviceUserId) {
+    try {
+      const results = await models.Messages.create({
+        message,
+        SenderId,
+        RequestId: id,
+      });
+      // res.send(results);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+    let channel = `private-timecoinChat-${id}`;
+
+    //trigger an event to Pusher
+    pusher.trigger(channel, "message", {
+      SenderId,
+      message,
+    });
+    console.log(
+      "SENDER ID: ",
+      SenderId,
+      "requestUserId: ",
+      requestUserId,
+      "serviceUserId: ",
+      serviceUserId
+    );
+    res.send({ msg: "Sent" });
+  } else {
+    res.status(401).send({ message: "Not allowed" });
+  }
 });
 
 router.get("/:id/messages", userShouldBeLoggedIn, async (req, res) => {

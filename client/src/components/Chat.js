@@ -71,7 +71,6 @@ export default function Chat() {
 
     //private channels MUST start with private-
     const channel_name = `private-timecoinChat-${id}`;
-
     var channel = pusher.subscribe(channel_name);
     channel.bind("message", function (data) {
       setMessages((messages) => [...messages, data]);
