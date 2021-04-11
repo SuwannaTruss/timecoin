@@ -9,11 +9,16 @@ export default function Chat() {
   const auth = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [service, setService] = useState({ User: {} });
+  const [service, setService] = useState({
+    servicename: "",
+    description: "",
+    User: {},
+  });
   const [request, setRequest] = useState({ serviceDate: "" });
   const [user, setUser] = useState();
 
-  let { id, serviceId } = useParams();
+  let { id } = useParams();
+  let serviceId = request.serviceId;
 
   useEffect(() => {
     async function getProfile() {
@@ -36,6 +41,8 @@ export default function Chat() {
           },
         });
         setRequest(result.data);
+        // console.log("this is result.data.Service.id", result.data.Service.id);
+        getService(result.data.Service.id);
       } catch (err) {
         console.log(err);
       }
@@ -43,17 +50,16 @@ export default function Chat() {
     getRequest();
   }, []);
 
-  useEffect(() => {
-    async function getService() {
-      try {
-        const result = await api.getService(serviceId);
-        setService(result.data);
-      } catch (err) {
-        console.log(err);
-      }
+  async function getService(id) {
+    try {
+      const result = await api.getService(id);
+
+      setService(result.data);
+      console.log("this is service", service);
+    } catch (err) {
+      console.log(err);
     }
-    getService();
-  }, []);
+  }
 
   useEffect(() => {
     setMessages([]);
@@ -113,15 +119,19 @@ export default function Chat() {
   }, []);
 
   return (
-    <div className="d-flex flex-column ">
-      <div className="bg-white shadow rounded overflow-hidden">
-        <h2 className="p-3 header-service-name"> Request Details</h2>
-        <div className="container service-container mb-5">
-          <div className="row">
+    // <div className="d-flex flex-column ">
+    <div className="bg-white shadow rounded overflow-hidden">
+      <h2 className="p-3 header-service-name"> Request Details</h2>
+      <div className="chat-container">
+        {/* 
+        <div className="container service-container mb-5"> */}
+        {/* <div className="row"> */}
+        <div className="messaging">
+          <div className="inbox_msg">
             {/* <div className="col-9 px-0 border-left"> */}
-            <div className="col-lg-3 col-md-4 ads back-container-service">
+            {/* <div className="col-lg-3 col-md-4 ads back-container-service">
               <h1 className="">
-                {/* <span id="fl">Request</span> */}
+                <span id="fl">Request</span>
                 <span id="sl" className="text-center">
                   {service.servicename}
                 </span>
@@ -135,10 +145,72 @@ export default function Chat() {
               <div className="input-group mb-3">
                 <h5>For how long? {request.amount} hour</h5>
               </div>
+            </div> */}
+            <div className="inbox_people">
+              <div className="inbox_chat">
+                <div className="chat_list active_chat">
+                  <div className="chat_people">
+                    <div class="chat_ib">
+                      <h5>test {service.servicename}</h5>
+                      <p>
+                        Test, which is a new approach to have all solutions
+                        astrology under one roof.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="col-9 bg-light p-4 border-top">
-              <div className="flex-grow-1 p-3">
+            <div>
+              <div className="mesgs">
+                <div className="msg_history">
+                  <div className="incoming_msg">
+                    <div className="incoming_msg_img">
+                      {" "}
+                      <img
+                        src="https://ptetutorials.com/images/user-profile.png"
+                        alt="sunil"
+                        className="chat-image"
+                      />{" "}
+                    </div>
+                    <div className="received_msg">
+                      <div className="received_withd_msg">
+                        <p>
+                          Test which is a new approach to have all solutions
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="outgoing_msg">
+                    <div className="incoming_msg_img">
+                      {" "}
+                      <img
+                        src="https://ptetutorials.com/images/user-profile.png"
+                        alt="sunil"
+                        className="chat-image"
+                      />{" "}
+                    </div>
+                    <div className="sent_msg">
+                      <p>Test which is a new approach to have all solutions</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="type_msg">
+                  <div className="input_msg_write">
+                    <input
+                      type="text"
+                      className="write_msg"
+                      placeholder="Type a message"
+                    />
+                    <button className="msg_send_btn" type="button">
+                      <i className="far fa-paper-plane"></i>
+                      {/* <i classNamess="far fa-paper-plane" aria-hidden="true"></i> */}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* <div className="flex-grow-1 p-3">
                 {messages.map((message, index) => (
                   <div
                     key={index}
@@ -161,8 +233,8 @@ export default function Chat() {
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="input-group">
+              </div> */}
+              {/* <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
@@ -180,11 +252,12 @@ export default function Chat() {
                     Send
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }
