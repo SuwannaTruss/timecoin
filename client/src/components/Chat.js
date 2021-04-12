@@ -179,10 +179,17 @@ export default function Chat() {
                           </h2>
                         </div>
                       ) : (
-                        <h2>
-                          Chat with {request.User.firstname}{" "}
-                          {request.User.lastname}
-                        </h2>
+                        <div className="row">
+                          <img
+                            src={`/img/${request.User.picture}`}
+                            alt="..."
+                            className="chat-image rounded-circle"
+                          />
+                          <h2>
+                            Chat with {request.User.firstname}{" "}
+                            {request.User.lastname}
+                          </h2>
+                        </div>
                       )}
                     </div>
                   </div>
