@@ -12,9 +12,12 @@ export default function Chat() {
   const [service, setService] = useState({
     servicename: "",
     description: "",
-    User: {},
+    User: { firstname: "", lastname: "" },
   });
-  const [request, setRequest] = useState({ serviceDate: "" });
+  const [request, setRequest] = useState({
+    serviceDate: "",
+    User: { firstname: "", lastname: "" },
+  });
   const [user, setUser] = useState();
 
   let { id } = useParams();
@@ -41,7 +44,6 @@ export default function Chat() {
           },
         });
         setRequest(result.data);
-        // console.log("this is result.data.Service.id", result.data.Service.id);
         getService(result.data.Service.id);
       } catch (err) {
         console.log(err);
@@ -53,9 +55,7 @@ export default function Chat() {
   async function getService(id) {
     try {
       const result = await api.getService(id);
-
       setService(result.data);
-      console.log("this is service", service);
     } catch (err) {
       console.log(err);
     }
@@ -129,43 +129,119 @@ export default function Chat() {
         <div className="messaging">
           <div className="inbox_msg">
             {/* <div className="col-9 px-0 border-left"> */}
-            {/* <div className="col-lg-3 col-md-4 ads back-container-service">
-              <h1 className="">
-                <span id="fl">Request</span>
-                <span id="sl" className="text-center">
-                  {service.servicename}
-                </span>
-              </h1>
-              <div className="input-group mb-3">
-                <h5>Day: {request.serviceDate}</h5>
-              </div>
-              <div className="input-group mb-3">
-                <h5>Time: {request.serviceTime}</h5>
-              </div>
-              <div className="input-group mb-3">
-                <h5>For how long? {request.amount} hour</h5>
-              </div>
-            </div> */}
             <div className="inbox_people">
               <div className="inbox_chat">
                 <div className="chat_list active_chat">
                   <div className="chat_people">
                     <div class="chat_ib">
-                      <h5>test {service.servicename}</h5>
-                      <p>
-                        Test, which is a new approach to have all solutions
-                        astrology under one roof.
-                      </p>
+                      <h2>{service.servicename}</h2>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div className="ml-3">
+                <div className="input-group mb-3">
+                  <h5>Day: {request.serviceDate}</h5>
+                </div>
+                <div className="input-group mb-3">
+                  <h5>Time: {request.serviceTime}</h5>
+                </div>
+                <div className="input-group mb-3">
+                  <h5>For how long? {request.amount} hour</h5>
                 </div>
               </div>
             </div>
 
             <div>
+              <div className="inbox_chat">
+                <div className="chat_list active_chat">
+                  <div className="chat_people">
+                    <div class="chat_ib">
+                      {request.User.id == user ? (
+                        <h2>
+                          Chat with {service.User.firstname}{" "}
+                          {service.User.lastname}{" "}
+                        </h2>
+                      ) : (
+                        <h2>
+                          Chat with {request.User.firstname}{" "}
+                          {request.User.lastname}
+                        </h2>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="mesgs">
                 <div className="msg_history">
-                  <div className="incoming_msg">
+                  <div className="flex-grow-1 p-3">
+                    {messages.map((message, index) => (
+                      <div
+                        key={index}
+                        className={
+                          message.SenderId == user
+                            ? "text-right my-2"
+                            : "text-left my-2"
+                        }
+                      >
+                        <div className="flex-grow-1 p-3">
+                          <span
+                            className={`px-2 py-1 rounded text-white ${
+                              message.SenderId == user
+                                ? "bg-primary"
+                                : " bg-secondary"
+                            }`}
+                          >
+                            {message.message}
+                          </span>
+                        </div>
+
+                        {/* <div className="incoming_msg"> */}
+                        {/* <div className="incoming_msg_img">
+                            {" "}
+                            <img
+                              src="https://ptetutorials.com/images/user-profile.png"
+                              alt="sunil"
+                              className="chat-image"
+                            />{" "}
+                          </div>
+                          <div className="received_msg">
+                            <div className="received_withd_msg">
+                              <p>{message.message}</p>
+                            </div>
+                          </div>
+                          <div className="sent_msg"></div> */}
+                        {/* <div className="outgoing_msg">
+                          <div className="sent_msg">
+                          <p>
+                            Test which is a new approach to have all solutions
+                          </p>
+                         </div>
+                         <div className="incoming_msg_img">
+                          {" "}
+                          <img
+                            src="https://ptetutorials.com/images/user-profile.png"
+                            alt="sunil"
+                            className="chat-image"
+                          />{" "}
+                          </div>
+                        </div> */}
+                        {/* </div> */}
+                        {/* <div className="">
+                          <span
+                            className={`px-2 py-1 rounded text-white ${
+                              message.SenderId == user
+                                ? "bg-primary"
+                                : "bg-secondary"
+                            }`}
+                          >
+                            {message.message}
+                          </span>
+                        </div> */}
+                      </div>
+                    ))}
+                  </div>
+                  {/* <div className="incoming_msg">
                     <div className="incoming_msg_img">
                       {" "}
                       <img
@@ -181,8 +257,11 @@ export default function Chat() {
                         </p>
                       </div>
                     </div>
-                  </div>
-                  <div className="outgoing_msg">
+                  </div> */}
+                  {/* <div className="outgoing_msg">
+                    <div className="sent_msg">
+                      <p>Test which is a new approach to have all solutions</p>
+                    </div>
                     <div className="incoming_msg_img">
                       {" "}
                       <img
@@ -191,49 +270,31 @@ export default function Chat() {
                         className="chat-image"
                       />{" "}
                     </div>
-                    <div className="sent_msg">
-                      <p>Test which is a new approach to have all solutions</p>
-                    </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="type_msg">
                   <div className="input_msg_write">
                     <input
                       type="text"
-                      className="write_msg"
+                      className="form-control"
+                      value={input}
                       placeholder="Type a message"
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") sendMessage();
+                      }}
                     />
-                    <button className="msg_send_btn" type="button">
+                    <button
+                      className="msg_send_btn"
+                      type="button"
+                      onClick={sendMessage}
+                    >
                       <i className="far fa-paper-plane"></i>
-                      {/* <i classNamess="far fa-paper-plane" aria-hidden="true"></i> */}
                     </button>
                   </div>
                 </div>
               </div>
-              {/* <div className="flex-grow-1 p-3">
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={
-                      message.SenderId == user
-                        ? "text-right my-2"
-                        : "text-left my-2"
-                    }
-                  >
-                    <div className="">
-                      <span
-                        className={`px-2 py-1 rounded text-white ${
-                          message.SenderId == user
-                            ? "bg-primary"
-                            : "bg-secondary"
-                        }`}
-                      >
-                        {message.message}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div> */}
+
               {/* <div className="input-group">
                 <input
                   type="text"
@@ -258,6 +319,33 @@ export default function Chat() {
         </div>
       </div>
       {/* </div> */}
+
+      {/* <div className="mesgs">
+                <div className="msg_history">
+                  <div className="flex-grow-1 p-3">
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={
+                      message.SenderId == user
+                        ? "text-right my-2"
+                        : "text-left my-2"
+                    }
+                  >
+                    <div className="">
+                      <span
+                        className={`px-2 py-1 rounded text-white ${
+                          message.SenderId == user
+                            ? "bg-primary"
+                            : "bg-secondary"
+                        }`}
+                      >
+                        {message.message}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div> */}
     </div>
   );
 }

@@ -87,13 +87,16 @@ router.delete("/:id", userShouldBeLoggedIn, async (req, res) => {
   }
 });
 
-// count number of requests for my-service.id (where loggedIn users.id = services.Userid). 
+// count number of requests for my-service.id (where loggedIn users.id = services.Userid).
 router.get("/:id/requestCount", userShouldBeLoggedIn, async (req, res) => {
   try {
-    const results = await db.sequelize.query('SELECT COUNT(Requests.id) AS requestCount FROM Services LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE serviceId = :id AND Requests.status = "requested"', {
-      replacements: {id: req.params.id},
-      type: db.sequelize.QueryTypes.SELECT
-    });
+    const results = await db.sequelize.query(
+      'SELECT COUNT(Requests.id) AS requestCount FROM Services LEFT JOIN Requests ON Services.id = Requests.serviceId WHERE serviceId = :id AND Requests.status = "requested"',
+      {
+        replacements: { id: req.params.id },
+        type: db.sequelize.QueryTypes.SELECT,
+      }
+    );
     res.send(results[0]);
   } catch (err) {
     res.status(400).send({ message: err.message });
@@ -101,27 +104,42 @@ router.get("/:id/requestCount", userShouldBeLoggedIn, async (req, res) => {
 });
 
 // use service_id in params, to list out requests received for this service, user's detail here is of the buyer/requester
-router.get("/:serviceId/requestInfo", userShouldBeLoggedIn, async (req, res) => {
-  const { serviceId } = req.params;
-  models.Requests.findAll({
-    attributes: ["id", "serviceDate", "serviceTime", "amount", "storage", "status", "UserId", "serviceId"],
-    where: { 
-      [Op.and]: [{serviceId: serviceId}, {
-      [Op.or]:  [{status: "requested"}, {status: "booked"}]
-      }]},
-    include: {
-      model: models.Users,
-      attributes: ["firstname", "lastname", "location"],
-    },
-  })
-    .then((data) => {
-      res.send(data);
+router.get(
+  "/:serviceId/requestInfo",
+  userShouldBeLoggedIn,
+  async (req, res) => {
+    const { serviceId } = req.params;
+    models.Requests.findAll({
+      attributes: [
+        "id",
+        "serviceDate",
+        "serviceTime",
+        "amount",
+        "storage",
+        "status",
+        "UserId",
+        "serviceId",
+      ],
+      where: {
+        [Op.and]: [
+          { serviceId: serviceId },
+          {
+            [Op.or]: [{ status: "requested" }, { status: "booked" }],
+          },
+        ],
+      },
+      include: {
+        model: models.Users,
+        attributes: ["firstname", "lastname", "location"],
+      },
     })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-});
-
-
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+  }
+);
 
 module.exports = router;

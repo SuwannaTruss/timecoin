@@ -103,12 +103,19 @@ router.get("/info/:id", userShouldBeLoggedIn, (req, res) => {
       "serviceDate",
       "serviceTime",
       "serviceId",
+      "UserId",
     ],
     where: { id },
-    include: {
-      model: models.Services,
-      attributes: ["id", "description", "servicename"],
-    },
+    include: [
+      {
+        model: models.Services,
+        attributes: ["id", "description", "servicename"],
+      },
+      {
+        model: models.Users,
+        attributes: ["id", "firstname", "lastname"],
+      },
+    ],
   })
     .then((data) => {
       if (data) res.send(data);

@@ -253,13 +253,15 @@ body {
   margin: auto;
 }
 .chat-image {
-  max-width: 100%;
+  max-width: 7%;
+  margin-right: 2cm;
 }
 .inbox_people {
   /* background: #f8f8f8 none repeat scroll 0 0; */
   float: left;
   overflow: hidden;
   width: 40%;
+  height: 600px;
   border-right: 1px solid #c4c4c4;
 }
 .inbox_msg {
@@ -268,8 +270,8 @@ body {
   overflow: hidden;
 }
 
-.chat_ib h5 {
-  font-size: 15px;
+.chat_ib h2 {
+  /* font-size: 15px; */
   color: #464646;
   margin: 0 0 8px 0;
 }
@@ -295,7 +297,8 @@ body {
   padding: 18px 16px 10px;
 }
 .inbox_chat {
-  height: 550px;
+  /* height: 550px; */
+  margin-bottom: 5%;
   overflow-y: scroll;
 }
 
@@ -316,7 +319,7 @@ body {
   width: 92%;
 }
 .received_withd_msg p {
-  background: #ebebeb;
+  background: #ebebeb none repeat scroll 0 0;
   border-radius: 3px;
   color: #646464;
   font-size: 14px;
