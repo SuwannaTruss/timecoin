@@ -113,7 +113,7 @@ router.get("/info/:id", userShouldBeLoggedIn, (req, res) => {
       },
       {
         model: models.Users,
-        attributes: ["id", "firstname", "lastname"],
+        attributes: ["id", "firstname", "lastname", "picture"],
       },
     ],
   })

@@ -25,7 +25,14 @@ router.get("/:id", userShouldBeLoggedIn, (req, res) => {
     where: { id },
     include: {
       model: models.Users,
-      attributes: ["id", "username", "firstname", "lastname", "location"],
+      attributes: [
+        "id",
+        "username",
+        "firstname",
+        "lastname",
+        "location",
+        "picture",
+      ],
     },
   })
     .then((data) => {

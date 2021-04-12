@@ -121,7 +121,7 @@ export default function Chat() {
   return (
     // <div className="d-flex flex-column ">
     <div className="bg-white shadow rounded overflow-hidden">
-      <h2 className="p-3 header-service-name"> Request Details</h2>
+      <h2 className="p-3 header-service-name req-detail"> Request Details</h2>
       <div className="chat-container">
         {/* 
         <div className="container service-container mb-5"> */}
@@ -140,14 +140,23 @@ export default function Chat() {
                 </div>
               </div>
               <div className="ml-3">
-                <div className="input-group mb-3">
-                  <h5>Day: {request.serviceDate}</h5>
+                <div className="input-group mb-3 ml-3">
+                  <h3 className="border-bottom text-secondary">
+                    <i className="far fa-calendar-alt mr-1"></i>
+                    {request.serviceDate}
+                  </h3>
                 </div>
-                <div className="input-group mb-3">
-                  <h5>Time: {request.serviceTime}</h5>
+                <div className="input-group mb-3 ml-3">
+                  <h3 className="border-bottom text-secondary">
+                    <i class="far fa-clock mr-1"></i>
+                    {request.serviceTime}
+                  </h3>
                 </div>
-                <div className="input-group mb-3">
-                  <h5>For how long? {request.amount} hour</h5>
+                <div className="input-group mb-3 ml-3">
+                  <h3 className="border-bottom text-secondary">
+                    <i class="fas fa-hourglass-half mr-1"></i>
+                    {request.amount} hour
+                  </h3>
                 </div>
               </div>
             </div>
@@ -158,10 +167,17 @@ export default function Chat() {
                   <div className="chat_people">
                     <div class="chat_ib">
                       {request.User.id == user ? (
-                        <h2>
-                          Chat with {service.User.firstname}{" "}
-                          {service.User.lastname}{" "}
-                        </h2>
+                        <div className="row">
+                          <img
+                            src={`/img/${service.User.picture}`}
+                            alt="..."
+                            className="chat-image rounded-circle"
+                          />
+                          <h2>
+                            Chat with {service.User.firstname}{" "}
+                            {service.User.lastname}{" "}
+                          </h2>
+                        </div>
                       ) : (
                         <h2>
                           Chat with {request.User.firstname}{" "}
@@ -195,82 +211,9 @@ export default function Chat() {
                             {message.message}
                           </span>
                         </div>
-
-                        {/* <div className="incoming_msg"> */}
-                        {/* <div className="incoming_msg_img">
-                            {" "}
-                            <img
-                              src="https://ptetutorials.com/images/user-profile.png"
-                              alt="sunil"
-                              className="chat-image"
-                            />{" "}
-                          </div>
-                          <div className="received_msg">
-                            <div className="received_withd_msg">
-                              <p>{message.message}</p>
-                            </div>
-                          </div>
-                          <div className="sent_msg"></div> */}
-                        {/* <div className="outgoing_msg">
-                          <div className="sent_msg">
-                          <p>
-                            Test which is a new approach to have all solutions
-                          </p>
-                         </div>
-                         <div className="incoming_msg_img">
-                          {" "}
-                          <img
-                            src="https://ptetutorials.com/images/user-profile.png"
-                            alt="sunil"
-                            className="chat-image"
-                          />{" "}
-                          </div>
-                        </div> */}
-                        {/* </div> */}
-                        {/* <div className="">
-                          <span
-                            className={`px-2 py-1 rounded text-white ${
-                              message.SenderId == user
-                                ? "bg-primary"
-                                : "bg-secondary"
-                            }`}
-                          >
-                            {message.message}
-                          </span>
-                        </div> */}
                       </div>
                     ))}
                   </div>
-                  {/* <div className="incoming_msg">
-                    <div className="incoming_msg_img">
-                      {" "}
-                      <img
-                        src="https://ptetutorials.com/images/user-profile.png"
-                        alt="sunil"
-                        className="chat-image"
-                      />{" "}
-                    </div>
-                    <div className="received_msg">
-                      <div className="received_withd_msg">
-                        <p>
-                          Test which is a new approach to have all solutions
-                        </p>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <div className="outgoing_msg">
-                    <div className="sent_msg">
-                      <p>Test which is a new approach to have all solutions</p>
-                    </div>
-                    <div className="incoming_msg_img">
-                      {" "}
-                      <img
-                        src="https://ptetutorials.com/images/user-profile.png"
-                        alt="sunil"
-                        className="chat-image"
-                      />{" "}
-                    </div>
-                  </div> */}
                 </div>
                 <div className="type_msg">
                   <div className="input_msg_write">
@@ -294,58 +237,10 @@ export default function Chat() {
                   </div>
                 </div>
               </div>
-
-              {/* <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") sendMessage();
-                  }}
-                />
-                <div className="input-group-append">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={sendMessage}
-                  >
-                    Send
-                  </button>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
       </div>
-      {/* </div> */}
-
-      {/* <div className="mesgs">
-                <div className="msg_history">
-                  <div className="flex-grow-1 p-3">
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={
-                      message.SenderId == user
-                        ? "text-right my-2"
-                        : "text-left my-2"
-                    }
-                  >
-                    <div className="">
-                      <span
-                        className={`px-2 py-1 rounded text-white ${
-                          message.SenderId == user
-                            ? "bg-primary"
-                            : "bg-secondary"
-                        }`}
-                      >
-                        {message.message}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div> */}
     </div>
   );
 }
