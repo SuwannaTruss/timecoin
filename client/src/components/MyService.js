@@ -257,9 +257,7 @@ export default function MyService() {
 
                     {notify && <p>{notify}</p>}
                     {/* </div> */}
-                    <button className="btn btn-sm btn-outline-success mt-5 m-2">
-                      Text {request.User.firstname}
-                    </button>
+
                     <NavLink to={`/request/${request.id}`}>
                       <button className="btn btn-sm btn-outline-success mt-5 m-2">
                         Text {request.User.firstname}
