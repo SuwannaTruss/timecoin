@@ -28,13 +28,6 @@ export default function MyService() {
     getRequestsInfoByService(id);
   }, []);
 
-  // const handleChange = (e) => {
-  //   setServiceUpdate((state) => ({
-  //     ...state,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  // };
-
   const updateService = async () => {
     try {
       const response = await axios.patch(
@@ -198,7 +191,7 @@ export default function MyService() {
                       </div>
                       <p className="form-control">{request.amount}</p>
                     </div>
-                    <div className="input-group mb-3">
+                    {/* <div className="input-group mb-3">
                       <div className="input-group-prepend">
                         <label
                           className="input-group-text"
@@ -210,7 +203,7 @@ export default function MyService() {
                       <textarea col="5" row="5" className="form-control">
                         {request.storage}
                       </textarea>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="col-lg-4 service-form">
@@ -264,9 +257,12 @@ export default function MyService() {
 
                     {notify && <p>{notify}</p>}
                     {/* </div> */}
-                    <NavLink to="/chat">
-                      <button className="btn btn-sm btn-success mt-5 m-2">
-                        Text {service.User.firstname}
+                    <button className="btn btn-sm btn-outline-success mt-5 m-2">
+                      Text {request.User.firstname}
+                    </button>
+                    <NavLink to={`/request/${request.id}`}>
+                      <button className="btn btn-sm btn-outline-success mt-5 m-2">
+                        Text {request.User.firstname}
                       </button>
                     </NavLink>
                   </div>
