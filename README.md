@@ -1,4 +1,6 @@
 # fs11-time-coin
+
+Video with the final result:
 [![Video home page](http://img.youtube.com/vi/k0-5mnbHA-A/0.jpg)](http://www.youtube.com/watch?v=k0-5mnbHA-A "Time-coin Project")
 
 # Name
