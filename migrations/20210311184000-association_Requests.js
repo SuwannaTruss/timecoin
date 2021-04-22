@@ -4,7 +4,7 @@
       up: (queryInterface, Sequelize) => {
         return queryInterface.addColumn(
           "Requests", // name of Source model
-          "BuyerId", // nameof the key we're adding
+          "UserId", // nameof the key we're adding
           {
             type: Sequelize.INTEGER,
             references: {
@@ -15,19 +15,6 @@
             onDelete: "SET NULL", 
           }
         ),
-        queryInterface.addColumn(
-          "Requests", // name of Source model
-          "SellerId", // nameof the key we're adding
-          {
-            type: Sequelize.INTEGER,
-            references: {
-              model: "Users", // name of Target model
-              key: "id", // key in Target model that we're referencing
-            },
-            onUpdate: "CASCADE",
-            onDelete: "SET NULL", 
-          }
-        ), 
         queryInterface.addColumn(
           "Requests", // name of Source model
           "serviceId", // nameof the key we're adding
@@ -49,11 +36,7 @@
     down: (queryInterface, Sequelize) => {
       return queryInterface.removeColumn(
         "Requests", // name of Source model
-        "BuyerId" // key we want to remove
-      ),
-      queryInterface.removeColumn(
-        "Requests", // name of Source model
-        "SellerId" // key we want to remove
+        "UserId" // key we want to remove
       ),
       queryInterface.removeColumn(
         "Requests", // name of Source model

@@ -1,6 +1,6 @@
 # fs11-time-coin
 
-Video with the final result:
+Video with the final result
 
 [![Video home page](http://img.youtube.com/vi/k0-5mnbHA-A/0.jpg)](http://www.youtube.com/watch?v=k0-5mnbHA-A "Time-coin Project")
 
@@ -55,4 +55,4 @@ Thank you to CodeOp, Germinal, Nannette, Thaina and Emefa for supporting us thro
 
 # License
 
-_This is a student project that was created at [CodeOp] (http://codeop.tech), a full stack development bootcamp in Barcelona._
+# _This is a student project that was created at [CodeOp] (http://codeop.tech), a full stack development bootcamp in Barcelona._
