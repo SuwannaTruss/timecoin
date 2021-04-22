@@ -13,3 +13,4 @@
 
 - create a database timecoin in your mysql
 - run: npm run migrate;
+;
